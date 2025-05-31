@@ -1,45 +1,47 @@
-// import { redirect } from 'next/navigation';
-// import { auth, currentUser } from '@clerk/nextjs/server';
-// import Image from 'next/image';
-// import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
+import { auth, currentUser } from '@clerk/nextjs/server';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
 
 // Placeholder for your candidate fetching and utility functions
-// import { getCandidateById } from '@/lib/actions/companion.actions';
-// import { getSubjectColor } from '@/lib/utils';
+import { getCandidateById } from '@/lib/actions/companion.actions';
+import { getSubjectColor } from '@/lib/utils';
 
-// Define props type for dynamic route
-// interface CandidateProfilePageProps {
-//   params: { id: string };
-// }
+// Define props for dynamic route
+interface CandidateProfilePageProps {
+  params: Promise<{ id: string }>;
+}
 
-export default async function CandidateProfilePage() {
-  // // Authenticate user
-  // const { userId } = await auth();
-  // if (!userId) {
-  //   const redirectUrl = `/sign-in?redirectUrl=${encodeURIComponent(`/candidates/${params.id}`)}`;
-  //   redirect(redirectUrl);
-  // }
+export default async function CandidateProfilePage({ params }: CandidateProfilePageProps) {
+  // Resolve params
+  const { id } = await params;
 
-  // // Check user role
-  // const user = await currentUser();
-  // const userRole = user?.privateMetadata?.role as string | undefined; // Explicit type cast
+  // Authenticate user
+  const { userId } = await auth();
+  if (!userId) {
+    const redirectUrl = `/sign-in?redirectUrl=${encodeURIComponent(`/candidates/${id}`)}`;
+    redirect(redirectUrl);
+  }
 
-  // if (userRole !== 'employer') {
-  //   redirect('/job-seekers');
-  // }
+  // Check user role
+  const user = await currentUser();
+  const userRole = user?.privateMetadata?.role as string | undefined; // Explicit type cast
 
-  // // Fetch candidate data
-  // const candidate = await getCandidateById(params.id);
-  // if (!candidate) {
-  //   notFound();
-  // }
+  if (userRole !== 'employer') {
+    redirect('/job-seekers');
+  }
 
-  // const color = getSubjectColor(candidate.job);
+  // Fetch candidate data
+  const candidate = await getCandidateById(id);
+  if (!candidate) {
+    notFound();
+  }
+
+  const color = getSubjectColor(candidate.job);
 
   return (
     <main className="max-w-5xl mx-auto p-6 my-8">
-      <h1>Hello</h1>
-      {/* <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-600 overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-600 overflow-hidden">
         <div className={`h-16 w-full ${color}`}></div>
         <div className="relative px-6 pt-4 pb-8">
           <div className="absolute -top-16 left-6">
@@ -110,10 +112,10 @@ export default async function CandidateProfilePage() {
               {/* <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                 <span className="font-medium">Role:</span> {candidate.title || candidate.job}
               </p> */}
-            {/* </div>
+            </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </main>
   );
 }
