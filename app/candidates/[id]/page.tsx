@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getCandidateById } from '@/lib/actions/companion.actions';
-import { getSubjectColor } from '@/lib/utils';
+// import { getSubjectColor } from '@/lib/utils';
 import {auth, currentUser} from "@clerk/nextjs/server";
 import {redirect} from "next/navigation";
 
@@ -43,13 +43,13 @@ export default async function CandidateProfilePage({ params }: CandidateProfileP
     notFound();
   }
 
-  const color = getSubjectColor(candidate.job);
+  // const color = getSubjectColor(candidate.job);
 
   return (
     <main className="max-w-5xl mx-auto p-6 my-8">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-600 overflow-hidden">
         {/* Header Section */}
-        <div className={`h-16 w-full ${color}`}></div>
+        <div className={`h-16 w-full #415258`}></div>
         <div className="relative px-6 pt-4 pb-8">
           <div className="absolute -top-16 left-6">
             <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-lg">
