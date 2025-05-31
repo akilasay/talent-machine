@@ -19,7 +19,7 @@ export default async function CandidateProfilePage({ params }: CandidateProfileP
   // Authenticate user
   const { userId } = await auth();
   if (!userId) {
-    const redirectUrl = `/sign-in?redirectUrl=${encodeURIComponent(`/candidates/${id}`)}`;
+    const redirectUrl = `/sign-in?redirect_url=${encodeURIComponent(`/candidates/${id}`)}`;
     redirect(redirectUrl);
   }
 
