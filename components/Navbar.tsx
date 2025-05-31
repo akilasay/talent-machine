@@ -19,16 +19,7 @@ const Navbar = () => {
         </div>
         </Link>
             <div className="flex items-center gap-8">
-                <NavItems />
-{/*                 
-                <SignedOut>
-                    <SignInButton>
-                        <button className="border hover:bg-sky-200 border-blue-700  rounded-2xl px-4 py-2.5 text-sm font-semibold flex items-center gap-2 cursor-pointer">Sign In</button>
-                    </SignInButton>
-                </SignedOut>
-                <SignedIn>
-                    <UserButton />
-                </SignedIn> */}
+              <NavItems />
 
               <SignedOut>
               <SignInButton />
