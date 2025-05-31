@@ -6,6 +6,7 @@ import {auth, currentUser} from "@clerk/nextjs/server";
 import {redirect} from "next/navigation";
 
 
+// Define props type for dynamic route
 interface CandidateProfilePageProps {
   params: { id: string };
 }
