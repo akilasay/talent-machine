@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
@@ -24,12 +25,15 @@ import {
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
 import JobFilter from './JobFilter';
 import SearchInput from './SearchInput';
 
 const locations = ['New York', 'London', 'Tokyo', 'Remote'];
 const fields = ['Technology', 'Finance', 'Healthcare', 'Education'];
+const jobRoles = ['Software Engineer', 'Product Manager', 'Data Analyst'];
+const visaCategories = ['H1B', 'J1', 'OPT', 'None'];
 const availabilityTypes = ['Full-time', 'Part-time', 'Contract'];
 const workTypes = ['Remote', 'On-site', 'Hybrid'];
 const pageSizes = ['10', '20', '50', '100'];
@@ -47,6 +51,7 @@ export default function SearchComponent() {
   const [openLocation, setOpenLocation] = useState(false);
   const [openField, setOpenField] = useState(false);
   const [openJobRole, setOpenJobRole] = useState(false);
+  const [openVisaCategory, setOpenVisaCategory] = useState(false);
 
   const handleSearch = () => {
     // Implement search logic here
@@ -87,7 +92,7 @@ export default function SearchComponent() {
         <div className="rounded border border-dashed border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 p-12 max-md:p-5">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
             {/* Radio Group for Search Options */}
-            <div className="col-span-12">
+            {/* <div className="col-span-12">
               <RadioGroup
                 value={searchType}
                 onValueChange={setSearchType}
@@ -102,7 +107,7 @@ export default function SearchComponent() {
                   <Label htmlFor="jobdescription">Use Own Job Description</Label>
                 </div>
               </RadioGroup>
-            </div>
+            </div> */}
 
             {/* Keywords Textarea */}
             <div className="col-span-12">
@@ -112,7 +117,7 @@ export default function SearchComponent() {
             </div>
  
             {/* Location Autocomplete */}
-            <div className="col-span-12 md:col-span-3">
+            {/* <div className="col-span-12 md:col-span-3">
               <Popover open={openLocation} onOpenChange={setOpenLocation}>
                 <PopoverTrigger asChild>
                   <div className="relative">
@@ -164,10 +169,10 @@ export default function SearchComponent() {
                   </Command>
                 </PopoverContent>
               </Popover>
-            </div>
+            </div> */}
 
             {/* Field/Industry Autocomplete */}
-            <div className="col-span-12 md:col-span-3">
+            {/* <div className="col-span-12 md:col-span-3">
               <Popover open={openField} onOpenChange={setOpenField}>
                 <PopoverTrigger asChild>
                   <div className="relative">
@@ -219,18 +224,19 @@ export default function SearchComponent() {
                   </Command>
                 </PopoverContent>
               </Popover>
-            </div>
+            </div> */}
 
             {/* Job Role Autocomplete */}
-            <div className="col-span-12 md:col-span-3">
+            <div className="col-span-12 md:col-span-4">
               <Popover open={openJobRole} onOpenChange={setOpenJobRole}>
                 <PopoverTrigger asChild>
                   <div className="relative">
 
                     <JobFilter />
+
                   </div>
                 </PopoverTrigger>
-                {/* <PopoverContent className="w-full p-0">
+                <PopoverContent className="w-full p-0">
                   <Command>
                     <CommandInput placeholder="Search job role..." />
                     <CommandEmpty>No job role found.</CommandEmpty>
@@ -249,7 +255,7 @@ export default function SearchComponent() {
                       ))}
                     </CommandGroup>
                   </Command>
-                </PopoverContent> */}
+                </PopoverContent>
               </Popover>
             </div>
 
@@ -309,12 +315,12 @@ export default function SearchComponent() {
             </div> */}
 
             {/* Divider */}
-            <div className="col-span-12">
+            {/* <div className="col-span-12">
               <hr className="border-gray-600 dark:border-gray-600" />
-            </div>
+            </div> */}
 
             {/* Availability Types Select */}
-            <div className="col-span-12 md:col-span-3">
+            <div className="col-span-12 md:col-span-4">
               <Select value={availability} onValueChange={setAvailability}>
                 <SelectTrigger className="w-full bg-gray-50 dark:bg-gray-700 dark:text-gray-100 text-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-400">
                   <SelectValue placeholder="Availability Types" />
@@ -330,7 +336,7 @@ export default function SearchComponent() {
             </div>
 
             {/* Work Types Select */}
-            <div className="col-span-12 md:col-span-3">
+            <div className="col-span-12 md:col-span-4">
               <Select value={workType} onValueChange={setWorkType}>
                 <SelectTrigger className="w-full bg-gray-50 dark:bg-gray-700 dark:text-gray-100 text-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-400">
                   <SelectValue placeholder="Work Types" />
@@ -346,7 +352,7 @@ export default function SearchComponent() {
             </div>
 
             {/* Page Size Select */}
-            <div className="col-span-12 sm:col-span-3">
+            {/* <div className="col-span-12 sm:col-span-3">
               <Select value={pageSize} onValueChange={setPageSize}>
                 <SelectTrigger className="w-full bg-gray-50 dark:bg-gray-700 dark:text-gray-100 text-gray-800 placeholder:text-gray-400 dark:placeholder:text-gray-400">
                   <SelectValue placeholder="Page Size" />
@@ -359,17 +365,17 @@ export default function SearchComponent() {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
+            </div> */}
 
             {/* Search and Clear Buttons */}
             <div className="col-span-12 flex justify-center mt-5 space-x-2">
-              <Button
+              {/* <Button
                 onClick={handleSearch}
                 disabled={!keywords && !location && !field && !jobRole && !visaCategory}
                 className="px-6 py-4 rounded-full bg-blue-600 text-white font-semibold shadow-md transition-all duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg active:scale-95 disabled:bg-gray-400 dark:disabled:bg-gray-400 disabled:cursor-not-allowed dark:bg-blue-700 dark:hover:bg-blue-800"
               >
                 Search with NEW Job Description
-              </Button>
+              </Button> */}
               <Button
                 variant="ghost"
                 onClick={handleClear}
