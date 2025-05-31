@@ -1,5 +1,4 @@
 import Image from "next/image";
-import SearchInput from "../SearchInput";
 import Link from "next/link";
 
 

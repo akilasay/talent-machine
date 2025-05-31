@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getCandidateById, Candidate } from '@/lib/actions/companion.actions';
+import { getCandidateById } from '@/lib/actions/companion.actions';
 import { getSubjectColor } from '@/lib/utils';
 import {auth, currentUser} from "@clerk/nextjs/server";
 import {redirect} from "next/navigation";

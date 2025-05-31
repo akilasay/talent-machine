@@ -1,66 +1,3 @@
-// import CompanionCard from '@/components/CandidateCard'
-// import CompanionList from '@/components/CompanionList'
-// import CTA from '@/components/CTA'
-// import FeatureSection from '@/components/home/FeaturesSection'
-// import Footer from '@/components/home/Footer'
-// import Hero from '@/components/home/Hero'
-// import PaymentPackages from '@/components/home/PaymentPackages'
-// import Testimonials from '@/components/home/Testimonials'
-// import { recentSessions } from '@/constants'
-// import React from 'react'
-
-
-// const Page = () => {
-//   return (
-//     <div className='bg-[#eff6ff] mx-auto px-14 flex flex-col gap-8 h-full max-w-[1400px] pt-10 max-sm:px-2 bg-background text-foreground border-border outline-ring/50'>
-              
-//            <Hero />
-//            <FeatureSection />
-//           <Testimonials />
-//           <PaymentPackages />
-        
-     
-            
-//             {/* <CompanionCard 
-//               id="123"
-//               name ="Neaura Binary explorer"
-//               topic="topic1"
-//               subject="science"
-//               duration={45}
-//               color="#74b72e"
-//             />
-//               <CompanionCard 
-//               id="456"
-//               name ="Neaura Binary explorer"
-//               topic="topic1"
-//               subject="maths"
-//               duration={30}
-//               color="#0a6522"
-//             />
-//                <CompanionCard 
-//               id="789"
-//               name ="Neaura Binary explorer"
-//               topic="topic1"
-//               subject="science"
-//               duration={30}
-//               color="#3f704d"
-//             />
-//           </section>
-
-//           <section className='flex gap-4 justify-between items-start w-full max-lg:flex-col-reverse max-lg:items-center'>
-//                <CompanionList
-//                 title="Recently completed sessions"
-//                 companions={recentSessions}
-//                 classNames="w-2/3 max-lg:w-full"
-//             />
-//             <CTA /> */}
-//           {/* </section> */}
-//     </div>
-//   )
-// }
-
-// export default Page
-
 'use client';
 
 import Image from 'next/image';
@@ -301,7 +238,7 @@ export default function HomePage() {
                   <p className="text-4xl font-bold text-blue-600 dark:text-blue-400">{plan.price}</p>
                   <p className="mt-2 text-gray-600 dark:text-gray-300">{plan.description}</p>
                   <Button asChild variant="outline" className="mt-6 w-full border-blue-500 text-blue-500 hover:bg-blue-100">
-                    <Link href="/sign-in?redirect_url=/pricing">Explore Plan</Link>
+                    <Link href='/sign-in?redirect_url=/pricing'>Explore Plan</Link>
                   </Button>
                 </CardContent>
               </Card>
