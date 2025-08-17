@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-
 import {
   Select,
   SelectContent,
@@ -26,14 +25,11 @@ import { X } from 'lucide-react';
 import JobFilter from './JobFilter';
 import SearchInput from './SearchInput';
 
-
 const jobRoles = ['Software Engineer', 'Product Manager', 'Data Analyst'];
 const availabilityTypes = ['Full-time', 'Part-time', 'Contract'];
 const workTypes = ['Remote', 'On-site', 'Hybrid'];
 
-
 export default function SearchComponent() {
-  const [searchType] = useState('keywords');
   const [keywords, setKeywords] = useState('');
   const [location, setLocation] = useState('');
   const [field, setField] = useState('');
@@ -41,24 +37,8 @@ export default function SearchComponent() {
   const [visaCategory, setVisaCategory] = useState('');
   const [availability, setAvailability] = useState('');
   const [workType, setWorkType] = useState('');
-  const [pageSize, setPageSize] = useState('10');
-
   const [openJobRole, setOpenJobRole] = useState(false);
 
-  const handleSearch = () => {
-    // Implement search logic here
-    console.log({
-      searchType,
-      keywords,
-      location,
-      field,
-      jobRole,
-      visaCategory,
-      availability,
-      workType,
-      pageSize,
-    });
-  };
 
   const handleClear = () => {
     setKeywords('');
@@ -68,7 +48,6 @@ export default function SearchComponent() {
     setVisaCategory('');
     setAvailability('');
     setWorkType('');
-    setPageSize('10');
   };
 
   return (
