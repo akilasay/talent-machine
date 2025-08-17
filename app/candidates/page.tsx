@@ -48,14 +48,15 @@ import { getSubjectColor } from '@/lib/utils';
 import SearchComponent from '@/components/SearchComponent';
 
 interface SearchParams {
-  searchParams: {
+  searchParams: Promise<{
     job?: string | string[];
     topic?: string | string[];
     limit?: string;
     page?: string;
-  };
+  }>;
 }
 
+  
 const CandidatesLibrary = async ({ searchParams }: SearchParams) => {
   const filters = await searchParams;
   const job = filters.job ? filters.job : '';
@@ -70,11 +71,11 @@ const CandidatesLibrary = async ({ searchParams }: SearchParams) => {
   }
 
   return (
-    <main className="p-6 relative z-10 max-w-7xl mx-auto mt-20">
+    <main className="p-6 relative z-10 max-w-7xl mx-auto">
       <SearchComponent />
 
       {candidates.length > 0 ? (
-        <section className="flex flex-wrap gap-6 mx-6">
+        <section className="flex flex-wrap gap-6">
           {candidates.map((candidate) => (
             <CandidateCard
               key={candidate.id}
