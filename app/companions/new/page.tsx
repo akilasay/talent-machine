@@ -1,6 +1,4 @@
 import CandidateForm from "@/components/CandidateForm"
-import {auth} from "@clerk/nextjs/server";
-import {redirect} from "next/navigation";
 
 
 const NewCompanion = async() => {

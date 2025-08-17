@@ -237,7 +237,7 @@ export default function HomePage() {
               <motion.div key={index} variants={fadeIn} whileHover={hoverScale}>
                 <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-blue-200 dark:border-blue-700">
                   <CardContent className="p-6">
-                    <p className="text-gray-600 dark:text-gray-300 italic">"{testimonial.quote}"</p>
+                    <p className="text-gray-600 dark:text-gray-300 italic">{testimonial.quote}</p>
                     <div className="mt-6 flex items-center">
                       <Image
                         src={testimonial.avatar}
