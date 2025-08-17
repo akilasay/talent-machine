@@ -34,7 +34,7 @@ const JobFilter = () => {
             });
         }
         router.push(newUrl, { scroll: false });
-    }, []);
+    });
 
     return (
         <Select onValueChange={setJob} value={job}>
