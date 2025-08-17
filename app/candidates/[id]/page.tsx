@@ -1,44 +1,38 @@
+import { redirect } from 'next/navigation';
+import { auth } from '@clerk/nextjs/server';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+
+// Placeholder for your candidate fetching and utility functions
 import { getCandidateById } from '@/lib/actions/companion.actions';
 import { getSubjectColor } from '@/lib/utils';
-import {auth, currentUser} from "@clerk/nextjs/server";
-import {redirect} from "next/navigation";
 
-
+// Define props for dynamic route
 interface CandidateProfilePageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function CandidateProfilePage({ params }: CandidateProfilePageProps) {
+  // Resolve params
+  const { id } = await params;
 
-  // this nneds to be called before coming to this page--> dont show candidate id it need to send though the api or hidden way
-  const { userId } = await auth(); //check authenticate user can redirect to the page
-  console.log(userId);
-  if (!userId ) {
-    // Redirect to sign-in with the current URL as redirectUrl
-    const redirectUrl = `/candidates/${params.id}`;
-    redirect(`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`);
+  // Authenticate user
+  const { userId } = await auth();
+  if (!userId) {
+    const redirectUrl = `/sign-in?redirect_url=${encodeURIComponent(`/candidates/${id}`)}`;
+    redirect(redirectUrl);
   }
 
-  const user = await currentUser();
-    console.log(user);
-  const userFn= user?.firstName; // Assumes role is stored in Clerk's privateMetadata
-  console.log(userFn);
-  // const userRole = user?.privateMetadata?.role; // Assumes role is stored in Clerk's privateMetadata
-  // console.log(userRole);
+  // Check user role
+  // const user = await currentUser();
+  // const userRole = user?.privateMetadata?.role as string | undefined; // Explicit type cast
 
   // if (userRole !== 'employer') {
-  //   redirect('/job-seekers'); // Redirect non-employers to job seekers page
-  // }
-  // if (userFn !== 'ck') {
-  //   redirect('/job-seekers'); // Redirect non-employers to job seekers page
+  //   redirect('/job-seekers');
   // }
 
-  //TODO --> check user has subcription to seee the details -After Payment feature
-
-  const candidate = await getCandidateById(params.id);
-
+  // Fetch candidate data
+  const candidate = await getCandidateById(id);
   if (!candidate) {
     notFound();
   }
@@ -48,7 +42,6 @@ export default async function CandidateProfilePage({ params }: CandidateProfileP
   return (
     <main className="max-w-5xl mx-auto p-6 my-8">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-600 overflow-hidden">
-        {/* Header Section */}
         <div className={`h-16 w-full ${color}`}></div>
         <div className="relative px-6 pt-4 pb-8">
           <div className="absolute -top-16 left-6">
@@ -67,49 +60,40 @@ export default async function CandidateProfilePage({ params }: CandidateProfileP
             <p className="text-lg text-gray-600 dark:text-gray-300 capitalize">{candidate.job}</p>
           </div>
         </div>
-
-        {/* Content Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 pb-8">
-          {/* Sidebar: Personal Info */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 pb-12">
           <div className="md:col-span-1 space-y-6">
             <div>
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Personal Information</h2>
-              <div className="space-y-2">
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  <span className="font-medium">Gender:</span>{' '}
-                  {candidate.gender.charAt(0).toUpperCase() + candidate.gender.slice(1)}
-                </p>
-              </div>
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Details</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="font-medium">Gender:</span>{' '}
+                {candidate.gender?.charAt(0).toUpperCase() + (candidate.gender?.slice(1) || '')}
+              </p>
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Contact</h2>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                <span className="font-medium">Email:</span> {candidate.name.toLowerCase().replace(' ', '.')}@example.com
+              <h2 className="text-xl font-semibold mb-3">Contact</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="font-medium">Email:</span>{' '}
+                {candidate.name.toLowerCase().replace(' ', '.') + '@example.com'}
               </p>
             </div>
           </div>
-
-          {/* Main Content: Skills, Education, Experience */}
           <div className="md:col-span-2 space-y-6">
-            {/* Skills */}
             <div>
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Skills</h2>
+              <h2 className="text-lg font-semibold mb-3">Skills</h2>
               <div className="flex flex-wrap gap-2">
-                {candidate.topic.split(', ').map((skill) => (
+                {(candidate.topic || '').split(', ').map((skill) => (
                   <span
                     key={skill}
-                    className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-sm text-gray-700 dark:text-gray-200 rounded-full"
+                    className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-sm text-gray-800 dark:text-gray-200 rounded-full"
                   >
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
-
-            {/* Education */}
             <div>
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Education</h2>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
+              <h2 className="text-lg font-semibold mb-3">Education</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 <span className="font-medium">Degree:</span>{' '}
                 {candidate.education === 'highschool'
                   ? 'High School'
@@ -120,16 +104,14 @@ export default async function CandidateProfilePage({ params }: CandidateProfileP
                   : 'MSc Degree'}
               </p>
             </div>
-
-            {/* Experience */}
             <div>
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Experience</h2>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                <span className="font-medium">Years of Experience:</span> {candidate.experience} years
+              <h2 className="text-lg font-semibold mb-3">Experience</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="font-medium">Years:</span> {candidate.experience || 0} years
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
-                <span className="font-medium">Role:</span> {candidate.job}
-              </p>
+              {/* <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                <span className="font-medium">Role:</span> {candidate.title || candidate.job}
+              </p> */}
             </div>
           </div>
         </div>
