@@ -6,11 +6,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 export default function SignUpForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [userType, setUserType] = useState<'candidate' | 'employer'>('candidate')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
@@ -34,7 +36,7 @@ export default function SignUpForm() {
       return
     }
 
-    const { error } = await signUp(email, password)
+    const { error } = await signUp(email, password, userType)
     
     if (error) {
       setError(error.message)
@@ -103,6 +105,23 @@ export default function SignUpForm() {
                 disabled={loading}
                 minLength={6}
               />
+            </div>
+            <div className="space-y-2">
+              <Label>Account Type</Label>
+              <RadioGroup
+                value={userType}
+                onValueChange={(value) => setUserType(value as 'candidate' | 'employer')}
+                className="flex space-x-6"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="candidate" id="candidate" />
+                  <Label htmlFor="candidate">Job Seeker / Candidate</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="employer" id="employer" />
+                  <Label htmlFor="employer">Employer</Label>
+                </div>
+              </RadioGroup>
             </div>
             {error && (
               <div className="text-red-500 text-sm">{error}</div>
