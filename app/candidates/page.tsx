@@ -48,14 +48,14 @@ import { getSubjectColor } from '@/lib/utils';
 import CandidateSearchFilters from '@/components/CandidateSearchFilters';
 
 interface SearchParams {
-  searchParams: {
+  searchParams: Promise<{
     job?: string | string[];
     topic?: string | string[];
     education?: string;
     experience?: string;
     limit?: string;
     page?: string;
-  };
+  }>;
 }
 
 const CandidatesLibrary = async ({ searchParams }: SearchParams) => {
