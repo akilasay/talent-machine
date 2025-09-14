@@ -1,12 +1,13 @@
 
 import EmployerFormPage from "@/components/EmployerFormPage"
-
-import {auth} from "@clerk/nextjs/server";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 const EmployerNew = async () => {
-  const { userId } = await auth();
-  if (!userId) {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (!user) {
     const redirectUrl = "/employers/new";
     redirect(`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`);
   }

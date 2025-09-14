@@ -245,6 +245,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -259,7 +260,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { jobs } from "@/constants"
 import { createCandidate } from "@/lib/actions/companion.actions"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   fistName: z.string().min(1, { message: "First Name is required." }),
@@ -274,6 +275,10 @@ const formSchema = z.object({
 })
 
 const CandidateForm = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState("")
+  const router = useRouter()
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -290,12 +295,24 @@ const CandidateForm = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const companion = await createCandidate(values)
-    if (companion) {
-      redirect(`/candidates/${companion.id}`)
-    } else {
-      console.log("Failed to create a companion")
-      redirect("/")
+    setIsSubmitting(true)
+    setSubmitError("")
+    
+    try {
+      console.log("Submitting candidate data:", values)
+      const candidate = await createCandidate(values)
+      
+      if (candidate) {
+        console.log("Candidate created successfully:", candidate)
+        router.push(`/candidates/${candidate.id}`)
+      } else {
+        setSubmitError("Failed to create candidate profile")
+      }
+    } catch (error) {
+      console.error("Error creating candidate:", error)
+      setSubmitError(error instanceof Error ? error.message : "An unexpected error occurred")
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -466,8 +483,18 @@ const CandidateForm = () => {
           )}
         />
 
-        <Button type="submit" className="w-full cursor-pointer">
-          Build Your Profile
+        {submitError && (
+          <div className="p-3 bg-red-50 text-red-800 border border-red-200 rounded-md text-sm">
+            {submitError}
+          </div>
+        )}
+
+        <Button 
+          type="submit" 
+          className="w-full cursor-pointer" 
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Creating Profile..." : "Build Your Profile"}
         </Button>
       </form>
     </Form>

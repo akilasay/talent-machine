@@ -34,6 +34,9 @@ interface CreateCandidates {
   gender: string;
   eductaion: string;
   experience: number;
+  academicQualifications: string;
+  professionalQualifications: string;
+  author?: string;
 }
 
 interface GetAllCompanions {
@@ -47,6 +50,8 @@ interface GetAllCandidates {
   page?: number;
   job?: string | string[];
   topic?: string | string[];
+  education?: string;
+  experience?: string;
 }
 
 interface BuildClient {

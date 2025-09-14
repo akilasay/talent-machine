@@ -29,14 +29,30 @@
 
 
 import CandidateForm from "@/components/CandidateForm";
-import { auth } from "@clerk/nextjs/server";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { getUserCandidateProfile } from "@/lib/actions/companion.actions";
 
 const NewCompanion = async () => {
-  const { userId } = await auth(); // check authenticated user
-  if (!userId) {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (!user) {
     const redirectUrl = "/candidates/new";
     redirect(`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`);
+  }
+
+  // Check if user already has a candidate profile
+  try {
+    const existingProfile = await getUserCandidateProfile();
+    
+    if (existingProfile) {
+      // User already has a profile, redirect to edit mode
+      redirect(`/candidates/${existingProfile.id}?edit=true`);
+    }
+  } catch (error) {
+    console.error("Error checking existing profile:", error);
+    // If there's an error checking, continue with create mode
   }
 
   return (

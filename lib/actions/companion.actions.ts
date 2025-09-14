@@ -1,14 +1,20 @@
 'use server';
 
-import {auth} from "@clerk/nextjs/server";
+import { createClient } from "@/lib/supabase/server";
 import {createSupabaseClient} from "@/lib/supabase";
+import { revalidatePath } from "next/cache";
 
 //chnage this to mogno db
 export const createCompanion = async (formData: CreateCandidates) => {
-    const { userId: author } = await auth();
-    const supabase = createSupabaseClient();
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) throw new Error('User not authenticated');
+    
+    const author = user.id;
+    const supabaseClient = createSupabaseClient();
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('companions')
         .insert({...formData, author })
         .select();
@@ -20,16 +26,139 @@ export const createCompanion = async (formData: CreateCandidates) => {
 
 //creating candidate after form submit
 export const createCandidate = async (formData: CreateCandidates) => {
-    const { userId: author } = await auth();
-    const supabase = createSupabaseClient();
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) throw new Error('User not authenticated');
+    
+    const author = user.id;
+    
+    // Use the server client for authenticated operations
+    const supabaseClient = createClient();
 
-    const { data, error } = await supabase
-        .from('companions')
-        .insert({...formData, author })
+    // Transform the data to match the database schema
+    const candidateData = {
+        fist_name: formData.fistName,
+        last_name: formData.lastName,
+        job: formData.job,
+        topic: formData.topic,
+        gender: formData.gender,
+        education: formData.eductaion,
+        experience: formData.experience,
+        academic_qualifications: formData.academicQualifications,
+        professional_qualifications: formData.professionalQualifications,
+        author: author // This should be the UUID from auth.users
+    };
+
+    console.log('Creating candidate with data:', candidateData);
+    console.log('User ID (author):', author);
+    console.log('User ID type:', typeof author);
+
+    const { data, error } = await supabaseClient
+        .from('candidates')
+        .insert(candidateData)
         .select();
 
-    if(error || !data) throw new Error(error?.message || 'Failed to create a candidate');
+    if(error || !data) {
+        console.error('Supabase error:', error);
+        throw new Error(error?.message || 'Failed to create a candidate');
+    }
 
+    console.log('Candidate created successfully:', data[0]);
+    return data[0];
+}
+
+// Update candidate after form submit
+// Check if user already has a candidate profile
+export const getUserCandidateProfile = async () => {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) throw new Error('User not authenticated');
+    
+    const { data, error } = await supabase
+        .from('candidates')
+        .select('*')
+        .eq('author', user.id)
+        .single();
+
+    if (error && error.code !== 'PGRST116') { // PGRST116 = no rows found
+        console.error('Error fetching user candidate profile:', error);
+        throw new Error('Failed to check existing profile');
+    }
+
+    return data; // Returns null if no profile exists, or the profile data if it exists
+}
+
+export const updateCandidate = async (candidateId: string, formData: CreateCandidates) => {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) throw new Error('User not authenticated');
+    
+    const author = user.id;
+    const supabaseClient = createClient(); // Use server client for authenticated operations
+
+    // Transform the data to match the database schema
+    const candidateData = {
+        fist_name: formData.fistName,
+        last_name: formData.lastName,
+        job: formData.job,
+        topic: formData.topic,
+        gender: formData.gender,
+        education: formData.eductaion,
+        experience: formData.experience,
+        academic_qualifications: formData.academicQualifications,
+        professional_qualifications: formData.professionalQualifications,
+        author: author // This should be the UUID from auth.users
+    };
+
+    console.log('Updating candidate with data:', candidateData);
+    console.log('User ID (author):', author);
+    console.log('User ID type:', typeof author);
+
+    console.log('Attempting to update candidate with ID:', candidateId);
+    console.log('Author check - user ID:', author, 'candidate author:', candidateData.author);
+
+    // First check if the candidate exists and belongs to the user
+    const { data: existingCandidate, error: fetchError } = await supabaseClient
+        .from('candidates')
+        .select('id, author')
+        .eq('id', candidateId)
+        .single();
+
+    console.log('Existing candidate check:', existingCandidate, 'fetchError:', fetchError);
+
+    if (fetchError) {
+        console.error('Error fetching candidate:', fetchError);
+        throw new Error('Candidate not found');
+    }
+
+    if (existingCandidate.author !== author) {
+        console.error('User not authorized to update this candidate');
+        throw new Error('You are not authorized to update this candidate');
+    }
+
+    const { data, error } = await supabaseClient
+        .from('candidates')
+        .update(candidateData)
+        .eq('id', candidateId)
+        .eq('author', author) // Ensure user can only update their own candidates
+        .select();
+
+    console.log('Update result - data:', data, 'error:', error);
+
+    if(error) {
+        console.error('Supabase update error:', error);
+        throw new Error(error.message || 'Failed to update candidate');
+    }
+
+    if (!data || data.length === 0) {
+        console.error('No data returned from update');
+        throw new Error('Failed to update candidate - no data returned');
+    }
+
+    console.log('Candidate updated successfully:', data[0]);
     return data[0];
 }
 
@@ -230,6 +359,82 @@ export const getCandidateById = async (id: string): Promise<Candidate | null> =>
 
   const candidate = dummyCandidates.find((candidate) => candidate.id === id);
   return candidate || null;
+};
+
+// Get candidates from Supabase database
+export const getCandidatesFromDB = async ({ limit = 10, page = 1, job, topic, education, experience }: GetAllCandidates) => {
+  const supabase = createSupabaseClient();
+
+  let query = supabase
+    .from('candidates')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  // Apply filters
+  if (job) {
+    // Handle both single job title and array of job titles
+    if (Array.isArray(job)) {
+      query = query.in('job', job);
+    } else {
+      // For single job title, search for exact match or similar
+      query = query.ilike('job', `%${job}%`);
+    }
+  }
+
+  if (topic) {
+    const topicArray = Array.isArray(topic) ? topic : [topic];
+    query = query.or(topicArray.map(t => `topic.ilike.%${t}%,fist_name.ilike.%${t}%,last_name.ilike.%${t}%`).join(','));
+  }
+
+  if (education && education !== 'any') {
+    query = query.eq('education', education);
+  }
+
+  if (experience && experience !== 'any') {
+    // Handle experience range filtering
+    const experienceNum = parseInt(experience.split('-')[0] || experience.split('+')[0]);
+    if (experience.includes('+')) {
+      query = query.gte('experience', experienceNum);
+    } else if (experience.includes('-')) {
+      const maxExp = parseInt(experience.split('-')[1]);
+      query = query.gte('experience', experienceNum).lte('experience', maxExp);
+    } else {
+      query = query.eq('experience', experienceNum);
+    }
+  }
+
+
+  // Apply pagination
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+  query = query.range(from, to);
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('Supabase error:', error);
+    throw new Error(error.message);
+  }
+
+  return data || [];
+};
+
+// Get a single candidate by ID from Supabase
+export const getCandidateByIdFromDB = async (id: string) => {
+  const supabase = createSupabaseClient();
+
+  const { data, error } = await supabase
+    .from('candidates')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    console.error('Supabase error:', error);
+    throw new Error(error.message);
+  }
+
+  return data;
 };
 
 // export const getCompanion = async (id: string) => {

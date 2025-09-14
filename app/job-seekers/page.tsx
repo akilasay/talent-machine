@@ -1,49 +1,32 @@
-"use client";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
+import { getUserCandidateProfile } from "@/lib/actions/companion.actions";
+import JobSeekersClient from "./JobSeekersClient";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
+export default async function JobSeekersPage() {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (!user) {
+    const redirectUrl = "/job-seekers";
+    redirect(`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`);
+  }
 
-export default function CandidateProfilePage() {
+  // Check if user already has a candidate profile
+  let existingProfile = null;
+  try {
+    existingProfile = await getUserCandidateProfile();
+  } catch (error) {
+    console.error("Error checking existing profile:", error);
+    // If there's an error checking, continue with create mode
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 p-6">
-      <Card className="w-full max-w-xl shadow-xl rounded-2xl border border-blue-100 bg-white">
-        <CardContent className="p-10 text-center space-y-6">
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl font-bold text-blue-700"
-          >
-            Stand Out to Employers
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-gray-600 text-lg leading-relaxed"
-          >
-            Creating your profile helps recruiters understand your skills,
-            experience, and career goals. The more complete your profile is, the
-            higher your chances of being discovered and hired by top companies.
-          </motion.p>
-
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-          >
-            <Link href="/candidates/new">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg shadow-md">
-                Create Profile
-              </Button>
-            </Link>
-          </motion.div>
-        </CardContent>
-      </Card>
-    </div>
+    <JobSeekersClient 
+      hasExistingProfile={!!existingProfile} 
+      existingProfileId={existingProfile?.id}
+      userEmail={user.email}
+    />
   );
 }
 

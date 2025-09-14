@@ -1,0 +1,218 @@
+<svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="600" height="600" fill="url(#bgGradient)"/>
+  
+  <!-- Main Circle -->
+  <circle cx="300" cy="300" r="200" fill="url(#mainGradient)" opacity="0.1"/>
+  
+  <!-- People Silhouettes -->
+  <!-- Person 1 -->
+  <g transform="translate(150, 200)">
+    <circle cx="30" cy="30" r="25" fill="url(#person1)"/>
+    <rect x="10" y="55" width="40" height="60" rx="20" fill="url(#person1)"/>
+    <rect x="20" y="65" width="20" height="40" rx="10" fill="url(#person1Shirt)"/>
+  </g>
+  
+  <!-- Person 2 -->
+  <g transform="translate(270, 180)">
+    <circle cx="30" cy="30" r="25" fill="url(#person2)"/>
+    <rect x="10" y="55" width="40" height="60" rx="20" fill="url(#person2)"/>
+    <rect x="20" y="65" width="20" height="40" rx="10" fill="url(#person2Shirt)"/>
+  </g>
+  
+  <!-- Person 3 -->
+  <g transform="translate(390, 200)">
+    <circle cx="30" cy="30" r="25" fill="url(#person3)"/>
+    <rect x="10" y="55" width="40" height="60" rx="20" fill="url(#person3)"/>
+    <rect x="20" y="65" width="20" height="40" rx="10" fill="url(#person3Shirt)"/>
+  </g>
+  
+  <!-- Connection Lines -->
+  <path d="M200 240 Q300 200 400 240" stroke="url(#lineGradient)" stroke-width="4" fill="none" opacity="0.6"/>
+  <path d="M200 280 Q300 240 400 280" stroke="url(#lineGradient)" stroke-width="2" fill="none" opacity="0.4"/>
+  
+  <!-- Floating Icons -->
+  <!-- Briefcase -->
+  <g transform="translate(100, 120)">
+    <rect x="0" y="0" width="35" height="20" rx="3" fill="url(#icon1)"/>
+    <rect x="3" y="3" width="29" height="14" rx="2" fill="url(#icon1Light)"/>
+    <rect x="12" y="20" width="11" height="6" rx="2" fill="url(#icon1Dark)"/>
+  </g>
+  
+  <!-- Laptop -->
+  <g transform="translate(465, 100)">
+    <rect x="0" y="0" width="45" height="25" rx="3" fill="url(#icon2)"/>
+    <rect x="3" y="3" width="39" height="19" rx="2" fill="url(#icon2Light)"/>
+    <rect x="18" y="25" width="9" height="4" rx="2" fill="url(#icon2Dark)"/>
+  </g>
+  
+  <!-- Document -->
+  <g transform="translate(120, 450)">
+    <rect x="0" y="0" width="25" height="35" rx="2" fill="url(#icon3)"/>
+    <rect x="3" y="3" width="19" height="29" rx="1" fill="url(#icon3Light)"/>
+    <circle cx="12" cy="12" r="1" fill="url(#icon3Dark)"/>
+    <circle cx="12" cy="16" r="1" fill="url(#icon3Dark)"/>
+    <circle cx="12" cy="20" r="1" fill="url(#icon3Dark)"/>
+  </g>
+  
+  <!-- Chart -->
+  <g transform="translate(455, 420)">
+    <rect x="0" y="0" width="35" height="25" rx="2" fill="url(#icon4)"/>
+    <rect x="3" y="3" width="29" height="19" rx="1" fill="url(#icon4Light)"/>
+    <rect x="6" y="12" width="3" height="10" fill="url(#icon4Bar1)"/>
+    <rect x="11" y="8" width="3" height="14" fill="url(#icon4Bar2)"/>
+    <rect x="16" y="6" width="3" height="16" fill="url(#icon4Bar3)"/>
+    <rect x="21" y="10" width="3" height="12" fill="url(#icon4Bar4)"/>
+  </g>
+  
+  <!-- Decorative Elements -->
+  <circle cx="80" cy="80" r="6" fill="url(#deco1)" opacity="0.7"/>
+  <circle cx="520" cy="120" r="8" fill="url(#deco2)" opacity="0.7"/>
+  <circle cx="120" cy="520" r="5" fill="url(#deco3)" opacity="0.7"/>
+  <circle cx="480" cy="480" r="7" fill="url(#deco4)" opacity="0.7"/>
+  
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F8FAFC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E2E8F0;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="person1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="person1Shirt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="person2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7C3AED;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="person2Shirt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#A78BFA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="person3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06B6D4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0891B2;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="person3Shirt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22D3EE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D97706;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon1Light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FBBF24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon1Dark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D97706;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B45309;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon2Light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#34D399;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10B981;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon2Dark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#059669;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#047857;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EF4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DC2626;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon3Light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F87171;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EF4444;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon3Dark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B91C1C;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7C3AED;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon4Light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#A78BFA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon4Bar1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon4Bar2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06B6D4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0891B2;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon4Bar3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="icon4Bar4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D97706;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="deco1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="deco2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="deco3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06B6D4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="deco4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

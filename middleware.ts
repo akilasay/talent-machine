@@ -1,6 +1,8 @@
-import { clerkMiddleware } from '@clerk/nextjs/server';
+import { updateSession } from '@/lib/supabase/middleware'
 
-export default clerkMiddleware();
+export async function middleware(request: Request) {
+  return await updateSession(request)
+}
 
 export const config = {
   matcher: [
@@ -9,4 +11,4 @@ export const config = {
     // Always run for API routes
     '/(api|trpc)(.*)',
   ],
-};
+}

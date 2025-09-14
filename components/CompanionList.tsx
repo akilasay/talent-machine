@@ -18,7 +18,7 @@ interface CompanionsListProps {
 }
 
 
-const CompanionList = ({ companions, classNames }: CompanionsListProps) => {
+const CompanionList = ({ title, companions, classNames }: CompanionsListProps) => {
   return (
    <article className={cn('rounded-2xl border border-black px-7 pt-7 pb-10 max-lg:w-full bg-white', classNames)}>
       <h2 className="font-bold text-3xl">Recent Sessions</h2>
