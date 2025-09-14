@@ -1,4 +1,6 @@
 
+import Image from 'next/image';
+
 const Testimonials = () => {
   return (
     <section className=" py-16">
@@ -9,12 +11,14 @@ const Testimonials = () => {
           {/* Testimonial Card 1 */}
           <div className="bg-sky-50 p-6 rounded-lg shadow-lg">
             <p className="text-gray-600 text-base mb-4">
-              "JobNet has helped us find the perfect candidates every time. The platform is user-friendly and makes hiring so much easier."
+              &quot;JobNet has helped us find the perfect candidates every time. The platform is user-friendly and makes hiring so much easier.&quot;
             </p>
             <div className="flex items-center">
-              <img
+              <Image
                 src="/images/client1.jpg"
                 alt="Client 1"
+                width={48}
+                height={48}
                 className="w-12 h-12 rounded-full mr-4"
               />
               <div>
@@ -27,12 +31,14 @@ const Testimonials = () => {
           {/* Testimonial Card 2 */}
           <div className="bg-sky-50  p-6 rounded-lg shadow-lg">
             <p className="text-gray-600 text-base mb-4">
-              "We've been able to streamline our recruitment process significantly. Highly recommend JobNet for both job seekers and employers."
+              &quot;We&apos;ve been able to streamline our recruitment process significantly. Highly recommend JobNet for both job seekers and employers.&quot;
             </p>
             <div className="flex items-center">
-              <img
+              <Image
                 src="/images/client2.jpg"
                 alt="Client 2"
+                width={48}
+                height={48}
                 className="w-12 h-12 rounded-full mr-4"
               />
               <div>
@@ -45,12 +51,14 @@ const Testimonials = () => {
           {/* Testimonial Card 3 */}
           <div className="bg-sky-50  p-6 rounded-lg shadow-lg">
             <p className="text-gray-600 text-base mb-4">
-              "As a job seeker, the experience on JobNet was smooth and efficient. The job search was personalized, and I found my dream role!"
+              &quot;As a job seeker, the experience on JobNet was smooth and efficient. The job search was personalized, and I found my dream role!&quot;
             </p>
             <div className="flex items-center">
-              <img
+              <Image
                 src="/images/client3.jpg"
                 alt="Client 3"
+                width={48}
+                height={48}
                 className="w-12 h-12 rounded-full mr-4"
               />
               <div>

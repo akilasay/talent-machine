@@ -1,11 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 interface JobSeekersClientProps {
   hasExistingProfile: boolean;
@@ -49,7 +47,7 @@ export default function JobSeekersClient({ hasExistingProfile, existingProfileId
             className="text-gray-600 text-lg leading-relaxed"
           >
             {hasExistingProfile 
-              ? "We're thrilled to have you back! Your profile is already set up and ready to help you connect with amazing opportunities. Click below to view your profile and see how it appears to employers."
+              ? "We&apos;re thrilled to have you back! Your profile is already set up and ready to help you connect with amazing opportunities. Click below to view your profile and see how it appears to employers."
               : "Creating your profile helps recruiters understand your skills, experience, and career goals. The more complete your profile is, the higher your chances of being discovered and hired by top companies."
             }
           </motion.p>

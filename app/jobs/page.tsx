@@ -17,7 +17,17 @@ const jobPostings = [
   }
 ];
 
-const JobCard = ({ job, index }: { job: any, index: number }) => {
+interface JobPosting {
+  id: number;
+  title: string;
+  company: string;
+  posted: string;
+  image: string;
+  featured: boolean;
+  urgent: boolean;
+}
+
+const JobCard = ({ job, index }: { job: JobPosting, index: number }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

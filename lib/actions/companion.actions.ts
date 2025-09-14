@@ -2,7 +2,6 @@
 
 import { createClient } from "@/lib/supabase/server";
 import {createSupabaseClient} from "@/lib/supabase";
-import { revalidatePath } from "next/cache";
 
 //chnage this to mogno db
 export const createCompanion = async (formData: CreateCandidates) => {
