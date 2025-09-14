@@ -61,7 +61,7 @@ export default function SetupProfilePage() {
       } else {
         router.push('/employers')
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.')
       setLoading(false)
     }

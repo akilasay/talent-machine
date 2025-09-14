@@ -14,7 +14,9 @@ import { createClient } from '@/lib/supabase/client';
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [userCandidateProfile, setUserCandidateProfile] = useState<any>(null);
+  const [userCandidateProfile, setUserCandidateProfile] = useState<{
+    id: string;
+  } | null>(null);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const { user, signOut } = useAuth();
   const router = useRouter();

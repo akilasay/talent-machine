@@ -1,9 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+
 import {
   Select,
   SelectContent,
@@ -24,22 +22,17 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
 import JobFilter from './JobFilter';
 import SearchInput from './SearchInput';
 
-const locations = ['New York', 'London', 'Tokyo', 'Remote'];
-const fields = ['Technology', 'Finance', 'Healthcare', 'Education'];
+
 const jobRoles = ['Software Engineer', 'Product Manager', 'Data Analyst'];
-const visaCategories = ['H1B', 'J1', 'OPT', 'None'];
 const availabilityTypes = ['Full-time', 'Part-time', 'Contract'];
 const workTypes = ['Remote', 'On-site', 'Hybrid'];
-const pageSizes = ['10', '20', '50', '100'];
+
 
 export default function SearchComponent() {
-  const [searchType, setSearchType] = useState('keywords');
   const [keywords, setKeywords] = useState('');
   const [location, setLocation] = useState('');
   const [field, setField] = useState('');
@@ -47,26 +40,9 @@ export default function SearchComponent() {
   const [visaCategory, setVisaCategory] = useState('');
   const [availability, setAvailability] = useState('');
   const [workType, setWorkType] = useState('');
-  const [pageSize, setPageSize] = useState('10');
-  const [openLocation, setOpenLocation] = useState(false);
-  const [openField, setOpenField] = useState(false);
-  const [openJobRole, setOpenJobRole] = useState(false);
-  const [openVisaCategory, setOpenVisaCategory] = useState(false);
 
-  const handleSearch = () => {
-    // Implement search logic here
-    console.log({
-      searchType,
-      keywords,
-      location,
-      field,
-      jobRole,
-      visaCategory,
-      availability,
-      workType,
-      pageSize,
-    });
-  };
+  const [openJobRole, setOpenJobRole] = useState(false);
+
 
   const handleClear = () => {
     setKeywords('');
@@ -76,7 +52,6 @@ export default function SearchComponent() {
     setVisaCategory('');
     setAvailability('');
     setWorkType('');
-    setPageSize('10');
   };
 
   return (
@@ -91,7 +66,7 @@ export default function SearchComponent() {
       <div className="rounded-lg bg-white dark:bg-gray-800 p-2.5 shadow-lg">
         <div className="rounded border border-dashed border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 p-12 max-md:p-5">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
-            {/* Radio Group for Search Options */}
+            
             {/* <div className="col-span-12">
               <RadioGroup
                 value={searchType}

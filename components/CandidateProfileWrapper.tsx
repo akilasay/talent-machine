@@ -8,7 +8,21 @@ import { Button } from '@/components/ui/button'
 import { Edit } from 'lucide-react'
 
 interface CandidateProfileWrapperProps {
-  candidate: any
+  candidate: {
+    id: string;
+    name: string;
+    fist_name?: string;
+    last_name?: string;
+    job: string;
+    topic: string;
+    education: string;
+    experience: number;
+    gender?: string;
+    academicQualifications: string;
+    academic_qualifications?: string;
+    professionalQualifications: string;
+    professional_qualifications?: string;
+  }
   isOwner: boolean
   initialEditMode?: boolean
   userEmail?: string
@@ -25,9 +39,25 @@ export default function CandidateProfileWrapper({ candidate, isOwner, initialEdi
 
   const color = getSubjectColor(currentCandidate.job)
 
-  const handleEditSuccess = (updatedCandidate: any) => {
+  const handleEditSuccess = (updatedCandidate?: {
+    id: string;
+    name: string;
+    fist_name?: string;
+    last_name?: string;
+    job: string;
+    topic: string;
+    education: string;
+    experience: number;
+    gender?: string;
+    academicQualifications: string;
+    academic_qualifications?: string;
+    professionalQualifications: string;
+    professional_qualifications?: string;
+  }) => {
     setIsEditing(false)
-    setCurrentCandidate(updatedCandidate) // Update local state with new data
+    if (updatedCandidate) {
+      setCurrentCandidate(updatedCandidate) // Update local state with new data
+    }
     // The page will refresh automatically due to router.refresh() in the form
   }
 

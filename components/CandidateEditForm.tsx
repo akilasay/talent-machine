@@ -32,9 +32,37 @@ const formSchema = z.object({
 })
 
 interface CandidateEditFormProps {
-  candidate: any
+  candidate: {
+    id: string;
+    name: string;
+    fist_name?: string;
+    last_name?: string;
+    job: string;
+    topic: string;
+    education: string;
+    experience: number;
+    gender?: string;
+    academicQualifications: string;
+    academic_qualifications?: string;
+    professionalQualifications: string;
+    professional_qualifications?: string;
+  }
   onCancel: () => void
-  onSuccess: (updatedCandidate?: any) => void
+  onSuccess: (updatedCandidate?: {
+    id: string;
+    name: string;
+    fist_name?: string;
+    last_name?: string;
+    job: string;
+    topic: string;
+    education: string;
+    experience: number;
+    gender?: string;
+    academicQualifications: string;
+    academic_qualifications?: string;
+    professionalQualifications: string;
+    professional_qualifications?: string;
+  }) => void
 }
 
 const CandidateEditForm = ({ candidate, onCancel, onSuccess }: CandidateEditFormProps) => {
