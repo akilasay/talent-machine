@@ -5,23 +5,27 @@ import { redirect } from "next/navigation";
 import CandidateProfileWrapper from '@/components/CandidateProfileWrapper';
 
 interface CandidateProfilePageProps {
-  params: { id: string };
-  searchParams: { edit?: string };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ edit?: string }>;
 }
 
 export default async function CandidateProfilePage({ params, searchParams }: CandidateProfilePageProps) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   
+  // Await the params and searchParams
+  const { id } = await params;
+  const { edit } = await searchParams;
+  
   if (!user) {
     // Redirect to sign-in with the current URL as redirectUrl
-    const redirectUrl = `/candidates/${params.id}`;
+    const redirectUrl = `/candidates/${id}`;
     redirect(`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`);
   }
 
   //TODO --> check user has subcription to seee the details -After Payment feature
 
-  const candidate = await getCandidateByIdFromDB(params.id);
+  const candidate = await getCandidateByIdFromDB(id);
 
   if (!candidate) {
     notFound();
@@ -31,7 +35,7 @@ export default async function CandidateProfilePage({ params, searchParams }: Can
   const isOwner = user.id === candidate.author;
 
   // Check if we should start in edit mode
-  const shouldStartEditing = searchParams.edit === 'true' && isOwner;
+  const shouldStartEditing = edit === 'true' && isOwner;
 
   return (
     <CandidateProfileWrapper 
