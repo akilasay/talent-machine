@@ -6,22 +6,25 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 interface CandidateProfilePageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function CandidateProfilePage({ params }: CandidateProfilePageProps) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   
+  // Await the params
+  const { id } = await params;
+  
   if (!user) {
     // Redirect to sign-in with the current URL as redirectUrl
-    const redirectUrl = `/companions/${params.id}`;
+    const redirectUrl = `/companions/${id}`;
     redirect(`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`);
   }
 
   //TODO --> check user has subcription to seee the details -After Payment feature
 
-  const candidate = await getCandidateByIdFromDB(params.id);
+  const candidate = await getCandidateByIdFromDB(id);
 
   if (!candidate) {
     notFound();
@@ -79,7 +82,7 @@ export default async function CandidateProfilePage({ params }: CandidateProfileP
             <div>
               <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Skills</h2>
               <div className="flex flex-wrap gap-2">
-                {candidate.topic.split(', ').map((skill) => (
+                {candidate.topic.split(', ').map((skill: string) => (
                   <span
                     key={skill}
                     className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-sm text-gray-700 dark:text-gray-200 rounded-full"

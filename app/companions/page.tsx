@@ -48,12 +48,12 @@ import { getSubjectColor } from '@/lib/utils';
 import SearchComponent from '@/components/SearchComponent';
 
 interface SearchParams {
-  searchParams: {
+  searchParams: Promise<{
     job?: string | string[];
     topic?: string | string[];
     limit?: string;
     page?: string;
-  };
+  }>;
 }
 
 const CandidatesLibrary = async ({ searchParams }: SearchParams) => {
