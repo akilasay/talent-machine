@@ -34,7 +34,7 @@ import { redirect } from "next/navigation";
 import { getUserCandidateProfile } from "@/lib/actions/companion.actions";
 
 const NewCompanion = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   
   if (!user) {

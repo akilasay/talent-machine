@@ -10,7 +10,7 @@ interface CandidateProfilePageProps {
 }
 
 export default async function CandidateProfilePage({ params, searchParams }: CandidateProfilePageProps) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   
   // Await the params and searchParams

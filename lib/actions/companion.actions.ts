@@ -5,7 +5,7 @@ import {createSupabaseClient} from "@/lib/supabase";
 
 //chnage this to mogno db
 export const createCompanion = async (formData: CreateCandidates) => {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) throw new Error('User not authenticated');
@@ -25,7 +25,7 @@ export const createCompanion = async (formData: CreateCandidates) => {
 
 //creating candidate after form submit
 export const createCandidate = async (formData: CreateCandidates) => {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) throw new Error('User not authenticated');
@@ -33,7 +33,7 @@ export const createCandidate = async (formData: CreateCandidates) => {
     const author = user.id;
     
     // Use the server client for authenticated operations
-    const supabaseClient = createClient();
+    const supabaseClient = await createClient();
 
     // Transform the data to match the database schema
     const candidateData = {
@@ -70,7 +70,7 @@ export const createCandidate = async (formData: CreateCandidates) => {
 // Update candidate after form submit
 // Check if user already has a candidate profile
 export const getUserCandidateProfile = async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) throw new Error('User not authenticated');
@@ -90,13 +90,13 @@ export const getUserCandidateProfile = async () => {
 }
 
 export const updateCandidate = async (candidateId: string, formData: CreateCandidates) => {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) throw new Error('User not authenticated');
     
     const author = user.id;
-    const supabaseClient = createClient(); // Use server client for authenticated operations
+    const supabaseClient = await createClient(); // Use server client for authenticated operations
 
     // Transform the data to match the database schema
     const candidateData = {

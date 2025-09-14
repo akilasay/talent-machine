@@ -4,7 +4,7 @@ import { getUserCandidateProfile } from "@/lib/actions/companion.actions";
 import JobSeekersClient from "./JobSeekersClient";
 
 export default async function JobSeekersPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   
   if (!user) {
