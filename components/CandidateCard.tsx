@@ -69,7 +69,7 @@ interface CandidateCardProps {
   color: string;
 }
 
-const CandidateCard = ({ id, name, job, topic, education, experience, color }: CandidateCardProps) => {
+const CandidateCard = ({ id, job, topic, education, experience, color }: CandidateCardProps) => {
   return (
     <article
       className="flex flex-col flex-1 min-w-[280px] max-w-[360px] rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 p-6 gap-4 shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"

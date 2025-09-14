@@ -9,7 +9,7 @@ interface UserTypeRouterProps {
   fallbackUrl?: string
 }
 
-export default function UserTypeRouter({ children, fallbackUrl = '/' }: UserTypeRouterProps) {
+export default function UserTypeRouter({ children }: UserTypeRouterProps) {
   const { user, loading, getUserType } = useAuth()
   const [userType, setUserType] = useState<'candidate' | 'employer' | null>(null)
   const [isChecking, setIsChecking] = useState(true)

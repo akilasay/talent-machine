@@ -16,7 +16,7 @@ const Footer = () => {
               height={100}
                                 />
             <p className="self-stretch mt-10 text-base text-white max-md:max-w-full">
-              Discover top talent across industries. Find the perfect fit for your team. Streamline hiring. Unlock your workforce's potential.
+              Discover top talent across industries. Find the perfect fit for your team. Streamline hiring. Unlock your workforces potential.
             </p>
             <div className="flex gap-4 mt-7">
               <a

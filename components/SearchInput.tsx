@@ -1,42 +1,39 @@
 'use client';
 
-import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import Image from "next/image";
-import {formUrlQuery, removeKeysFromUrlQuery} from "@jsmastery/utils";
 
 
 const SearchInput = () => {
   
-    const pathname = usePathname();
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const query = searchParams.get('topic') || '';
+    // const pathname = usePathname();
+    // const router = useRouter();
+    // const searchParams = useSearchParams();
 
     const [searchQuery, setSearchQuery] = useState('');
 
-    useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            if(searchQuery) {
-                const newUrl = formUrlQuery({
-                    params: searchParams.toString(),
-                    key: "topic",
-                    value: searchQuery,
-                });
+    // useEffect(() => {
+    //     const delayDebounceFn = setTimeout(() => {
+    //         if(searchQuery) {
+    //             const newUrl = formUrlQuery({
+    //                 params: searchParams.toString(),
+    //                 key: "topic",
+    //                 value: searchQuery,
+    //             });
 
-                router.push(newUrl, { scroll: false });
-            } else {
-                if(pathname === '/candidates') {
-                    const newUrl = removeKeysFromUrlQuery({
-                        params: searchParams.toString(),
-                        keysToRemove: ["topic"],
-                    });
+    //             router.push(newUrl, { scroll: false });
+    //         } else {
+    //             if(pathname === '/candidates') {
+    //                 const newUrl = removeKeysFromUrlQuery({
+    //                     params: searchParams.toString(),
+    //                     keysToRemove: ["topic"],
+    //                 });
 
-                    router.push(newUrl, { scroll: false });
-                }
-            }
-        }, 500)
-    }, [searchQuery, router, searchParams, pathname]);
+    //                 router.push(newUrl, { scroll: false });
+    //             }
+    //         }
+    //     }, 500)
+    // }, [searchQuery, router, searchParams, pathname]);
 
 
     return (

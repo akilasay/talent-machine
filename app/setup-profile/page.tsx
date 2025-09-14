@@ -12,7 +12,7 @@ export default function SetupProfilePage() {
   const [userType, setUserType] = useState<'candidate' | 'employer'>('candidate')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const { user, getUserType } = useAuth()
+  const { user } = useAuth()
   const router = useRouter()
 
   // Check for pending user type from localStorage

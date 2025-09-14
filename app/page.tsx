@@ -68,17 +68,10 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, Briefcase, Users, Search, Clock, Shield, CheckCircle, Star } from 'lucide-react';
+import { ArrowRight, Users, Search, Clock, Shield, Star } from 'lucide-react';
 
 export default function HomePage() {
-  const fadeIn = {
-    initial: { opacity: 0, y: 30 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-  };
 
-  const stagger = {
-    animate: { transition: { staggerChildren: 0.1 } },
-  };
 
   const hoverScale = {
     hover: { scale: 1.02, transition: { duration: 0.2 } },
@@ -106,7 +99,7 @@ export default function HomePage() {
                 </h1>
                 <p className="text-xl text-gray-600 max-w-lg">
                   Connect talented professionals with amazing opportunities. 
-                  Whether you're hiring or looking for your next role.
+                  Whether you re hiring or looking for your next role.
                 </p>
               </div>
               
@@ -322,7 +315,7 @@ export default function HomePage() {
                       ))}
                     </div>
                     <p className="text-gray-700 text-lg mb-6 italic">
-                      "{testimonial.quote}"
+                      {testimonial.quote}
                     </p>
                     <div className="flex items-center">
                       <Image

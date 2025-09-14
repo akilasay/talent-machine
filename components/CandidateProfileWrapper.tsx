@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { getSubjectColor } from '@/lib/utils'
 import CandidateEditForm from './CandidateEditForm'
 import { Button } from '@/components/ui/button'
-import { Edit, X } from 'lucide-react'
+import { Edit } from 'lucide-react'
 
 interface CandidateProfileWrapperProps {
   candidate: any
