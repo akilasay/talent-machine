@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/lib/hooks/useAuth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -62,7 +62,6 @@ export default function EmployerProfileForm() {
     description: '',
     companyBio: ''
   })
-  const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
@@ -160,7 +159,7 @@ export default function EmployerProfileForm() {
     }
   }
 
-  const checkUserPermissions = async () => {
+  const checkUserPermissions = useCallback(async () => {
     if (!user) return
 
     try {
@@ -229,7 +228,7 @@ export default function EmployerProfileForm() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [user, supabase])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -288,9 +287,10 @@ export default function EmployerProfileForm() {
         setMessage('Profile created successfully!')
         setHasProfile(true)
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error saving profile:', err)
-      setError(err.message || 'Error saving profile. Please try again.')
+      const errorMessage = err instanceof Error ? err.message : 'Error saving profile. Please try again.'
+      setError(errorMessage)
     } finally {
       setSaving(false)
     }
@@ -298,7 +298,7 @@ export default function EmployerProfileForm() {
 
   useEffect(() => {
     checkUserPermissions()
-  }, [user])
+  }, [user, checkUserPermissions])
 
   if (isLoading) {
     return (
