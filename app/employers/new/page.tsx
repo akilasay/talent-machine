@@ -2,6 +2,7 @@
 import EmployerProfileForm from "@/components/EmployerProfileForm"
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import Link from 'next/link';
 
 const EmployerNew = async () => {
   const supabase = await createClient();
@@ -33,21 +34,21 @@ const EmployerNew = async () => {
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h2>
               <p className="text-gray-600 mb-6">
-                You're currently signed in as a job seeker. Only employers can create employer profiles.
+                You&apos;re currently signed in as a job seeker. Only employers can create employer profiles.
               </p>
               <div className="space-y-3">
-                <a 
-                  href="/candidates" 
+                <Link 
+                  href="/job-seekers" 
                   className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
                 >
                   Go to Job Seeker Dashboard
-                </a>
-                <a 
+                </Link>
+                <Link 
                   href="/sign-out" 
                   className="block w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
                 >
                   Sign Out & Create Employer Account
-                </a>
+                </Link>
               </div>
             </div>
           </div>

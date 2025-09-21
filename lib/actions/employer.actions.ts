@@ -2,7 +2,6 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 
 export interface EmployerProfileData {
   companyName: string
@@ -112,9 +111,10 @@ export async function saveEmployerProfile(data: EmployerProfileData) {
     revalidatePath('/employers/new')
     
     return { success: true, message: 'Profile saved successfully' }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error saving employer profile:', error)
-    throw new Error(error.message || 'Failed to save profile')
+    const errorMessage = error instanceof Error ? error.message : 'Failed to save profile'
+    throw new Error(errorMessage)
   }
 }
 
@@ -269,9 +269,10 @@ export async function updateEmployerProfile(data: EmployerProfileData) {
     revalidatePath(`/employers/${existingProfile.id}`)
     
     return { success: true, message: 'Profile updated successfully' }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating employer profile:', error)
-    throw new Error(error.message || 'Failed to update profile')
+    const errorMessage = error instanceof Error ? error.message : 'Failed to update profile'
+    throw new Error(errorMessage)
   }
 }
 

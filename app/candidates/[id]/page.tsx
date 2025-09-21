@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { getCandidateByIdFromDB } from '@/lib/actions/companion.actions';
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import Link from 'next/link';
 import CandidateProfileWrapper from '@/components/CandidateProfileWrapper';
 
 interface CandidateProfilePageProps {
@@ -63,18 +64,18 @@ export default async function CandidateProfilePage({ params, searchParams }: Can
                 As a job seeker, you can see profile cards in search results, but to view full candidate profiles, you need to sign in as an employer.
               </p>
               <div className="space-y-3">
-                <a 
+                <Link 
                   href="/sign-out" 
                   className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
                 >
                   Sign Out & Create Employer Account
-                </a>
-                <a 
+                </Link>
+                <Link 
                   href="/job-seekers" 
                   className="block w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
                 >
                   Go to Job Seeker Dashboard
-                </a>
+                </Link>
               </div>
               <div className="mt-6 p-4 bg-blue-50 rounded-xl">
                 <p className="text-sm text-blue-800">
@@ -101,18 +102,18 @@ export default async function CandidateProfilePage({ params, searchParams }: Can
                 Only employers can view full candidate profiles. Please sign in as an employer to access this feature.
               </p>
               <div className="space-y-3">
-                <a 
+                <Link 
                   href="/employers/sign-up" 
                   className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
                 >
                   Create Employer Account
-                </a>
-                <a 
+                </Link>
+                <Link 
                   href="/job-seekers" 
                   className="block w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
                 >
                   Go to Job Seeker Dashboard
-                </a>
+                </Link>
               </div>
             </div>
           </div>

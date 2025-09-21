@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Users, Building2 } from 'lucide-react'
+import { Users } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function EmployerSignUpPage() {
@@ -27,7 +27,7 @@ export default async function EmployerSignUpPage() {
               <Users className="h-12 w-12 text-blue-500 mx-auto mb-4" />
               <h2 className="text-xl font-semibold text-gray-900 mb-2">Access Denied</h2>
               <p className="text-gray-600 mb-4">
-                You're already signed in as a job seeker. To create an employer account, please sign out first.
+                You&apos;re already signed in as a job seeker. To create an employer account, please sign out first.
               </p>
               <div className="space-y-3">
                 <Link href="/job-seekers">

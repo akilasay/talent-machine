@@ -1,6 +1,7 @@
 
 import { Instagram, FacebookIcon , Linkedin } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -89,9 +90,9 @@ const Footer = () => {
                       <span className="text-base leading-5">Job Seekers</span>
                     </a>
                     <br />
-                    <a className="" href="/employers">
+                    <Link className="" href="/employers">
                       <span className="text-base leading-5">Employers</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
 

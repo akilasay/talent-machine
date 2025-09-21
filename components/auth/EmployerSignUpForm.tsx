@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Eye, EyeOff, Shield, Building2 } from 'lucide-react'
+import Link from 'next/link'
 
 interface EmployerSignUpFormProps {
   onSuccess?: () => void
@@ -449,9 +450,9 @@ export default function EmployerSignUpForm({ onSuccess }: EmployerSignUpFormProp
 
           <p className="mt-4 text-center text-sm text-gray-600">
             Already have an account?{' '}
-            <a href="/sign-in" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link href="/sign-in" className="font-medium text-blue-600 hover:text-blue-500">
               Sign in here
-            </a>
+            </Link>
           </p>
         </CardContent>
       </Card>

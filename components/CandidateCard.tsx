@@ -19,14 +19,12 @@ interface CandidateCardProps {
 const CandidateCard = ({ id, job, topic, education, experience, color }: CandidateCardProps) => {
   const { user } = useAuth();
   const [userType, setUserType] = useState<'candidate' | 'employer' | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Check user type
   useEffect(() => {
     const checkUserType = async () => {
       if (!user) {
         setUserType(null);
-        setIsLoading(false);
         return;
       }
 
@@ -42,8 +40,6 @@ const CandidateCard = ({ id, job, topic, education, experience, color }: Candida
       } catch (error) {
         console.error('Error checking user type:', error);
         setUserType(null);
-      } finally {
-        setIsLoading(false);
       }
     };
 

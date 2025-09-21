@@ -231,7 +231,7 @@ export default function EmployerProfilePage() {
             <Users className="h-12 w-12 text-blue-500 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-gray-900 mb-2">Access Denied</h2>
             <p className="text-gray-600 mb-4">
-              This page is for employers only. You're currently signed in as a job seeker.
+              This page is for employers only. You&apos;re currently signed in as a job seeker.
             </p>
             <div className="space-y-3">
               <Link href="/candidates">
@@ -263,7 +263,7 @@ export default function EmployerProfilePage() {
               Please check your email and click the verification link to access your employer dashboard.
             </p>
             <p className="text-sm text-gray-500">
-              Didn't receive the email? Check your spam folder or contact support.
+              Didn&apos;t receive the email? Check your spam folder or contact support.
             </p>
           </CardContent>
         </Card>

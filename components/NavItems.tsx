@@ -48,14 +48,12 @@ const NavItems = (props: { onItemClick?: () => void } = {}) => {
     const pathname = usePathname();
     const { user } = useAuth();
     const [userType, setUserType] = useState<'candidate' | 'employer' | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
 
     // Check user type
     useEffect(() => {
         const checkUserType = async () => {
             if (!user) {
                 setUserType(null);
-                setIsLoading(false);
                 return;
             }
 
@@ -71,8 +69,6 @@ const NavItems = (props: { onItemClick?: () => void } = {}) => {
             } catch (error) {
                 console.error('Error checking user type:', error);
                 setUserType(null);
-            } finally {
-                setIsLoading(false);
             }
         };
 
@@ -86,7 +82,7 @@ const NavItems = (props: { onItemClick?: () => void } = {}) => {
         }
 
         const currentUserType = user ? userType : 'not_logged_in';
-        return item.showForUserTypes.includes(currentUserType as any);
+        return item.showForUserTypes.includes(currentUserType as 'candidate' | 'employer' | 'not_logged_in');
     });
 
     return (
