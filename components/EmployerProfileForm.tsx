@@ -228,7 +228,7 @@ export default function EmployerProfileForm() {
     } finally {
       setIsLoading(false)
     }
-  }, [user, supabase])
+  }, [user, supabase, getUserType])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
