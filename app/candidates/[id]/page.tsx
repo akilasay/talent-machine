@@ -23,8 +23,6 @@ export default async function CandidateProfilePage({ params, searchParams }: Can
     redirect(`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`);
   }
 
-  //TODO --> check user has subcription to seee the details -After Payment feature
-
   const candidate = await getCandidateByIdFromDB(id);
 
   if (!candidate) {
@@ -34,9 +32,96 @@ export default async function CandidateProfilePage({ params, searchParams }: Can
   // Check if the current user is the owner of this candidate profile
   const isOwner = user.id === candidate.author;
 
+  // Get user type to determine access level
+  const { data: userProfile } = await supabase
+    .from('user_profiles')
+    .select('user_type')
+    .eq('user_id', user.id)
+    .single();
+
+  const userType = userProfile?.user_type;
+
   // Check if we should start in edit mode
   const shouldStartEditing = edit === 'true' && isOwner;
 
+  // Access control logic
+  if (!isOwner) {
+    // If user is not the owner, check if they have permission to view
+    if (userType === 'candidate') {
+      // Job seekers cannot view other job seekers' full profiles
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+          <div className="w-full max-w-md">
+            <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Premium Access Required</h2>
+              <p className="text-gray-600 mb-6">
+                As a job seeker, you can see profile cards in search results, but to view full candidate profiles, you need to sign in as an employer.
+              </p>
+              <div className="space-y-3">
+                <a 
+                  href="/sign-out" 
+                  className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
+                >
+                  Sign Out & Create Employer Account
+                </a>
+                <a 
+                  href="/job-seekers" 
+                  className="block w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
+                >
+                  Go to Job Seeker Dashboard
+                </a>
+              </div>
+              <div className="mt-6 p-4 bg-blue-50 rounded-xl">
+                <p className="text-sm text-blue-800">
+                  <strong>Tip:</strong> Employers can view full candidate profiles to find the best talent for their companies.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else if (userType !== 'employer') {
+      // If user type is not employer, they cannot view full profiles
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+          <div className="w-full max-w-md">
+            <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Restricted</h2>
+              <p className="text-gray-600 mb-6">
+                Only employers can view full candidate profiles. Please sign in as an employer to access this feature.
+              </p>
+              <div className="space-y-3">
+                <a 
+                  href="/employers/sign-up" 
+                  className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
+                >
+                  Create Employer Account
+                </a>
+                <a 
+                  href="/job-seekers" 
+                  className="block w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
+                >
+                  Go to Job Seeker Dashboard
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  // If user is owner or has employer access, show the profile
   return (
     <CandidateProfileWrapper 
       candidate={candidate} 

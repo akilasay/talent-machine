@@ -39,6 +39,7 @@ export async function updateSession(request: NextRequest) {
   const protectedRoutes = [
     '/candidates/new',
     '/employers/new', 
+    '/employers/sign-up',
     '/companions/new',
     '/candidates/[id]',
     '/companions/[id]'

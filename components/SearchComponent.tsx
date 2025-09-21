@@ -66,7 +66,7 @@ export default function SearchComponent() {
       <div className="rounded-lg bg-white dark:bg-gray-800 p-2.5 shadow-lg">
         <div className="rounded border border-dashed border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 p-12 max-md:p-5">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
-            
+            {/* Radio Group for Search Options */}
             {/* <div className="col-span-12">
               <RadioGroup
                 value={searchType}

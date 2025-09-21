@@ -1,11 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import { motion } from 'framer-motion';
 import { Home, Users, Briefcase, UserCheck, Building2 } from 'lucide-react';
+import { useAuth } from '@/lib/hooks/useAuth';
+import { createClient } from '@/lib/supabase/client';
 
 const navItems = [
     { 
@@ -36,17 +38,60 @@ const navItems = [
         label: 'Employers', 
         href: '/employers', 
         icon: Building2,
-        description: 'Post jobs and find talent'
+        description: 'Post jobs and find talent',
+        showForUserTypes: ['not_logged_in', 'employer'] // Show for not logged in users and employers only
     },
 ]
 
 const NavItems = (props: { onItemClick?: () => void } = {}) => {
     const { onItemClick } = props;
     const pathname = usePathname();
+    const { user } = useAuth();
+    const [userType, setUserType] = useState<'candidate' | 'employer' | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Check user type
+    useEffect(() => {
+        const checkUserType = async () => {
+            if (!user) {
+                setUserType(null);
+                setIsLoading(false);
+                return;
+            }
+
+            try {
+                const supabase = createClient();
+                const { data: userProfile } = await supabase
+                    .from('user_profiles')
+                    .select('user_type')
+                    .eq('user_id', user.id)
+                    .single();
+
+                setUserType(userProfile?.user_type || null);
+            } catch (error) {
+                console.error('Error checking user type:', error);
+                setUserType(null);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        checkUserType();
+    }, [user]);
+
+    // Filter navigation items based on user type
+    const filteredNavItems = navItems.filter(item => {
+        if (!item.showForUserTypes) {
+            return true; // Show all items that don't have restrictions
+        }
+
+        const currentUserType = user ? userType : 'not_logged_in';
+        return item.showForUserTypes.includes(currentUserType as any);
+    });
 
     return (
         <nav className="flex items-center gap-1 md:flex-row flex-col w-full md:w-auto">
-            {navItems.map(({ label, href, icon: Icon, description }) => {
+            {filteredNavItems.map(({ label, href, icon: Icon, description }) => {
                 const isActive = pathname === href;
                 
                 return (

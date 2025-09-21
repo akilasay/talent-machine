@@ -17,28 +17,63 @@ export default function Navbar() {
   const [userCandidateProfile, setUserCandidateProfile] = useState<{
     id: string;
   } | null>(null);
+  const [userEmployerProfile, setUserEmployerProfile] = useState<{
+    id: string;
+  } | null>(null);
+  const [userType, setUserType] = useState<'candidate' | 'employer' | null>(null);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const { user, signOut } = useAuth();
   const router = useRouter();
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  // Fetch user's candidate profile
+  // Fetch user's profile and determine user type
   useEffect(() => {
     const fetchUserProfile = async () => {
-      if (!user) return;
+      if (!user) {
+        setUserCandidateProfile(null);
+        setUserEmployerProfile(null);
+        setUserType(null);
+        setIsLoadingProfile(false);
+        return;
+      }
       
       setIsLoadingProfile(true);
       try {
         const supabase = createClient();
-        const { data, error } = await supabase
-          .from('candidates')
-          .select('id')
-          .eq('author', user.id)
+        
+        // First, get user type from user_profiles table
+        const { data: userProfile } = await supabase
+          .from('user_profiles')
+          .select('user_type')
+          .eq('user_id', user.id)
           .single();
 
-        if (data && !error) {
-          setUserCandidateProfile(data);
+        if (userProfile) {
+          setUserType(userProfile.user_type);
+          
+          // Fetch the appropriate profile based on user type
+          if (userProfile.user_type === 'candidate') {
+            const { data: candidateData } = await supabase
+              .from('candidates')
+              .select('id')
+              .eq('author', user.id)
+              .single();
+            
+            if (candidateData) {
+              setUserCandidateProfile(candidateData);
+            }
+          } else if (userProfile.user_type === 'employer') {
+            const { data: employerData } = await supabase
+              .from('employers')
+              .select('id')
+              .eq('user_id', user.id)
+              .single();
+            
+            if (employerData) {
+              setUserEmployerProfile(employerData);
+            }
+          }
         }
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -51,12 +86,21 @@ export default function Navbar() {
   }, [user]);
 
   const handleProfileClick = () => {
-    if (userCandidateProfile) {
+    if (userType === 'candidate' && userCandidateProfile) {
       // User has a candidate profile, redirect to their profile page
       router.push(`/candidates/${userCandidateProfile.id}`);
-    } else {
-      // User doesn't have a profile, redirect to create one
+    } else if (userType === 'employer' && userEmployerProfile) {
+      // User has an employer profile, redirect to their profile page
+      router.push(`/employers/${userEmployerProfile.id}`);
+    } else if (userType === 'candidate') {
+      // User is candidate but doesn't have a profile, redirect to create one
       router.push('/candidates/new');
+    } else if (userType === 'employer') {
+      // User is employer but doesn't have a profile, redirect to create one
+      router.push('/employers/new');
+    } else {
+      // User doesn't have a profile type, redirect to sign up
+      router.push('/sign-up');
     }
     setShowUserMenu(false);
   };
@@ -219,7 +263,8 @@ export default function Navbar() {
                           >
                             <User className="w-4 h-4 text-gray-500" />
                             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                              {isLoadingProfile ? 'Loading...' : 'My Profile'}
+                              {isLoadingProfile ? 'Loading...' : 
+                               userType === 'employer' ? 'My Company Profile' : 'My Profile'}
                             </span>
                           </button>
                           <div className="border-t border-gray-100 dark:border-gray-700 my-2"></div>
@@ -326,7 +371,8 @@ export default function Navbar() {
                     >
                       <User className="w-4 h-4" />
                       <span className="text-sm font-medium">
-                        {isLoadingProfile ? 'Loading...' : 'My Profile'}
+                        {isLoadingProfile ? 'Loading...' : 
+                         userType === 'employer' ? 'My Company Profile' : 'My Profile'}
                       </span>
                     </button>
                   </motion.div>
