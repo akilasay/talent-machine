@@ -141,15 +141,15 @@ export default function EmployerEditForm({ employer, onCancel, onSuccess }: Empl
         const updatedEmployer = {
           ...employer,
           company_name: values.companyName,
-          industry: values.industry || null,
-          company_size: values.companySize || null,
-          website: values.website || null,
+          industry: values.industry || undefined,
+          company_size: values.companySize || undefined,
+          website: values.website || undefined,
           contact_person: values.contactPerson,
           email: values.email,
-          phone: values.phone || null,
-          location: values.location || null,
-          description: values.description || null,
-          company_bio: values.companyBio || null,
+          phone: values.phone || undefined,
+          location: values.location || undefined,
+          description: values.description || undefined,
+          company_bio: values.companyBio || undefined,
           updated_at: new Date().toISOString(),
         }
         
@@ -403,3 +403,7 @@ export default function EmployerEditForm({ employer, onCancel, onSuccess }: Empl
     </div>
   )
 }
+
+
+
+
