@@ -18,6 +18,7 @@ export interface EmployerProfileData {
 
 export interface EmployerProfile {
   id: string
+  user_id: string
   company_name: string
   industry?: string
   company_size?: string
