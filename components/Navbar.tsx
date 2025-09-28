@@ -25,24 +25,40 @@ export default function Navbar() {
   const { user, signOut } = useAuth();
   const router = useRouter();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleMobileMenu = (event?: React.MouseEvent) => {
+    if (event) {
+      event.stopPropagation();
+    }
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (
+        mobileMenuRef.current && 
+        !mobileMenuRef.current.contains(target) &&
+        toggleButtonRef.current &&
+        !toggleButtonRef.current.contains(target)
+      ) {
         setIsMobileMenuOpen(false);
       }
     };
 
     if (isMobileMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
+      // Use a small delay to ensure the button click is processed first
+      const timeoutId = setTimeout(() => {
+        document.addEventListener('click', handleClickOutside);
+      }, 100);
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+      return () => {
+        clearTimeout(timeoutId);
+        document.removeEventListener('click', handleClickOutside);
+      };
+    }
   }, [isMobileMenuOpen]);
 
   // Fetch user's profile and determine user type
@@ -312,6 +328,7 @@ export default function Navbar() {
             whileTap={{ scale: 0.95 }}
           >
             <Button
+              ref={toggleButtonRef}
               variant="ghost"
               size="icon"
               onClick={toggleMobileMenu}
