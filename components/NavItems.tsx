@@ -97,9 +97,12 @@ const NavItems = (props: { onItemClick?: () => void } = {}) => {
                         whileTap={{ scale: 0.95 }}
                         className="relative group w-full md:w-auto"
                     >
-                        <Link href={href} className="w-full">
+                        <Link 
+                            href={href} 
+                            className="w-full"
+                            onClick={onItemClick}
+                        >
                             <motion.button
-                                onClick={onItemClick}
                                 className={cn(
                                     "relative px-4 py-3 md:py-2.5 rounded-xl font-medium text-sm transition-all duration-300 ease-out",
                                     "flex items-center gap-3 md:gap-2 group-hover:gap-3 w-full md:w-auto",
@@ -107,6 +110,7 @@ const NavItems = (props: { onItemClick?: () => void } = {}) => {
                                     "hover:bg-blue-50 dark:hover:bg-blue-950/30",
                                     "hover:shadow-md hover:shadow-blue-100/50 dark:hover:shadow-blue-900/20",
                                     "justify-start md:justify-center",
+                                    "touch-manipulation", // Improves touch responsiveness
                                     isActive && [
                                         "text-blue-600 dark:text-blue-400",
                                         "bg-blue-50 dark:bg-blue-950/30",

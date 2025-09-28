@@ -136,11 +136,11 @@ export default function CandidateSearchFilters() {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-600 p-6 mb-8">
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        {/* <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           Find Your Perfect Candidate
-        </h2>
+        </h2> */}
         <p className="text-gray-600 dark:text-gray-300 text-sm">
-          Use the filters below to find candidates by skills, education, and experience
+        <i>Use the filters below to find candidates by skills, job title education, and experience</i>
         </p>
       </div>
 
@@ -152,7 +152,7 @@ export default function CandidateSearchFilters() {
           </Label>
           <Input
             id="skills"
-            placeholder="e.g., React, Python, Marketing"
+            placeholder="e.g., QuickBooks, Excel, Marketing"
             value={skills}
             onChange={(e) => setSkills(e.target.value)}
             className="w-full"

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogOut, User } from 'lucide-react';
@@ -24,8 +24,26 @@ export default function Navbar() {
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const { user, signOut } = useAuth();
   const router = useRouter();
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   // Fetch user's profile and determine user type
   useEffect(() => {
@@ -119,12 +137,14 @@ export default function Navbar() {
   const mobileMenuVariants = {
     closed: { 
       opacity: 0, 
-      height: 0, 
+      height: 0,
+      y: -20,
       transition: { duration: 0.3, ease: 'easeInOut' } 
     },
     open: { 
       opacity: 1, 
-      height: 'auto', 
+      height: 'auto',
+      y: 0,
       transition: { duration: 0.3, ease: 'easeInOut' } 
     },
   };
@@ -310,12 +330,16 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      <motion.div
-        className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50"
-        initial="closed"
-        animate={isMobileMenuOpen ? 'open' : 'closed'}
-        variants={mobileMenuVariants}
-      >
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            ref={mobileMenuRef}
+            className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50"
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={mobileMenuVariants}
+          >
         <div className="flex flex-col gap-4 py-4 px-4">
           {/* Mobile Navigation Items */}
           <div className="flex flex-col gap-2">
@@ -396,7 +420,9 @@ export default function Navbar() {
             )}
           </div>
         </div>
-      </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }
