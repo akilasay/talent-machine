@@ -44,3 +44,7 @@ export default async function EmployerProfilePage({ params, searchParams }: Empl
     />
   );
 }
+
+
+
+
