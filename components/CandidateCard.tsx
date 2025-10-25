@@ -21,7 +21,7 @@ interface CandidateCardProps {
   cv_uploaded_at?: string;
 }
 
-const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, cv_filename, cv_file_size, cv_uploaded_at, ...props }: CandidateCardProps) => {
+const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, cv_file_size }: CandidateCardProps) => {
   const { user } = useAuth();
   const [userType, setUserType] = useState<'candidate' | 'employer' | null>(null);
 
