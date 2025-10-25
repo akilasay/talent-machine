@@ -36,6 +36,11 @@ interface CreateCandidates {
   experience: number;
   academicQualifications: string;
   professionalQualifications: string;
+  // File upload fields
+  cvUrl?: string | null;
+  cvFilename?: string | null;
+  cvFileSize?: number | null;
+  cvUploadedAt?: string | null;
   author?: string;
 }
 

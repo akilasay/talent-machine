@@ -22,6 +22,11 @@ interface CandidateProfileWrapperProps {
     academic_qualifications?: string;
     professionalQualifications: string;
     professional_qualifications?: string;
+    // CV fields
+    cv_url?: string;
+    cv_filename?: string;
+    cv_file_size?: number;
+    cv_uploaded_at?: string;
   }
   isOwner: boolean
   initialEditMode?: boolean
@@ -279,6 +284,64 @@ export default function CandidateProfileWrapper({ candidate, isOwner, initialEdi
                 ))}
               </div>
             </div>
+
+            {/* CV Section */}
+            {currentCandidate.cv_url && (
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-green-600 font-bold text-sm sm:text-base">📄</span>
+                  </div>
+                  <span className="truncate">CV / Resume</span>
+                </h2>
+                <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-4 sm:p-6 border border-green-200">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span className="text-green-600 font-bold text-base sm:text-lg">📄</span>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-semibold text-gray-900 text-base sm:text-lg truncate">
+                          {currentCandidate.cv_filename || 'CV Document'}
+                        </h3>
+                        <p className="text-gray-600 text-xs sm:text-sm">
+                          {currentCandidate.cv_file_size ? `${(currentCandidate.cv_file_size / 1024 / 1024).toFixed(1)} MB` : 'File size not available'}
+                          {currentCandidate.cv_uploaded_at && (
+                            <span className="ml-1 sm:ml-2">
+                              • Uploaded {new Date(currentCandidate.cv_uploaded_at).toLocaleDateString()}
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
+                      <Button
+                        onClick={() => window.open(currentCandidate.cv_url, '_blank')}
+                        className="bg-green-600 hover:bg-green-700 text-white rounded-xl px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1 sm:gap-2 w-full sm:w-auto"
+                      >
+                        <span className="text-sm sm:text-base">👁️</span>
+                        <span className="hidden sm:inline">View CV</span>
+                        <span className="sm:hidden">View</span>
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          const link = document.createElement('a');
+                          link.href = currentCandidate.cv_url!;
+                          link.download = currentCandidate.cv_filename || 'CV.pdf';
+                          link.click();
+                        }}
+                        variant="outline"
+                        className="border-green-300 text-green-600 hover:bg-green-50 rounded-xl px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1 sm:gap-2 w-full sm:w-auto"
+                      >
+                        <span className="text-sm sm:text-base">⬇️</span>
+                        <span className="hidden sm:inline">Download</span>
+                        <span className="sm:hidden">Download</span>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Right Column - Sidebar */}

@@ -14,9 +14,14 @@ interface CandidateCardProps {
   education: string;
   experience: number;
   color: string;
+  // CV fields
+  cv_url?: string;
+  cv_filename?: string;
+  cv_file_size?: number;
+  cv_uploaded_at?: string;
 }
 
-const CandidateCard = ({ id, job, topic, education, experience, color }: CandidateCardProps) => {
+const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, cv_filename, cv_file_size, cv_uploaded_at, ...props }: CandidateCardProps) => {
   const { user } = useAuth();
   const [userType, setUserType] = useState<'candidate' | 'employer' | null>(null);
 
@@ -113,6 +118,23 @@ const CandidateCard = ({ id, job, topic, education, experience, color }: Candida
           <span className="font-medium">Experience:</span> {experience} years
         </p>
       </div>
+
+      {/* CV Availability */}
+      {cv_url && (
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-green-100 rounded-full flex items-center justify-center">
+            <span className="text-green-600 text-xs">📄</span>
+          </div>
+          <p className="text-sm text-green-600 dark:text-green-400 font-medium">
+            CV Available
+          </p>
+          {cv_file_size && (
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              ({(cv_file_size / 1024 / 1024).toFixed(1)} MB)
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Access Control for Profile Button */}
       {canViewFullProfile ? (

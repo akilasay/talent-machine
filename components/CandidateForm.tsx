@@ -261,6 +261,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { jobs } from "@/constants"
 import { createCandidate } from "@/lib/actions/companion.actions"
 import { useRouter } from "next/navigation"
+import FileUpload from "@/components/FileUpload"
 
 const formSchema = z.object({
   fistName: z.string().min(1, { message: "First Name is required." }),
@@ -277,6 +278,7 @@ const formSchema = z.object({
 const CandidateForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState("")
+  const [cvFile, setCvFile] = useState<{url: string, filename: string, fileSize: number} | null>(null)
   const router = useRouter()
   
   const form = useForm<z.infer<typeof formSchema>>({
@@ -300,7 +302,17 @@ const CandidateForm = () => {
     
     try {
       console.log("Submitting candidate data:", values)
-      const candidate = await createCandidate(values)
+      
+      // Include file information in the candidate data
+      const candidateData = {
+        ...values,
+        cvUrl: cvFile?.url || null,
+        cvFilename: cvFile?.filename || null,
+        cvFileSize: cvFile?.fileSize || null,
+        cvUploadedAt: cvFile ? new Date().toISOString() : null,
+      }
+      
+      const candidate = await createCandidate(candidateData)
       
       if (candidate) {
         console.log("Candidate created successfully:", candidate)
@@ -482,6 +494,20 @@ const CandidateForm = () => {
             </FormItem>
           )}
         />
+
+        {/* CV Upload */}
+        <div className="space-y-2">
+          <FileUpload
+            onFileUploaded={(url, filename, fileSize) => 
+              setCvFile({ url, filename, fileSize })
+            }
+            onFileRemoved={() => setCvFile(null)}
+            currentFile={cvFile || undefined}
+            fileType="cv"
+            maxSizeMB={10}
+            acceptedTypes={[".pdf", ".doc", ".docx"]}
+          />
+        </div>
 
         {submitError && (
           <div className="p-3 bg-red-50 text-red-800 border border-red-200 rounded-md text-sm">

@@ -182,7 +182,7 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      className="fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 shadow-lg shadow-gray-100/50 dark:shadow-gray-900/50"
+      className="fixed top-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-gray-100/60 dark:shadow-gray-900/60"
       initial="initial"
       animate="animate"
       variants={navVariants}
@@ -196,15 +196,18 @@ export default function Navbar() {
           <Link href="/">
             <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group">
               <div className="relative">
-                <Image
-                  src="/images/logo2.png"
-                  alt="logo"
-                  width={36}
-                  height={36}
-                  className="sm:w-[45px] sm:h-[45px] transition-all duration-300 group-hover:scale-110"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                {/* Dark background container for logo visibility */}
+                <div className="bg-blue-950 dark:bg-gray-100 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 border border-blue-900 dark:border-gray-300 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center">
+                  <Image
+                    src="/images/logo2.png"
+                    alt="logo"
+                    width={48}
+                    height={48}
+                    className="w-10 h-10 sm:w-12 sm:h-12"
+                    priority
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
               <div className="hidden xs:block">
                 <h1 className="text-base sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight">

@@ -46,6 +46,11 @@ export const createCandidate = async (formData: CreateCandidates) => {
         experience: formData.experience,
         academic_qualifications: formData.academicQualifications,
         professional_qualifications: formData.professionalQualifications,
+        // File upload fields
+        cv_url: formData.cvUrl || null,
+        cv_filename: formData.cvFilename || null,
+        cv_file_size: formData.cvFileSize || null,
+        cv_uploaded_at: formData.cvUploadedAt || null,
         author: author // This should be the UUID from auth.users
     };
 
@@ -109,6 +114,11 @@ export const updateCandidate = async (candidateId: string, formData: CreateCandi
         experience: formData.experience,
         academic_qualifications: formData.academicQualifications,
         professional_qualifications: formData.professionalQualifications,
+        // File upload fields
+        cv_url: formData.cvUrl || null,
+        cv_filename: formData.cvFilename || null,
+        cv_file_size: formData.cvFileSize || null,
+        cv_uploaded_at: formData.cvUploadedAt || null,
         author: author // This should be the UUID from auth.users
     };
 
@@ -303,6 +313,11 @@ export interface Candidate {
   gender: string;
   education: string;
   experience: number;
+  // CV fields
+  cv_url?: string;
+  cv_filename?: string;
+  cv_file_size?: number;
+  cv_uploaded_at?: string;
 }
 
 export const getAllCandidates = async ({ limit = 10, page = 1, job, topic }: GetAllCandidates) => {
