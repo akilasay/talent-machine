@@ -116,7 +116,7 @@ const Footer = () => {
 
           {/* Footer Bottom */}
           <p className="mt-12 ml-5 text-xs lg:text-base text-white max-md:mt-10 max-md:max-w-full">
-            © 2025 JobGlobal Limited. All Rights Reserved
+            © 2025 NextGen Talent Machine Limited. All Rights Reserved
           </p>
         </section>
       </div>
