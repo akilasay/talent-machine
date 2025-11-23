@@ -12,80 +12,60 @@ import {
   Building2
 } from 'lucide-react';
 
-// Mock job data
+// Mock job data - Jobs from job posters
 const mockJobs = [
+  // From English Training Center Poster (Keystone)
   {
     id: 1,
-    title: 'English teachers',
+    title: 'English Teachers',
     company: 'Keystone',
-    location: 'Colombo',
+    location: 'Galle',
     type: 'Full time',
-    posted: '1 day ago',
-    sector: 'Sales',
+    posted: '3 days ago',
+    sector: 'Education',
     logo: '/images/company1.png',
   },
   {
     id: 2,
-    title: 'Sales Executive',
-    company: 'Tech Corp',
-    location: 'Colombo',
+    title: 'Trainee Teachers',
+    company: 'Keystone',
+    location: 'Galle',
     type: 'Full time',
-    posted: '1 day ago',
-    sector: null,
+    posted: '3 days ago',
+    sector: 'Education',
     logo: '/images/company1.png',
   },
   {
     id: 3,
-    title: 'Marketing Executive – Commodity',
-    company: 'HeadmastersHR',
-    location: 'Colombo',
+    title: 'Coordinators',
+    company: 'Keystone',
+    location: 'Galle',
     type: 'Full time',
-    posted: '2 days ago',
-    sector: 'Marketing',
-    logo: '/images/company2.png',
+    posted: '3 days ago',
+    sector: 'Education',
+    logo: '/images/company1.png',
   },
+  // From Accounting Positions Poster
   {
     id: 4,
-    title: 'Assistant Manager Student Enrollment',
-    company: 'HeadmastersHR',
+    title: 'Assistant Accountant',
+    company: 'Finance Solutions',
     location: 'Colombo',
     type: 'Full time',
     posted: '2 days ago',
-    sector: 'Education',
+    sector: 'Accounting',
     logo: '/images/company2.png',
   },
   {
     id: 5,
-    title: 'Sales Manager – IT Hardware',
-    company: 'HeadmastersHR',
+    title: 'Accounts Executives',
+    company: 'Finance Solutions',
     location: 'Colombo',
     type: 'Full time',
     posted: '2 days ago',
-    sector: 'Sales',
+    sector: 'Accounting',
     logo: '/images/company2.png',
   },
-  {
-    id: 6,
-    title: 'Early Childhood Educator',
-    company: 'HeadmastersHR',
-    location: 'Colombo',
-    type: 'Full time',
-    posted: '3 days ago',
-    sector: 'Education',
-    logo: '/images/company2.png',
-  },
-];
-
-const sectors = [
-  { value: 'all', label: 'All' },
-  { value: 'hse', label: '(HSE)' },
-  { value: 'accounting', label: 'Accounting and Auditing' },
-  { value: 'marketing', label: 'Marketing' },
-  { value: 'sales', label: 'Sales' },
-  { value: 'education', label: 'Education' },
-  { value: 'technology', label: 'Technology' },
-  { value: 'healthcare', label: 'Healthcare' },
-  { value: 'finance', label: 'Banking and Finance' },
 ];
 
 export default function JobsListingPage() {
@@ -189,53 +169,52 @@ export default function JobsListingPage() {
                 whileHover={{ scale: 1.02 }}
                 className="group"
               >
-                <Card className="h-full border border-gray-200 hover:border-blue-600 hover:shadow-lg transition-all duration-300">
-                  <CardContent className="p-6">
-                    <div className="flex gap-4">
-                      {/* Company Logo/Image */}
-                      <div className="flex-shrink-0">
-                        {job.logo ? (
-                          <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
-                            <Image
-                              src={job.logo}
-                              alt={job.company}
-                              width={80}
-                              height={80}
-                              className="object-contain"
-                            />
+                <Link href="/jobs">
+                  <Card className="h-full border border-gray-200 hover:border-blue-600 hover:shadow-lg transition-all duration-300 cursor-pointer">
+                    <CardContent className="p-6">
+                      <div className="flex gap-4">
+                        {/* Company Logo/Image */}
+                        <div className="flex-shrink-0">
+                          {job.logo ? (
+                            <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
+                              <Image
+                                src={job.logo}
+                                alt={job.company}
+                                width={80}
+                                height={80}
+                                className="object-contain"
+                              />
+                            </div>
+                          ) : (
+                            <div className="w-20 h-20 bg-gray-200 rounded-lg flex flex-col items-center justify-center text-gray-400 text-xs text-center p-2">
+                              <Building2 className="h-8 w-8 mb-1" />
+                              <span>NO IMAGE AVAILABLE</span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <h3 className="text-xl font-semibold text-blue-950 group-hover:text-blue-600 transition-colors block">
+                                {job.title}
+                              </h3>
+                              <p className="text-gray-600 text-sm mt-1">Published {job.posted}</p>
+                            </div>
                           </div>
-                        ) : (
-                          <div className="w-20 h-20 bg-gray-200 rounded-lg flex flex-col items-center justify-center text-gray-400 text-xs text-center p-2">
-                            <Building2 className="h-8 w-8 mb-1" />
-                            <span>NO IMAGE AVAILABLE</span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <Link
-                              href={`/jobs/${job.id}`}
-                              className="text-xl font-semibold text-blue-950 hover:text-blue-600 transition-colors block"
-                            >
-                              {job.title}
-                            </Link>
-                            <p className="text-gray-600 text-sm mt-1">Published {job.posted}</p>
+                          <div className="flex items-center gap-4 mt-4">
+                            <span className="flex items-center gap-1 text-sm text-gray-600">
+                              <MapPin className="h-4 w-4 text-blue-600" />
+                              {job.location}
+                            </span>
+                            <span className="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded ml-auto">
+                              {job.type.toUpperCase()}
+                            </span>
                           </div>
                         </div>
-                        <div className="flex items-center gap-4 mt-4">
-                          <span className="flex items-center gap-1 text-sm text-gray-600">
-                            <MapPin className="h-4 w-4 text-blue-600" />
-                            {job.location}
-                          </span>
-                          <span className="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded ml-auto">
-                            {job.type.toUpperCase()}
-                          </span>
-                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </Link>
               </motion.div>
             ))}
           </div>
