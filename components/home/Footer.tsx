@@ -63,17 +63,17 @@ const Footer = () => {
                   <div className="text-lg text-white max-md:mt-10">
                     <span className="text-2xl font-bold text-indigo-50">Company</span>
                     <br />
-                    <a className="" href="/aboutus">
+                    <Link className="" href="/aboutus">
                       <span className="text-base leading-5">About Us</span>
-                    </a>
+                    </Link>
                     <br />
-                    <a className="" href="/contactus">
+                    <Link className="" href="/contactus">
                       <span className="text-base leading-5">Contact Us</span>
-                    </a>
+                    </Link>
                     <br />
-                    <a className="" href="/faq">
+                    <Link className="" href="/faq">
                       <span className="text-base leading-5">FAQ</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
@@ -82,13 +82,13 @@ const Footer = () => {
                   <div className="text-lg text-white max-md:mt-10">
                     <span className="text-2xl font-bold text-indigo-50">Our Services</span>
                     <br />
-                    <a className="" href="/candidates">
+                    <Link className="" href="/candidates">
                       <span className="text-base leading-5">Find Talents</span>
-                    </a>
+                    </Link>
                     <br />
-                    <a className="" href="/job-seekers">
+                    <Link className="" href="/job-seekers">
                       <span className="text-base leading-5">Job Seekers</span>
-                    </a>
+                    </Link>
                     <br />
                     <Link className="" href="/employers">
                       <span className="text-base leading-5">Employers</span>
@@ -101,13 +101,13 @@ const Footer = () => {
                   <div className="text-lg text-white max-md:mt-10">
                     <span className="text-2xl font-bold text-indigo-50">Legal</span>
                     <br />
-                    <a className="" href="/terms">
+                    <Link className="" href="/terms">
                       <span className="text-base leading-5">Terms of Service</span>
-                    </a>
+                    </Link>
                     <br />
-                    <a className="" href="/privacy-policy">
+                    <Link className="" href="/privacy-policy">
                       <span className="text-base leading-5">Privacy Policy</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
