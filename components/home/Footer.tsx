@@ -82,11 +82,11 @@ const Footer = () => {
                   <div className="text-lg text-white max-md:mt-10">
                     <span className="text-2xl font-bold text-indigo-50">Our Services</span>
                     <br />
-                    <a className="" href="/regular-talents">
+                    <a className="" href="/candidates">
                       <span className="text-base leading-5">Find Talents</span>
                     </a>
                     <br />
-                    <a className="" href="/jobseekers">
+                    <a className="" href="/job-seekers">
                       <span className="text-base leading-5">Job Seekers</span>
                     </a>
                     <br />
