@@ -15,12 +15,15 @@ import {
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { Checkbox } from "@/components/ui/checkbox"
 import { jobs } from "@/constants"
 import { updateCandidate } from "@/lib/actions/companion.actions"
 import { useRouter } from "next/navigation"
 import FileUpload from "@/components/FileUpload"
+import Link from "next/link"
 
-const formSchema = z.object({
+// Dynamic schema based on whether it's first time save
+const createFormSchema = (isFirstTime: boolean) => z.object({
   fistName: z.string().min(1, { message: "First Name is required." }),
   lastName: z.string().min(1, { message: "Last Name is required." }),
   job: z.string().min(1, { message: "Job is required." }),
@@ -30,6 +33,11 @@ const formSchema = z.object({
   experience: z.coerce.number().min(1, { message: "Experience is required." }),
   academicQualifications: z.string().min(1, { message: "Academic Qualifications are required." }),
   professionalQualifications: z.string().min(1, { message: "Professional Qualifications are required." }),
+  agreeToTerms: isFirstTime 
+    ? z.boolean().refine((val) => val === true, {
+        message: "You must agree to the Privacy Policy and Terms & Conditions to continue.",
+      })
+    : z.boolean().optional(),
 })
 
 interface CandidateEditFormProps {
@@ -83,6 +91,11 @@ const CandidateEditForm = ({ candidate, onCancel, onSuccess }: CandidateEditForm
   )
   const router = useRouter()
   
+  // Check if this is a first-time save (minimal data filled)
+  const isFirstTimeSave = !candidate.fist_name || !candidate.last_name || !candidate.topic || !candidate.academic_qualifications
+  
+  const formSchema = createFormSchema(isFirstTimeSave)
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -95,8 +108,12 @@ const CandidateEditForm = ({ candidate, onCancel, onSuccess }: CandidateEditForm
       experience: candidate.experience || 15,
       academicQualifications: candidate.academic_qualifications || "",
       professionalQualifications: candidate.professional_qualifications || "",
+      agreeToTerms: false,
     },
   })
+
+  // Watch the checkbox value to disable button (only for first-time saves)
+  const agreeToTerms = form.watch("agreeToTerms")
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true)
@@ -321,11 +338,42 @@ const CandidateEditForm = ({ candidate, onCancel, onSuccess }: CandidateEditForm
             </div>
           )}
 
+          {/* Terms and Privacy Policy Agreement - Only show for first-time saves */}
+          {isFirstTimeSave && (
+            <FormField
+              control={form.control}
+              name="agreeToTerms"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="text-sm font-normal cursor-pointer">
+                      I agree to the{" "}
+                      <Link href="/terms" className="text-blue-600 hover:text-blue-800 underline" target="_blank">
+                        Terms & Conditions
+                      </Link>
+                      {" "}and{" "}
+                      <Link href="/privacy-policy" className="text-blue-600 hover:text-blue-800 underline" target="_blank">
+                        Privacy Policy
+                      </Link>
+                    </FormLabel>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+          )}
+
           <div className="flex gap-4">
             <Button 
               type="submit" 
               className="flex-1 cursor-pointer" 
-              disabled={isSubmitting}
+              disabled={isSubmitting || (isFirstTimeSave && !agreeToTerms)}
             >
               {isSubmitting ? "Updating Profile..." : "Update Profile"}
             </Button>

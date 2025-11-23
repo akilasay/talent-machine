@@ -63,7 +63,7 @@ const Footer = () => {
                   <div className="text-lg text-white max-md:mt-10">
                     <span className="text-2xl font-bold text-indigo-50">Company</span>
                     <br />
-                    <Link className="" href="/aboutus">
+                    <Link className="" href="/about-us">
                       <span className="text-base leading-5">About Us</span>
                     </Link>
                     <br />

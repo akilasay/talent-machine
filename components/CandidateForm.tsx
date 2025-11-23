@@ -258,10 +258,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { Checkbox } from "@/components/ui/checkbox"
 import { jobs } from "@/constants"
 import { createCandidate } from "@/lib/actions/companion.actions"
 import { useRouter } from "next/navigation"
 import FileUpload from "@/components/FileUpload"
+import Link from "next/link"
 
 const formSchema = z.object({
   fistName: z.string().min(1, { message: "First Name is required." }),
@@ -273,6 +275,9 @@ const formSchema = z.object({
   experience: z.coerce.number().min(1, { message: "Experience is required." }),
   academicQualifications: z.string().min(1, { message: "Academic Qualifications are required." }),
   professionalQualifications: z.string().min(1, { message: "Professional Qualifications are required." }),
+  agreeToTerms: z.boolean().refine((val) => val === true, {
+    message: "You must agree to the Privacy Policy and Terms & Conditions to continue.",
+  }),
 })
 
 const CandidateForm = () => {
@@ -293,8 +298,12 @@ const CandidateForm = () => {
       experience: 15,
       academicQualifications: "",
       professionalQualifications: "",
+      agreeToTerms: false,
     },
   })
+
+  // Watch the checkbox value to disable button
+  const agreeToTerms = form.watch("agreeToTerms")
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true)
@@ -515,10 +524,39 @@ const CandidateForm = () => {
           </div>
         )}
 
+        {/* Terms and Privacy Policy Agreement */}
+        <FormField
+          control={form.control}
+          name="agreeToTerms"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel className="text-sm font-normal cursor-pointer">
+                  I agree to the{" "}
+                  <Link href="/terms" className="text-blue-600 hover:text-blue-800 underline" target="_blank">
+                    Terms & Conditions
+                  </Link>
+                  {" "}and{" "}
+                  <Link href="/privacy-policy" className="text-blue-600 hover:text-blue-800 underline" target="_blank">
+                    Privacy Policy
+                  </Link>
+                </FormLabel>
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
+
         <Button 
           type="submit" 
           className="w-full cursor-pointer" 
-          disabled={isSubmitting}
+          disabled={isSubmitting || !agreeToTerms}
         >
           {isSubmitting ? "Creating Profile..." : "Build Your Profile"}
         </Button>
