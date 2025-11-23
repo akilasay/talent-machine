@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HelpCircle, ChevronDown, User, Building2, CreditCard, Shield, Mail, Phone, MapPin } from 'lucide-react';
+import { HelpCircle, ChevronDown, User, Building2, CreditCard, Mail, Phone, MapPin } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface FAQItem {

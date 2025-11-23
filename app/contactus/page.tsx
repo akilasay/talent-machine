@@ -58,7 +58,7 @@ export default function ContactUsPage() {
         phone: '',
         message: '',
       });
-    } catch (error) {
+    } catch {
       setSubmitStatus('error');
       setSubmitMessage('Something went wrong. Please try again later.');
     } finally {
