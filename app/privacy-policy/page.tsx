@@ -105,7 +105,7 @@ const PrivacyPolicyPage = () => {
             <li>When you interact directly with us, including face-to-face, over the phone, over email, or online</li>
             <li>When you complete a form, such as registering for any events or newsletters, or responding to surveys</li>
             <li>When you apply for a job with us</li>
-            <li>From third parties, such as details of your use of any website we operate (from our analytics and cookie providers and marketing providers. See the "Cookies" section below for more detail on the use of cookies)</li>
+            <li>From third parties, such as details of your use of any website we operate (from our analytics and cookie providers and marketing providers. See the &quot;Cookies&quot; section below for more detail on the use of cookies)</li>
             <li>From publicly available sources, such as social media</li>
           </ul>
         </div>
@@ -210,7 +210,7 @@ const PrivacyPolicyPage = () => {
       content: (
         <div className="space-y-4">
           <p className="text-gray-700 leading-relaxed">
-            We may use cookies on our website from time to time. Cookies are text files placed in your computer's browser to store your preferences. Cookies, by themselves, do not tell us your email address or other personally identifiable information. However, they do recognise you when you return to our online website and allow third parties to cause our advertisements to appear on your social media and online media feeds as part of our retargeting campaigns. If and when you choose to provide our online website with personal information, this information may be linked to the data stored in the cookie.
+            We may use cookies on our website from time to time. Cookies are text files placed in your computer&apos;s browser to store your preferences. Cookies, by themselves, do not tell us your email address or other personally identifiable information. However, they do recognise you when you return to our online website and allow third parties to cause our advertisements to appear on your social media and online media feeds as part of our retargeting campaigns. If and when you choose to provide our online website with personal information, this information may be linked to the data stored in the cookie.
           </p>
           <p className="text-gray-700 leading-relaxed">
             You can block cookies by activating the setting on your browser that allows you to refuse the setting of all or some cookies. However, if you use your browser settings to block all cookies (including essential cookies) you may not be able to access all or parts of our website.
@@ -225,7 +225,7 @@ const PrivacyPolicyPage = () => {
       content: (
         <div className="space-y-4">
           <p className="text-gray-700 leading-relaxed">
-            Our website may contain links to other parties' websites. We do not have any control over those websites, and we are not responsible for the protection and privacy of any personal information which you provide whilst visiting those websites. These websites are not governed by this Privacy Policy.
+            Our website may contain links to other parties&apos; websites. We do not have any control over those websites, and we are not responsible for the protection and privacy of any personal information which you provide whilst visiting those websites. These websites are not governed by this Privacy Policy.
           </p>
         </div>
       ),
@@ -323,7 +323,7 @@ const PrivacyPolicyPage = () => {
                 <div className="space-y-3 text-blue-100">
                   <div className="flex items-center gap-3">
                     <Mail className="h-5 w-5 flex-shrink-0" />
-                    <span>hello@nxrgenglobal.com</span>
+                    <span>hello@nxtgenglobal.com</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Phone className="h-5 w-5 flex-shrink-0" />

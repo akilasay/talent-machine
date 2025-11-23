@@ -20,10 +20,10 @@ const TermsAndConditionsPage = () => {
               <span className="font-semibold">1.2</span> We provide a platform where individuals seeking employment or contractor opportunities (Job Seekers) and businesses looking for staff (Employers) can connect and transact (Platform).
             </p>
             <p className="text-gray-700 leading-relaxed">
-              <span className="font-semibold">1.3</span> In these Terms, "you" means (as applicable) the person or entity registered with us as either an Employer or a Job Seeker or the individual accessing or using the Platform.
+              <span className="font-semibold">1.3</span> In these Terms, &quot;you&quot; means (as applicable) the person or entity registered with us as either an Employer or a Job Seeker or the individual accessing or using the Platform.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              <span className="font-semibold">1.4</span> If you are using the Platform on behalf of your employer or a business entity, you, in your individual capacity, represent and warrant that you are authorized to act on behalf of your employer or the business entity and to bind the entity and the entity's personnel to these Terms.
+              <span className="font-semibold">1.4</span> If you are using the Platform on behalf of your employer or a business entity, you, in your individual capacity, represent and warrant that you are authorized to act on behalf of your employer or the business entity and to bind the entity and the entity&apos;s personnel to these Terms.
             </p>
             <p className="text-gray-700 leading-relaxed">
               <span className="font-semibold">1.5</span> We do not guarantee that Job Seekers will obtain employment through the use of the Platform. Our role is solely to increase visibility and facilitate connections between Job Seekers and prospective Employers.
@@ -49,7 +49,7 @@ const TermsAndConditionsPage = () => {
               <span className="font-semibold">2.3</span> During the Account creation process, you may have the ability to opt-in to receiving communications from our partners related to services like insurance, immigration, car sales, and mortgages. If you provide such consent, we may share your personal information with our partners, including as leads or for them to directly contact you regarding their services.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              <span className="font-semibold">2.4</span> We may amend these Terms at any time by providing written notice to you. By clicking "I accept" or continuing to use the Platform after the notice or 30 days after notification (whichever date is earlier), you agree to the amended Terms. If you do not agree to the amendment and it adversely affects your rights, you may cancel your Membership with effect from the date of the change in these Terms by providing written notice to us.
+              <span className="font-semibold">2.4</span> We may amend these Terms at any time by providing written notice to you. By clicking &quot;I accept&quot; or continuing to use the Platform after the notice or 30 days after notification (whichever date is earlier), you agree to the amended Terms. If you do not agree to the amendment and it adversely affects your rights, you may cancel your Membership with effect from the date of the change in these Terms by providing written notice to us.
             </p>
             <p className="text-gray-700 leading-relaxed">
               <span className="font-semibold">2.5</span> Subject to your compliance with these Terms, we grant you a personal, non-exclusive, royalty-free, revocable, worldwide, non-transferable licence to use our Platform in accordance with these Terms. All other uses are prohibited without our prior written consent.
@@ -59,7 +59,7 @@ const TermsAndConditionsPage = () => {
                 <span className="font-semibold">2.6</span> When using the Platform, you must not do or attempt to do anything that is unlawful or inappropriate, including:
               </p>
               <ul className="space-y-2 list-disc list-inside text-gray-700 ml-4">
-                <li>anything that would constitute a breach of an individual's privacy (including uploading private or personal information without an individual's consent) or any other legal rights;</li>
+                <li>anything that would constitute a breach of an individual&apos;s privacy (including uploading private or personal information without an individual&apos;s consent) or any other legal rights;</li>
                 <li>using the Platform to defame, harass, threaten, menace, or offend any person;</li>
                 <li>using the Platform for unlawful purposes;</li>
                 <li>interfering with any user of the Platform;</li>
@@ -82,7 +82,7 @@ const TermsAndConditionsPage = () => {
         <div className="space-y-4">
           <div className="space-y-3">
             <p className="text-gray-700 leading-relaxed">
-              <span className="font-semibold">3.1</span> You must register on the Platform and create an account (Account) to access the Platform's features.
+              <span className="font-semibold">3.1</span> You must register on the Platform and create an account (Account) to access the Platform&apos;s features.
             </p>
             <div className="bg-blue-50 p-5 rounded-lg border-l-4 border-blue-600 mt-4">
               <p className="text-gray-700 leading-relaxed font-semibold mb-3">
