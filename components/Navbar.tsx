@@ -187,11 +187,12 @@ export default function Navbar() {
       animate="animate"
       variants={navVariants}
     >
-      <div className="flex items-center justify-between mx-auto w-full max-w-7xl px-3 sm:px-6 py-3 sm:py-4">
-        {/* Logo */}
+      <div className="relative flex items-center justify-between mx-auto w-full max-w-7xl px-3 sm:px-6 py-3 sm:py-4">
+        {/* Logo - Left Side */}
         <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          className="flex-shrink-0"
         >
           <Link href="/">
             <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group">
@@ -221,111 +222,113 @@ export default function Navbar() {
           </Link>
         </motion.div>
 
-        {/* Desktop Nav Items and Auth */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop Nav Items - Center */}
+        <div className="hidden md:flex items-center justify-center flex-1">
           <NavItems />
-          <div className="flex items-center gap-4">
-            {!user ? (
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link href="/sign-in">
-                <Button
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-blue-500/25"
-                >
-                  Sign In
-                </Button>
-                </Link>
-              </motion.div>
-            ) : (
-              <div className="flex items-center gap-4">
-                {/* User Menu */}
-                <div className="relative">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 group"
-                  >
-                    <div className="relative">
-                      <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-                        <span className="text-white text-sm font-bold">
-                          {user.email?.split('@')[0]?.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
-                      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
-                    </div>
-                    <div className="text-left">
-                      <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                        {user.email?.split('@')[0]}
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
-                        Online
-                      </p>
-                    </div>
-                  </motion.button>
+        </div>
 
-                  {/* User Dropdown Menu */}
-                  <AnimatePresence>
-                    {showUserMenu && (
-                      <motion.div
-                        variants={userMenuVariants}
-                        initial="closed"
-                        animate="open"
-                        exit="closed"
-                        className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden"
-                      >
-                        <div className="p-4 border-b border-gray-100 dark:border-gray-700">
-                          <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                              <span className="text-white text-lg font-bold">
-                                {user.email?.split('@')[0]?.charAt(0).toUpperCase()}
-                              </span>
-                            </div>
-                            <div>
-                              <p className="font-semibold text-gray-900 dark:text-gray-100">
-                                {user.email?.split('@')[0]}
-                              </p>
-                              <p className="text-sm text-gray-500 dark:text-gray-400">
-                                {user.email}
-                              </p>
-                            </div>
+        {/* Desktop Auth - Right Side */}
+        <div className="hidden md:flex items-center gap-4 flex-shrink-0">
+          {!user ? (
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link href="/sign-in">
+              <Button
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-blue-500/25"
+              >
+                Sign In
+              </Button>
+              </Link>
+            </motion.div>
+          ) : (
+            <div className="flex items-center gap-4">
+              {/* User Menu */}
+              <div className="relative">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 group"
+                >
+                  <div className="relative">
+                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                      <span className="text-white text-sm font-bold">
+                        {user.email?.split('@')[0]?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                      {user.email?.split('@')[0]}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      Online
+                    </p>
+                  </div>
+                </motion.button>
+
+                {/* User Dropdown Menu */}
+                <AnimatePresence>
+                  {showUserMenu && (
+                    <motion.div
+                      variants={userMenuVariants}
+                      initial="closed"
+                      animate="open"
+                      exit="closed"
+                      className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden"
+                    >
+                      <div className="p-4 border-b border-gray-100 dark:border-gray-700">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                            <span className="text-white text-lg font-bold">
+                              {user.email?.split('@')[0]?.charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-900 dark:text-gray-100">
+                              {user.email?.split('@')[0]}
+                            </p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              {user.email}
+                            </p>
                           </div>
                         </div>
-                        
-                        <div className="p-2">
-                          <button
-                            onClick={handleProfileClick}
-                            disabled={isLoadingProfile}
-                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 w-full text-left disabled:opacity-50 disabled:cursor-not-allowed"
-                          >
-                            <User className="w-4 h-4 text-gray-500" />
-                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                              {isLoadingProfile ? 'Loading...' : 
-                               userType === 'employer' ? 'My Company Profile' : 'My Profile'}
-                            </span>
-                          </button>
-                          <div className="border-t border-gray-100 dark:border-gray-700 my-2"></div>
-                          <button
-                            onClick={handleSignOut}
-                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200 w-full text-left"
-                          >
-                            <LogOut className="w-4 h-4 text-red-500" />
-                            <span className="text-sm font-medium text-red-600 dark:text-red-400">Sign Out</span>
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+                      </div>
+                      
+                      <div className="p-2">
+                        <button
+                          onClick={handleProfileClick}
+                          disabled={isLoadingProfile}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 w-full text-left disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <User className="w-4 h-4 text-gray-500" />
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {isLoadingProfile ? 'Loading...' : 
+                             userType === 'employer' ? 'My Company Profile' : 'My Profile'}
+                          </span>
+                        </button>
+                        <div className="border-t border-gray-100 dark:border-gray-700 my-2"></div>
+                        <button
+                          onClick={handleSignOut}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200 w-full text-left"
+                        >
+                          <LogOut className="w-4 h-4 text-red-500" />
+                          <span className="text-sm font-medium text-red-600 dark:text-red-400">Sign Out</span>
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu Toggle */}
-        <div className="md:hidden">
+        <div className="md:hidden absolute right-3 sm:right-6">
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

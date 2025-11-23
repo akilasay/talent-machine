@@ -1,24 +1,16 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { 
-  Search, 
+  Users, 
+  Briefcase,
   MapPin, 
   Building2
 } from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 
 // Mock job data
 const mockJobs = [
@@ -97,112 +89,84 @@ const sectors = [
 ];
 
 export default function JobsListingPage() {
-  const [searchTitle, setSearchTitle] = useState('');
-  const [location, setLocation] = useState('');
-  const [sector, setSector] = useState('');
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle search logic here
-    console.log({ searchTitle, location, sector });
-  };
 
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-12 lg:py-16">
-        <div className="absolute inset-0 bg-[url('/images/cta.svg')] opacity-5 bg-cover bg-center" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 lg:px-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-6"
-          >
-            <h1 className="text-4xl lg:text-5xl font-bold text-blue-950 mb-3">
-              Your Gateway to Exceptional Talent
-            </h1>
-          </motion.div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 pt-28 md:pt-32 py-8 lg:py-12">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 lg:px-10 lg:pt-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+            {/* Left Section - Text and Search */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-4 order-1 lg:order-1"
+            >
+              {/* Main Heading */}
+              <div>
+                <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-blue-950 leading-tight mb-3">
+                  Discover Your{' '}
+                  <span className="text-purple-600">Dream Career</span> Today
+                </h1>
+                <p className="text-base lg:text-lg text-gray-700 leading-relaxed max-w-2xl">
+                  Your next opportunity is just a search away. We connect ambitious professionals with companies that value talent, innovation, and growth. Start your journey to a career that not only matches your skills but also fuels your passion and unlocks your potential.
+                </p>
+              </div>
 
-          {/* Illustration with Search Form Overlay */}
-          <div className="relative">
-            {/* Illustration Background */}
-            <div className="relative w-full h-48 lg:h-56 mb-4 flex items-center justify-center">
-              <div className="absolute inset-0 flex items-center justify-center">
+              {/* Action Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="flex flex-col sm:flex-row gap-4"
+              >
+                <Link href="/candidates">
+                  <Button
+                    className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white h-12 px-8 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
+                  >
+                    <Users className="h-5 w-5" />
+                    Find Talents
+                  </Button>
+                </Link>
+                <Link href="/jobs">
+                  <Button
+                    className="w-full sm:w-auto bg-white hover:bg-gray-50 text-blue-950 border-2 border-blue-950 hover:border-blue-700 h-12 px-8 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
+                  >
+                    <Briefcase className="h-5 w-5" />
+                    Browse Jobs
+                  </Button>
+                </Link>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Section - Illustration */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="relative order-2 lg:order-2 hidden md:block pt-2"
+            >
+              <div className="relative w-full h-[250px] sm:h-[300px] lg:h-[350px] flex items-center justify-center">
                 <Image
-                  src="/images/befound-image.png"
-                  alt="Diverse professionals"
+                  src="/images/jobsImage.png"
+                  alt="Professional pointing to opportunities"
                   width={600}
-                  height={300}
-                  className="object-contain opacity-80"
+                  height={600}
+                  className="w-full h-full object-contain"
+                  priority
                 />
               </div>
-            </div>
-
-            {/* Search Form Overlay */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative z-20 -mt-24 lg:-mt-28"
-            >
-              <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-blue-200">
-                <CardContent className="p-6">
-                  <form onSubmit={handleSearch} className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                      <div className="md:col-span-1">
-                        <Input
-                          placeholder="Job Title, Keywords, or Phrase"
-                          value={searchTitle}
-                          onChange={(e) => setSearchTitle(e.target.value)}
-                          className="w-full border-blue-300 focus:border-blue-600"
-                        />
-                      </div>
-                      <div className="md:col-span-1">
-                        <Input
-                          placeholder="City, State or ZIP"
-                          value={location}
-                          onChange={(e) => setLocation(e.target.value)}
-                          className="w-full border-blue-300 focus:border-blue-600"
-                        />
-                      </div>
-                      <div className="md:col-span-1">
-                        <Select value={sector} onValueChange={setSector}>
-                          <SelectTrigger className="w-full border-blue-300 focus:border-blue-600">
-                            <SelectValue placeholder="Select Sector" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {sectors.map((sec) => (
-                              <SelectItem key={sec.value} value={sec.value}>
-                                {sec.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="md:col-span-1">
-                        <Button
-                          type="submit"
-                          className="w-full bg-blue-950 hover:bg-blue-900 text-white"
-                        >
-                          <Search className="mr-2 h-4 w-4" />
-                          Search Jobs
-                        </Button>
-                      </div>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Published Jobs Section */}
-      <section className="py-12 lg:py-20 bg-white">
+      <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 lg:px-10">
           <div className="flex items-center gap-4 mb-8">
-            <h2 className="text-3xl font-bold text-blue-950">
+            <h2 className="text-2xl font-bold text-blue-950">
               Published Jobs
             </h2>
             <div className="h-8 w-px bg-gray-300"></div>
@@ -214,7 +178,7 @@ export default function JobsListingPage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             {mockJobs.map((job) => (
               <motion.div
                 key={job.id}

@@ -26,12 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${bricolage.variable} antialiased md:mx-20`}>
+      <body className={`${bricolage.variable} antialiased`}>
         <AuthProvider>
           <Navbar />
-          <div className="mt-10">
-           {children}
-          </div>
+          {children}
           <Footer />
         </AuthProvider>
       </body>

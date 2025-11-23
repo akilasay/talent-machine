@@ -14,6 +14,15 @@ const jobPostings = [
     image: "/images/poster/hiringPoster1.png",
     featured: true,
     urgent: true
+  },
+  {
+    id: 2,
+    title: "Marketing Manager",
+    company: "NextGen Global",
+    posted: "1 day ago",
+    image: "/images/poster/secondJobPost.jpeg",
+    featured: true,
+    urgent: false
   }
 ];
 
@@ -33,23 +42,26 @@ const JobCard = ({ job, index }: { job: JobPosting, index: number }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="relative"
+      className="relative group"
     >
-      {/* Job Image Only */}
-      <div className="relative group">
-        <Image
-          src={job.image}
-          alt="Job Poster"
-          width={800}
-          height={600}
-          className="w-full h-auto object-contain rounded-lg shadow-lg group-hover:shadow-xl transition-shadow duration-300"
-        />
-        
-        {/* Posted Date Overlay */}
-        <div className="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm rounded-lg px-3 py-2">
-          <div className="flex items-center space-x-2 text-white">
-            <Calendar className="w-4 h-4" />
-            <span className="text-sm font-medium">Posted {job.posted}</span>
+      {/* Job Image Card */}
+      <div className="relative bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:border-blue-600 hover:shadow-xl transition-all duration-300">
+        <div className="relative w-full min-h-[450px] md:min-h-[550px] lg:min-h-[650px] xl:min-h-[700px] flex items-center justify-center bg-gray-50">
+          <Image
+            src={job.image}
+            alt={job.title}
+            width={800}
+            height={1000}
+            className="w-full h-auto max-h-[700px] object-contain group-hover:scale-[1.02] transition-transform duration-300"
+            priority={index === 0}
+          />
+          
+          {/* Posted Date Overlay */}
+          <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-sm rounded-lg px-3 py-2 z-10">
+            <div className="flex items-center space-x-2 text-white">
+              <Calendar className="w-4 h-4" />
+              <span className="text-sm font-medium">Posted {job.posted}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -59,10 +71,20 @@ const JobCard = ({ job, index }: { job: JobPosting, index: number }) => {
 
 export default function JobsPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Job Listings */}
-        <div className="space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-20 md:pt-24">
+      <div className="max-w-7xl mx-auto px-4 lg:px-10 py-6">
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-3xl lg:text-4xl font-bold text-blue-950 mb-2">
+            Browse All Jobs
+          </h1>
+          <p className="text-gray-600">
+            Discover exciting career opportunities from top companies
+          </p>
+        </div>
+
+        {/* Job Listings - Two Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {jobPostings.map((job, index) => (
             <JobCard key={job.id} job={job} index={index} />
           ))}
