@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import NavItems from './NavItems';
 import { createClient } from '@/lib/supabase/client';
 
@@ -24,8 +24,18 @@ export default function Navbar() {
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const { user, signOut } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
+  
+  // Check if we're on the home page (root path) for transparent navbar
+  // Use state to prevent hydration mismatch - start with false, update after mount
+  const [isHomePage, setIsHomePage] = useState(false);
+  
+  // Update isHomePage after component mounts to prevent hydration errors
+  useEffect(() => {
+    setIsHomePage(pathname === '/');
+  }, [pathname]);
 
   const toggleMobileMenu = (event?: React.MouseEvent) => {
     if (event) {
@@ -182,7 +192,11 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      className="fixed top-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-gray-100/60 dark:shadow-gray-900/60"
+      className={`fixed top-0 left-0 w-full z-50 ${
+        isHomePage 
+          ? 'bg-transparent backdrop-blur-md border-b border-white/20 shadow-none' 
+          : 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-gray-100/60 dark:shadow-gray-900/60'
+      }`}
       initial="initial"
       animate="animate"
       variants={navVariants}
@@ -211,10 +225,18 @@ export default function Navbar() {
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
               <div className="hidden xs:block">
-                <h1 className="text-base sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight">
+                <h1 className={`text-base sm:text-xl font-bold leading-tight ${
+                  isHomePage 
+                    ? 'text-white' 
+                    : 'bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
+                }`}>
                   TalentHub
                 </h1>
-                <p className="text-xs text-gray-500 dark:text-gray-400 -mt-1 hidden sm:block">
+                <p className={`text-xs -mt-1 hidden sm:block ${
+                  isHomePage 
+                    ? 'text-white/90' 
+                    : 'text-gray-500 dark:text-gray-400'
+                }`}>
                   Find Your Dream Job
                 </p>
               </div>
@@ -224,7 +246,7 @@ export default function Navbar() {
 
         {/* Desktop Nav Items - Center */}
         <div className="hidden md:flex items-center justify-center flex-1">
-          <NavItems />
+          <NavItems isHomePage={isHomePage} />
         </div>
 
         {/* Desktop Auth - Right Side */}
@@ -236,7 +258,11 @@ export default function Navbar() {
             >
               <Link href="/sign-in">
               <Button
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-blue-500/25"
+                  className={`${
+                    isHomePage
+                      ? 'bg-white/95 hover:bg-white text-blue-700 border-0 backdrop-blur-sm'
+                      : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white'
+                  } rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-blue-500/25`}
               >
                 Sign In
               </Button>
@@ -250,7 +276,11 @@ export default function Navbar() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 group"
+                  className={`flex items-center gap-3 p-2 rounded-xl transition-all duration-300 group ${
+                    isHomePage
+                      ? 'hover:bg-white/10'
+                      : 'hover:bg-gray-50 dark:hover:bg-gray-800'
+                  }`}
                 >
                   <div className="relative">
                     <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
@@ -261,10 +291,18 @@ export default function Navbar() {
                     <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                    <p className={`text-sm font-semibold ${
+                      isHomePage 
+                        ? 'text-white' 
+                        : 'text-gray-900 dark:text-gray-100'
+                    }`}>
                       {user.email?.split('@')[0]}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className={`text-xs ${
+                      isHomePage 
+                        ? 'text-white/80' 
+                        : 'text-gray-500 dark:text-gray-400'
+                    }`}>
                       Online
                     </p>
                   </div>
@@ -338,7 +376,11 @@ export default function Navbar() {
               variant="ghost"
               size="icon"
               onClick={toggleMobileMenu}
-              className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 rounded-full p-2"
+              className={`rounded-full p-2 ${
+                isHomePage
+                  ? 'text-white hover:text-white/90 hover:bg-white/10'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30'
+              }`}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
               <motion.div
@@ -357,7 +399,11 @@ export default function Navbar() {
         {isMobileMenuOpen && (
           <motion.div
             ref={mobileMenuRef}
-            className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50"
+            className={`md:hidden backdrop-blur-xl ${
+              isHomePage
+                ? 'bg-lime-300/90 border-t border-white/20'
+                : 'bg-white/95 dark:bg-gray-900/95 border-t border-gray-200/50 dark:border-gray-700/50'
+            }`}
             initial="closed"
             animate="open"
             exit="closed"
@@ -366,11 +412,15 @@ export default function Navbar() {
         <div className="flex flex-col gap-4 py-4 px-4">
           {/* Mobile Navigation Items */}
           <div className="flex flex-col gap-2">
-            <NavItems onItemClick={() => setIsMobileMenuOpen(false)} />
+            <NavItems onItemClick={() => setIsMobileMenuOpen(false)} isHomePage={isHomePage} />
           </div>
           
           {/* Mobile Auth Section */}
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+          <div className={`border-t pt-4 ${
+            isHomePage 
+              ? 'border-white/20' 
+              : 'border-gray-200 dark:border-gray-700'
+          }`}>
             {!user ? (
               <motion.div
                 whileHover={{ scale: 1.02 }}
@@ -379,7 +429,11 @@ export default function Navbar() {
               >
                 <Link href="/sign-in" className="w-full">
                   <Button
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl px-6 py-3 text-sm font-semibold w-full transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className={`${
+                      isHomePage
+                        ? 'bg-white/95 hover:bg-white text-blue-700 border-0 backdrop-blur-sm'
+                        : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white'
+                    } rounded-xl px-6 py-3 text-sm font-semibold w-full transition-all duration-300 shadow-lg hover:shadow-xl`}
                   >
                     Sign In
                   </Button>

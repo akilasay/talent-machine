@@ -11,62 +11,7 @@ import {
   MapPin, 
   Building2
 } from 'lucide-react';
-
-// Mock job data - Jobs from job posters
-const mockJobs = [
-  // From English Training Center Poster (Keystone)
-  {
-    id: 1,
-    title: 'English Teachers',
-    company: 'Keystone',
-    location: 'Galle',
-    type: 'Full time',
-    posted: '3 days ago',
-    sector: 'Education',
-    logo: '/images/company1.png',
-  },
-  {
-    id: 2,
-    title: 'Trainee Teachers',
-    company: 'Keystone',
-    location: 'Galle',
-    type: 'Full time',
-    posted: '3 days ago',
-    sector: 'Education',
-    logo: '/images/company1.png',
-  },
-  {
-    id: 3,
-    title: 'Coordinators',
-    company: 'Keystone',
-    location: 'Galle',
-    type: 'Full time',
-    posted: '3 days ago',
-    sector: 'Education',
-    logo: '/images/company1.png',
-  },
-  // From Accounting Positions Poster
-  {
-    id: 4,
-    title: 'Assistant Accountant',
-    company: 'Finance Solutions',
-    location: 'Colombo',
-    type: 'Full time',
-    posted: '2 days ago',
-    sector: 'Accounting',
-    logo: '/images/company2.png',
-  },
-  {
-    id: 5,
-    title: 'Accounts Executives',
-    company: 'Finance Solutions',
-    location: 'Colombo',
-    type: 'Full time',
-    posted: '2 days ago',
-    sector: 'Accounting',
-    logo: '/images/company2.png',
-  },
-];
+import { mockJobs } from '@/constants/jobsData';
 
 export default function JobsListingPage() {
 
@@ -169,7 +114,7 @@ export default function JobsListingPage() {
                 whileHover={{ scale: 1.02 }}
                 className="group"
               >
-                <Link href="/jobs">
+                <Link href={`/jobs/${job.id}`}>
                   <Card className="h-full border border-gray-200 hover:border-blue-600 hover:shadow-lg transition-all duration-300 cursor-pointer">
                     <CardContent className="p-6">
                       <div className="flex gap-4">
@@ -207,7 +152,7 @@ export default function JobsListingPage() {
                               {job.location}
                             </span>
                             <span className="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded ml-auto">
-                              {job.type.toUpperCase()}
+                              {job.posted}
                             </span>
                           </div>
                         </div>

@@ -43,8 +43,8 @@ const navItems = [
     },
 ]
 
-const NavItems = (props: { onItemClick?: () => void } = {}) => {
-    const { onItemClick } = props;
+const NavItems = (props: { onItemClick?: () => void; isHomePage?: boolean } = {}) => {
+    const { onItemClick, isHomePage = false } = props;
     const pathname = usePathname();
     const { user } = useAuth();
     const [userType, setUserType] = useState<'candidate' | 'employer' | null>(null);
@@ -106,23 +106,25 @@ const NavItems = (props: { onItemClick?: () => void } = {}) => {
                                 className={cn(
                                     "relative px-4 py-3 md:py-2.5 rounded-xl font-medium text-sm transition-all duration-300 ease-out",
                                     "flex items-center gap-3 md:gap-2 group-hover:gap-3 w-full md:w-auto",
-                                    "text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400",
-                                    "hover:bg-blue-50 dark:hover:bg-blue-950/30",
-                                    "hover:shadow-md hover:shadow-blue-100/50 dark:hover:shadow-blue-900/20",
+                                    isHomePage 
+                                        ? "text-white hover:text-white/90 hover:bg-white/10"
+                                        : "text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30",
+                                    !isHomePage && "hover:shadow-md hover:shadow-blue-100/50 dark:hover:shadow-blue-900/20",
                                     "justify-start md:justify-center",
                                     "touch-manipulation", // Improves touch responsiveness
                                     isActive && [
-                                        "text-blue-600 dark:text-blue-400",
-                                        "bg-blue-50 dark:bg-blue-950/30",
-                                        "shadow-md shadow-blue-100/50 dark:shadow-blue-900/20",
-                                        "font-semibold"
+                                        isHomePage 
+                                            ? "text-white bg-white/20 font-semibold"
+                                            : "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30 shadow-md shadow-blue-100/50 dark:shadow-blue-900/20 font-semibold"
                                     ]
                                 )}
                             >
                                 <Icon 
                                     className={cn(
                                         "w-5 h-5 md:w-4 md:h-4 transition-all duration-300 flex-shrink-0",
-                                        isActive && "text-blue-600 dark:text-blue-400",
+                                        isHomePage 
+                                            ? (isActive ? "text-white" : "text-white/90")
+                                            : (isActive && "text-blue-600 dark:text-blue-400"),
                                         "group-hover:scale-110"
                                     )} 
                                 />
@@ -133,7 +135,9 @@ const NavItems = (props: { onItemClick?: () => void } = {}) => {
                                 {/* Active indicator - only show on desktop */}
                                 {isActive && (
                                     <motion.div
-                                        className="absolute -bottom-1 left-1/2 w-1 h-1 bg-blue-600 dark:bg-blue-400 rounded-full hidden md:block"
+                                        className={`absolute -bottom-1 left-1/2 w-1 h-1 rounded-full hidden md:block ${
+                                            isHomePage ? 'bg-white' : 'bg-blue-600 dark:bg-blue-400'
+                                        }`}
                                         initial={{ scale: 0, x: "-50%" }}
                                         animate={{ scale: 1, x: "-50%" }}
                                         transition={{ duration: 0.2 }}
@@ -147,9 +151,17 @@ const NavItems = (props: { onItemClick?: () => void } = {}) => {
                                     whileHover={{ opacity: 1, y: 0, scale: 1 }}
                                     transition={{ duration: 0.2 }}
                                 >
-                                    <div className="bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs px-3 py-2 rounded-lg shadow-lg whitespace-nowrap">
+                                    <div className={`${
+                                        isHomePage 
+                                            ? 'bg-white text-green-900' 
+                                            : 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900'
+                                    } text-xs px-3 py-2 rounded-lg shadow-lg whitespace-nowrap`}>
                                         {description}
-                                        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 dark:bg-gray-100 rotate-45"></div>
+                                        <div className={`absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 rotate-45 ${
+                                            isHomePage 
+                                                ? 'bg-white' 
+                                                : 'bg-gray-900 dark:bg-gray-100'
+                                        }`}></div>
                                     </div>
                                 </motion.div>
                             </motion.button>
