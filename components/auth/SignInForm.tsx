@@ -39,24 +39,34 @@ export default function SignInForm() {
     }
   }, [user, loading, router, redirectUrl])
 
+  const [showConfirmationMessage, setShowConfirmationMessage] = useState(false)
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
+    setShowConfirmationMessage(false)
 
-    const { error } = isSignUp 
-      ? await signUp(email, password, userType)
-      : await signIn(email, password)
-    
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-    } else {
-      if (isSignUp) {
+    if (isSignUp) {
+      const { error, needsEmailConfirmation } = await signUp(email, password, userType)
+      
+      if (error) {
+        setError(error.message)
+        setLoading(false)
+      } else {
         setError('')
         setLoading(false)
-        // Show success message for sign up
-        alert(`Account created successfully as ${userType}! Please check your email to verify your account.`)
+        // Show confirmation message if email confirmation is required
+        if (needsEmailConfirmation) {
+          setShowConfirmationMessage(true)
+        }
+      }
+    } else {
+      const { error } = await signIn(email, password)
+      
+      if (error) {
+        setError(error.message)
+        setLoading(false)
       } else {
         // Sign in successful, let useEffect handle redirect
         setLoading(false)
@@ -144,7 +154,29 @@ export default function SignInForm() {
             {error && (
               <div className="text-red-500 text-sm">{error}</div>
             )}
-            <Button type="submit" className="w-full" disabled={loading}>
+            {showConfirmationMessage && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0">
+                    <svg className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-semibold text-blue-900 mb-1">
+                      Check your email!
+                    </h3>
+                    <p className="text-sm text-blue-800">
+                      We&apos;ve sent a confirmation link to <strong>{email}</strong>. Please click the link in the email to verify your account and complete your registration.
+                    </p>
+                    <p className="text-xs text-blue-700 mt-2">
+                      Didn&apos;t receive the email? Check your spam folder or try signing up again.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+            <Button type="submit" className="w-full" disabled={loading || showConfirmationMessage}>
               {loading 
                 ? (isSignUp ? 'Creating account...' : 'Signing in...') 
                 : (isSignUp ? 'Create Account' : 'Sign In')
@@ -161,6 +193,7 @@ export default function SignInForm() {
                 onClick={() => {
                   setIsSignUp(!isSignUp)
                   setError('')
+                  setShowConfirmationMessage(false)
                 }}
                 className="ml-1 text-blue-600 hover:text-blue-500 font-medium"
               >

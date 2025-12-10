@@ -9,7 +9,7 @@ interface AuthContextType {
   session: Session | null
   loading: boolean
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>
-  signUp: (email: string, password: string, userType: 'candidate' | 'employer') => Promise<{ error: Error | null }>
+  signUp: (email: string, password: string, userType: 'candidate' | 'employer') => Promise<{ error: Error | null; needsEmailConfirmation?: boolean }>
   signOut: () => Promise<void>
   signInWithGoogle: (redirectUrl?: string) => Promise<{ error: Error | null }>
   getUserType: () => Promise<'candidate' | 'employer' | null>
@@ -55,14 +55,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signUp = async (email: string, password: string, userType: 'candidate' | 'employer') => {
+    // Sign up with email confirmation enabled
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback?redirect_url=${encodeURIComponent('/')}`,
+        data: {
+          user_type: userType, // Store user type in metadata for later use
+        }
+      }
     })
     
     if (!error && data.user) {
       console.log('User created successfully, saving user type:', userType)
       console.log('User ID:', data.user.id)
+      console.log('Email confirmation required:', !data.session) // If no session, email confirmation is required
       
       try {
         // Save user type to user_profiles table
@@ -96,7 +104,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
     
-    return { error }
+    // Return error and whether email confirmation is needed
+    return { 
+      error,
+      needsEmailConfirmation: !error && data.user && !data.session
+    }
   }
 
   const signOut = async () => {

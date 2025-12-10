@@ -36,12 +36,17 @@ export default function SignUpForm() {
       return
     }
 
-    const { error } = await signUp(email, password, userType)
+    const { error, needsEmailConfirmation } = await signUp(email, password, userType)
     
     if (error) {
       setError(error.message)
+      setMessage('')
     } else {
-      setMessage('Check your email for a confirmation link!')
+      if (needsEmailConfirmation) {
+        setMessage('We\'ve sent a confirmation email to ' + email + '. Please check your inbox and click the confirmation link to verify your account.')
+      } else {
+        setMessage('Account created successfully!')
+      }
     }
     
     setLoading(false)
