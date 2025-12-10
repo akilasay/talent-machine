@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Users, Briefcase, ArrowRight, MapPin, Building2 } from 'lucide-react';
+import { Briefcase, ArrowRight, MapPin } from 'lucide-react';
 import { mockJobs } from '@/constants/jobsData';
 
 export default function HomePage() {

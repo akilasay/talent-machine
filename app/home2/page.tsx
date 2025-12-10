@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Users, Briefcase, ArrowRight, TrendingUp, Clock, Building2 } from 'lucide-react';
+import { Briefcase, ArrowRight, Clock } from 'lucide-react';
 
 // Mock job data for Popular Search section
 const popularJobs = [

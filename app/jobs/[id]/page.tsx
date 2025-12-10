@@ -20,7 +20,6 @@ import { mockJobs } from '@/constants/jobsData';
 
 export default function JobDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const jobId = parseInt(params.id as string);
   const [showContactInfo, setShowContactInfo] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -52,7 +51,7 @@ export default function JobDetailPage() {
         <Card className="max-w-md w-full">
           <CardContent className="p-8 text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Job Not Found</h2>
-            <p className="text-gray-600 mb-6">The job you're looking for doesn't exist.</p>
+            <p className="text-gray-600 mb-6">The job you are looking for doesnt exist.</p>
             <Link href="/jobs">
               <Button className="w-full">
                 <ArrowLeft className="h-4 w-4 mr-2" />
