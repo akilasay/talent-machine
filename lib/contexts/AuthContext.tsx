@@ -107,7 +107,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Return error and whether email confirmation is needed
     return { 
       error,
-      needsEmailConfirmation: !error && data.user && !data.session
+      needsEmailConfirmation: !error && data.user && !data.session ? true : undefined
     }
   }
 
