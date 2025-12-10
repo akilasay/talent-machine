@@ -105,12 +105,12 @@ export default function JobsPage() {
           transition={{ duration: 0.6 }}
           className="mb-6 lg:mb-8"
         >
-          <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-            Find Your Dream Job
-          </h1>
-          <p className="text-gray-600 text-base lg:text-lg">
+          {/* <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+           All Jobs
+          </h1> */}
+          {/* <p className="text-gray-600 text-base lg:text-lg">
             Discover {mockJobs.length}+ job opportunities from top companies
-          </p>
+          </p> */}
         </motion.div>
 
         {/* Search and Filter Section */}
@@ -145,7 +145,7 @@ export default function JobsPage() {
               </div>
               <button
                 onClick={handleSearch}
-                className="px-6 lg:px-8 py-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-sm hover:shadow-md flex items-center justify-center gap-2 whitespace-nowrap"
+                className="px-6 lg:px-8 h-[52px] bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-sm hover:shadow-md flex items-center justify-center gap-2 whitespace-nowrap"
               >
                 <Search className="h-5 w-5" />
                 <span className="hidden sm:inline">Search</span>
