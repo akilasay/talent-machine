@@ -21,14 +21,14 @@ const Footer = () => {
             </p>
             <div className="flex gap-4 mt-7">
               <a
-                href="https://www.facebook.com/"
+                href="https://www.facebook.com/profile.php?id=61585235332303"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <FacebookIcon color="#ffffff" />
               </a>
               <a
-                href="https://www.linkedin.com/"
+                href="https://www.linkedin.com/company/nextgen-talent-machine"
                 target="_blank"
                 rel="noopener noreferrer"
               >

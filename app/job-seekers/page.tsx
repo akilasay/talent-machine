@@ -1,15 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 import { getUserCandidateProfile } from "@/lib/actions/companion.actions";
 import JobSeekersClient from "./JobSeekersClient";
+import JobSeekersPublic from "./JobSeekersPublic";
 
 export default async function JobSeekersPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   
+  // If user is not logged in, show the public "For Job Seekers" card
   if (!user) {
-    const redirectUrl = "/job-seekers";
-    redirect(`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`);
+    return <JobSeekersPublic />;
   }
 
   // Check if user already has a candidate profile

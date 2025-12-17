@@ -14,7 +14,8 @@ import {
   Mail,
   Phone,
   Copy,
-  Check
+  Check,
+  UserPlus
 } from 'lucide-react';
 import { mockJobs } from '@/constants/jobsData';
 
@@ -145,10 +146,10 @@ export default function JobDetailPage() {
                       className="w-full bg-white text-blue-600 hover:bg-gray-100 font-semibold py-6 text-base transition-all duration-300"
                       size="lg"
                     >
-                      {showContactInfo ? 'Contact Info' : 'Apply Now'}
+                      {showContactInfo ? 'Hide Options' : 'Apply Now'}
                     </Button>
 
-                    {/* Contact Information - Expandable */}
+                    {/* Contact Information and Create Profile - Expandable */}
                     <AnimatePresence>
                       {showContactInfo && (
                         <motion.div
@@ -156,13 +157,16 @@ export default function JobDetailPage() {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
-                          className="mt-6 pt-6 border-t border-white/20 overflow-hidden"
+                          className="mt-6 pt-6 border-t border-white/20 overflow-hidden space-y-4"
                         >
-                          <div className="space-y-4">
-                            <div>
-                              <p className="text-sm text-blue-100 mb-2 font-medium">Send your CV via Email:</p>
-                              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-3">
+                          {/* Contact Details Section - Shown First */}
+                          <div className="space-y-3">
+                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                              <div className="flex items-center gap-3 mb-3">
                                 <Mail className="h-5 w-5 text-white flex-shrink-0" />
+                                <p className="text-sm text-blue-100 font-medium">Email:</p>
+                              </div>
+                              <div className="flex items-center gap-2">
                                 <a 
                                   href={`mailto:${job?.email}`}
                                   className="flex-1 text-white font-semibold hover:text-blue-100 transition-colors break-all"
@@ -182,10 +186,12 @@ export default function JobDetailPage() {
                                 </button>
                               </div>
                             </div>
-                            <div>
-                              <p className="text-sm text-blue-100 mb-2 font-medium">Or Contact via Phone:</p>
-                              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-3">
+                            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                              <div className="flex items-center gap-3 mb-3">
                                 <Phone className="h-5 w-5 text-white flex-shrink-0" />
+                                <p className="text-sm text-blue-100 font-medium">Phone:</p>
+                              </div>
+                              <div className="flex items-center gap-2">
                                 <a 
                                   href={`tel:${job?.contact?.replace(/\s/g, '')}`}
                                   className="flex-1 text-white font-semibold hover:text-blue-100 transition-colors"
@@ -206,6 +212,16 @@ export default function JobDetailPage() {
                               </div>
                             </div>
                           </div>
+
+                          {/* Create Profile Button - Shown Below Contact Info */}
+                          <Link href="/job-seekers" className="block">
+                            <Button
+                              className="w-full bg-white/10 hover:bg-white/20 text-white border-2 border-white/30 hover:border-white/50 font-semibold py-5 text-base transition-all duration-300 flex items-center justify-center gap-2"
+                            >
+                              <UserPlus className="h-5 w-5" />
+                              Create Profile Notify More Jobs
+                            </Button>
+                          </Link>
                         </motion.div>
                       )}
                     </AnimatePresence>

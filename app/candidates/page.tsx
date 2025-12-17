@@ -81,56 +81,58 @@ const CandidatesLibrary = async ({ searchParams }: SearchParams) => {
   }
 
   return (
-    <main className="p-6 relative z-10 max-w-7xl mx-auto mt-20">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          Find Your Perfect Candidate
-        </h1>
-        <p className="text-gray-600 dark:text-gray-300">
-          Use the search form below to find skilled professionals by job title or skills
-        </p>
-      </div>
-
-      <CandidateSearchFilters />
-
-      {candidates.length > 0 ? (
-        <>
-          <div className="flex justify-between items-center mb-6">
-            <p className="text-gray-600 dark:text-gray-300">
-              Showing {candidates.length} candidate{candidates.length !== 1 ? 's' : ''}
-              {(job || topic || education || experience) && ' matching your search'}
-            </p>
-          </div>
-          
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {candidates.map((candidate) => (
-              <CandidateCard
-                key={candidate.id}
-                {...candidate}
-                color={getSubjectColor(candidate.job)}
-              />
-            ))}
-          </section>
-        </>
-      ) : (
-        <div className="text-center py-16">
-          <div className="max-w-md mx-auto">
-            <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
-              <span className="text-4xl">🔍</span>
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-              {(job || topic || education || experience) ? "No candidates found" : "Start Your Search"}
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              {(job || topic || education || experience)
-                ? "Try adjusting your search criteria to find more candidates."
-                : "Use the search form above to find candidates by job title, skills, education, or experience. For example, search for 'accountant' or 'developer'."
-              }
-            </p>
-          </div>
+    <div className="min-h-screen bg-blue-50">
+      <main className="p-6 relative z-10 max-w-7xl mx-auto pt-24 md:pt-28">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-blue-900 mb-2">
+            Find Your Perfect Candidate
+          </h1>
+          <p className="text-blue-700">
+            Use the search form below to find skilled professionals by job title or skills
+          </p>
         </div>
-      )}
-    </main>
+
+        <CandidateSearchFilters />
+
+        {candidates.length > 0 ? (
+          <>
+            <div className="flex justify-between items-center mb-6">
+              <p className="text-blue-700">
+                Showing {candidates.length} candidate{candidates.length !== 1 ? 's' : ''}
+                {(job || topic || education || experience) && ' matching your search'}
+              </p>
+            </div>
+            
+            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {candidates.map((candidate) => (
+                <CandidateCard
+                  key={candidate.id}
+                  {...candidate}
+                  color={getSubjectColor(candidate.job)}
+                />
+              ))}
+            </section>
+          </>
+        ) : (
+          <div className="text-center py-16">
+            <div className="max-w-md mx-auto">
+              <div className="w-24 h-24 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center">
+                <span className="text-4xl">🔍</span>
+              </div>
+              <h3 className="text-xl font-semibold text-blue-900 mb-2">
+                {(job || topic || education || experience) ? "No candidates found" : "Start Your Search"}
+              </h3>
+              <p className="text-blue-700 mb-6">
+                {(job || topic || education || experience)
+                  ? "Try adjusting your search criteria to find more candidates."
+                  : "Use the search form above to find candidates by job title, skills, education, or experience. For example, search for 'accountant' or 'developer'."
+                }
+              </p>
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
   );
 };
 

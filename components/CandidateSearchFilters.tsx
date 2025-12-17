@@ -134,12 +134,12 @@ export default function CandidateSearchFilters() {
   const hasFilters = skills || (jobTitle && jobTitle !== 'any') || (education && education !== 'any') || (experience && experience !== 'any');
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-600 p-6 mb-8">
+    <div className="bg-white rounded-2xl shadow-lg border border-blue-200 p-6 mb-8">
       <div className="mb-6">
-        {/* <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        {/* <h2 className="text-xl font-semibold text-blue-900 mb-2">
           Find Your Perfect Candidate
         </h2> */}
-        <p className="text-gray-600 dark:text-gray-300 text-sm">
+        <p className="text-blue-700 text-sm">
         <i>Use the filters below to find candidates by skills, job title education, and experience</i>
         </p>
       </div>
@@ -147,7 +147,7 @@ export default function CandidateSearchFilters() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Skills/Topic Filter */}
         <div className="space-y-2">
-          <Label htmlFor="skills" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <Label htmlFor="skills" className="text-sm font-medium text-blue-900">
             Skills & Expertise
           </Label>
           <Input
@@ -155,17 +155,17 @@ export default function CandidateSearchFilters() {
             placeholder="e.g., QuickBooks, Excel, Marketing"
             value={skills}
             onChange={(e) => setSkills(e.target.value)}
-            className="w-full"
+            className="w-full border-blue-200 focus:border-blue-500 focus:ring-blue-500"
           />
         </div>
 
         {/* Job Title Filter */}
         <div className="space-y-2">
-          <Label htmlFor="jobTitle" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <Label htmlFor="jobTitle" className="text-sm font-medium text-blue-900">
             Job Title
           </Label>
           <Select value={jobTitle} onValueChange={setJobTitle}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full border-blue-200 focus:border-blue-500 focus:ring-blue-500">
               <SelectValue placeholder="Select job title" />
             </SelectTrigger>
             <SelectContent className="max-h-60">
@@ -181,11 +181,11 @@ export default function CandidateSearchFilters() {
 
         {/* Education Filter */}
         <div className="space-y-2">
-          <Label htmlFor="education" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <Label htmlFor="education" className="text-sm font-medium text-blue-900">
             Education Level
           </Label>
           <Select value={education} onValueChange={setEducation}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full border-blue-200 focus:border-blue-500 focus:ring-blue-500">
               <SelectValue placeholder="Select education" />
             </SelectTrigger>
             <SelectContent>
@@ -201,11 +201,11 @@ export default function CandidateSearchFilters() {
 
         {/* Experience Filter */}
         <div className="space-y-2">
-          <Label htmlFor="experience" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <Label htmlFor="experience" className="text-sm font-medium text-blue-900">
             Experience
           </Label>
           <Select value={experience} onValueChange={setExperience}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full border-blue-200 focus:border-blue-500 focus:ring-blue-500">
               <SelectValue placeholder="Select experience" />
             </SelectTrigger>
             <SelectContent>
@@ -226,7 +226,7 @@ export default function CandidateSearchFilters() {
         <Button
           onClick={handleSearch}
           disabled={!hasFilters}
-          className="px-8 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
+          className="px-8 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors disabled:bg-blue-300 disabled:cursor-not-allowed flex items-center gap-2"
         >
           <Search className="w-4 h-4" />
           Search Candidates
@@ -236,7 +236,7 @@ export default function CandidateSearchFilters() {
           <Button
             onClick={handleClear}
             variant="outline"
-            className="px-6 py-2 border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg font-medium transition-colors flex items-center gap-2"
+            className="px-6 py-2 border-blue-300 text-blue-700 hover:bg-blue-50 rounded-lg font-medium transition-colors flex items-center gap-2"
           >
             <X className="w-4 h-4" />
             Clear Filters
@@ -246,26 +246,26 @@ export default function CandidateSearchFilters() {
 
       {/* Active Filters Display */}
       {hasFilters && (
-        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+        <div className="mt-4 pt-4 border-t border-blue-200">
           <div className="flex flex-wrap gap-2">
-            <span className="text-sm text-gray-600 dark:text-gray-300">Active filters:</span>
+            <span className="text-sm text-blue-700">Active filters:</span>
             {skills && (
               <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
                 Skills: {skills}
               </span>
             )}
             {jobTitle && jobTitle !== 'any' && (
-              <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+              <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
                 Job: {jobTitles.find(t => t.value === jobTitle)?.label}
               </span>
             )}
             {education && education !== 'any' && (
-              <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
+              <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
                 Education: {educationLevels.find(e => e.value === education)?.label}
               </span>
             )}
             {experience && experience !== 'any' && (
-              <span className="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">
+              <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
                 Experience: {experienceRanges.find(e => e.value === experience)?.label}
               </span>
             )}

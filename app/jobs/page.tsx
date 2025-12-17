@@ -96,7 +96,7 @@ export default function JobsPage() {
   const hasActiveFilters = activeSearch || (locationFilter && locationFilter !== 'all');
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 md:pt-24">
+    <div className="min-h-screen bg-blue-50 pt-24 md:pt-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
         {/* Header */}
         <motion.div
@@ -105,10 +105,10 @@ export default function JobsPage() {
           transition={{ duration: 0.6 }}
           className="mb-6 lg:mb-8"
         >
-          {/* <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+          {/* <h1 className="text-3xl lg:text-4xl font-bold text-blue-900 mb-2">
            All Jobs
           </h1> */}
-          {/* <p className="text-gray-600 text-base lg:text-lg">
+          {/* <p className="text-blue-700 text-base lg:text-lg">
             Discover {mockJobs.length}+ job opportunities from top companies
           </p> */}
         </motion.div>
@@ -120,26 +120,26 @@ export default function JobsPage() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mb-6 lg:mb-8"
         >
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 lg:p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-blue-200 p-4 lg:p-6">
             {/* Search Bar */}
             <div className="flex flex-col sm:flex-row gap-3 mb-4">
               <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-blue-400" />
                 <Input
                   type="text"
                   placeholder="Job title, keywords, or company..."
                   value={searchKeyword}
                   onChange={(e) => setSearchKeyword(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="w-full pl-12 pr-12 py-6 text-base bg-gray-50 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:bg-white transition-all duration-300"
+                  className="w-full pl-12 pr-12 py-6 text-base bg-blue-50 border border-blue-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:bg-white transition-all duration-300"
                 />
                 {searchKeyword && (
                   <button
                     onClick={() => setSearchKeyword('')}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-gray-200 transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-blue-100 transition-colors"
                     aria-label="Clear input"
                   >
-                    <X className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+                    <X className="h-4 w-4 text-blue-400 hover:text-blue-600" />
                   </button>
                 )}
               </div>
@@ -156,7 +156,7 @@ export default function JobsPage() {
             <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="flex items-center gap-2 text-blue-700 hover:text-blue-900 font-medium text-sm px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors"
               >
                 <Filter className="h-4 w-4" />
                 Filters
@@ -164,9 +164,9 @@ export default function JobsPage() {
 
               {/* Sort Order - Always Visible */}
               <div className="flex items-center gap-2">
-                <ArrowUpDown className="h-4 w-4 text-gray-400" />
+                <ArrowUpDown className="h-4 w-4 text-blue-400" />
                 <Select value={sortOrder} onValueChange={setSortOrder}>
-                  <SelectTrigger className="w-full sm:w-[180px] bg-gray-50 border-gray-300">
+                  <SelectTrigger className="w-full sm:w-[180px] bg-blue-50 border-blue-200 focus:border-blue-500 focus:ring-blue-500">
                     <SelectValue placeholder="Sort by date" />
                   </SelectTrigger>
                   <SelectContent>
@@ -184,7 +184,7 @@ export default function JobsPage() {
                   className="w-full sm:w-auto"
                 >
                   <Select value={locationFilter} onValueChange={setLocationFilter}>
-                    <SelectTrigger className="w-full sm:w-[200px] bg-gray-50 border-gray-300">
+                    <SelectTrigger className="w-full sm:w-[200px] bg-blue-50 border-blue-200 focus:border-blue-500 focus:ring-blue-500">
                       <SelectValue placeholder="All Locations" />
                     </SelectTrigger>
                     <SelectContent>
@@ -215,28 +215,28 @@ export default function JobsPage() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="mt-4 pt-4 border-t border-gray-200 flex flex-wrap gap-2"
+                className="mt-4 pt-4 border-t border-blue-200 flex flex-wrap gap-2"
               >
                 {activeSearch && (
-                  <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
                     &quot;{activeSearch}&quot;
                     <button
                       onClick={() => {
                         setActiveSearch('');
                         setSearchKeyword('');
                       }}
-                      className="hover:bg-blue-100 rounded-full p-0.5"
+                      className="hover:bg-blue-200 rounded-full p-0.5"
                     >
                       <X className="h-3 w-3" />
                     </button>
                   </span>
                 )}
                 {locationFilter && locationFilter !== 'all' && (
-                  <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
                     {locationFilter}
                     <button
                       onClick={() => setLocationFilter('')}
-                      className="hover:bg-blue-100 rounded-full p-0.5"
+                      className="hover:bg-blue-200 rounded-full p-0.5"
                     >
                       <X className="h-3 w-3" />
                     </button>
@@ -250,9 +250,9 @@ export default function JobsPage() {
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="mt-4 text-sm text-gray-600"
+                className="mt-4 text-sm text-blue-700"
               >
-                Showing <span className="font-semibold text-gray-900">{filteredJobs.length}</span> of {mockJobs.length} jobs
+                Showing <span className="font-semibold text-blue-900">{filteredJobs.length}</span> of {mockJobs.length} jobs
               </motion.p>
             )}
           </div>
@@ -273,12 +273,12 @@ export default function JobsPage() {
                   className="group"
                 >
                   <Link href={`/jobs/${job.id}`}>
-                    <Card className="bg-white border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 cursor-pointer rounded-lg overflow-hidden">
+                    <Card className="bg-white border border-blue-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300 cursor-pointer rounded-lg overflow-hidden">
                       <CardContent className="p-4 lg:p-6">
                         <div className="flex flex-col sm:flex-row gap-4 lg:gap-6">
                           {/* Left: Company Logo */}
                           <div className="flex-shrink-0">
-                            <div className="w-16 h-16 lg:w-20 lg:h-20 bg-gray-100 rounded-lg overflow-hidden shadow-sm group-hover:shadow-md transition-shadow">
+                            <div className="w-16 h-16 lg:w-20 lg:h-20 bg-blue-100 rounded-lg overflow-hidden shadow-sm group-hover:shadow-md transition-shadow">
                               <Image
                                 src={jobImage}
                                 alt={job.company || job.title || 'Company'}
@@ -291,24 +291,24 @@ export default function JobsPage() {
 
                           {/* Middle: Job Details */}
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-lg lg:text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-1 line-clamp-2">
+                            <h3 className="text-lg lg:text-xl font-bold text-blue-900 group-hover:text-blue-700 transition-colors mb-1 line-clamp-2">
                               {job.title}
                             </h3>
                             {job.company && job.company.trim() !== '' && (
-                              <p className="text-gray-600 font-medium text-base mb-2">
+                              <p className="text-blue-700 font-medium text-base mb-2">
                                 {job.company}
                               </p>
                             )}
                             <div className="flex flex-wrap items-center gap-4 mt-3">
                               {job.location && job.location.trim() !== '' && (
-                                <div className="flex items-center gap-1.5 text-gray-600 text-sm">
-                                  <MapPin className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                                <div className="flex items-center gap-1.5 text-blue-700 text-sm">
+                                  <MapPin className="h-4 w-4 text-blue-500 flex-shrink-0" />
                                   <span>{job.location}</span>
                                 </div>
                               )}
                               {job.posted && job.posted.trim() !== '' && (
-                                <div className="flex items-center gap-1.5 text-gray-500 text-sm">
-                                  <Clock className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                                <div className="flex items-center gap-1.5 text-blue-600 text-sm">
+                                  <Clock className="h-4 w-4 text-blue-500 flex-shrink-0" />
                                   <span>Posted {job.posted}</span>
                                 </div>
                               )}
@@ -342,14 +342,14 @@ export default function JobsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center py-16 bg-white rounded-lg border border-gray-200"
+              className="text-center py-16 bg-white rounded-lg border border-blue-200"
             >
               {hasActiveFilters ? (
                 <>
-                  <div className="text-gray-500 text-lg mb-2 font-medium">
+                  <div className="text-blue-700 text-lg mb-2 font-medium">
                     No jobs found
                   </div>
-                  <p className="text-gray-400 mb-6 text-sm">
+                  <p className="text-blue-600 mb-6 text-sm">
                     Try adjusting your search or filters
                   </p>
                   <Button
@@ -362,10 +362,10 @@ export default function JobsPage() {
                 </>
               ) : (
                 <>
-                  <div className="text-gray-500 text-lg mb-2 font-medium">
+                  <div className="text-blue-700 text-lg mb-2 font-medium">
                     No job postings available
                   </div>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-blue-600 text-sm">
                     Check back later for new opportunities
                   </p>
                 </>

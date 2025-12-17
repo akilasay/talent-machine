@@ -116,11 +116,12 @@ export default function EmployerProfilePage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="flex justify-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
+              className="w-full max-w-md"
             >
               <Card className="h-full shadow-xl">
                 <CardHeader>
@@ -154,49 +155,6 @@ export default function EmployerProfilePage() {
                   <Link href="/employers/sign-up" className="block">
                     <Button className="w-full bg-blue-600 hover:bg-blue-700">
                       Sign Up as Employer
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            >
-              <Card className="h-full shadow-xl">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Users className="h-5 w-5 text-green-600" />
-                    <span>For Job Seekers</span>
-                  </CardTitle>
-                  <CardDescription>
-                    Looking for a job? Create a candidate account
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <ul className="space-y-2 text-sm text-gray-600">
-                    <li className="flex items-center space-x-2">
-                      <CheckCircle className="h-4 w-4 text-green-500" />
-                      <span>Create professional profile</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <CheckCircle className="h-4 w-4 text-green-500" />
-                      <span>Apply to job listings</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <CheckCircle className="h-4 w-4 text-green-500" />
-                      <span>Get discovered by employers</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <CheckCircle className="h-4 w-4 text-green-500" />
-                      <span>Track applications</span>
-                    </li>
-                  </ul>
-                  <Link href="/sign-up" className="block">
-                    <Button variant="outline" className="w-full">
-                      Sign Up as Job Seeker
                     </Button>
                   </Link>
                 </CardContent>

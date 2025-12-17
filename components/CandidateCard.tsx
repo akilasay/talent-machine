@@ -56,17 +56,17 @@ const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, c
 
   return (
     <article
-      className="flex flex-col flex-1 min-w-[280px] max-w-[360px] rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 p-6 gap-4 shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
+      className="flex flex-col flex-1 min-w-[280px] max-w-[360px] rounded-2xl bg-white border border-blue-200 p-6 gap-4 shadow-lg hover:shadow-xl hover:border-blue-300 transition-all duration-300 ease-in-out"
     >
       {/* Header: Job Tag and Bookmark */}
       <div className="flex justify-between items-center">
         <span
-          className={`text-xs font-medium px-3 py-1 rounded-full text-blue-950 capitalize ${color}`}
+          className={`text-xs font-medium px-3 py-1 rounded-full text-white bg-blue-600 capitalize ${color}`}
         >
           {job}
         </span>
         <button
-          className="p-2 bg-gray-500 dark:bg-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 active:scale-95 transition-all duration-200"
+          className="p-2 bg-blue-100 rounded-full hover:bg-blue-200 active:scale-95 transition-all duration-200"
           aria-label="Bookmark candidate"
         >
           <Image
@@ -74,13 +74,13 @@ const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, c
             alt="Bookmark"
             width={12}
             height={14}
-            className="dark:invert"
+            className="opacity-70"
           />
         </button>
       </div>
 
       {/* Skills */}
-      <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+      <p className="text-sm text-blue-700 line-clamp-2">
         {topic}
       </p>
 
@@ -91,10 +91,10 @@ const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, c
           alt="Education"
           width={16}
           height={16}
-          className="dark:invert"
+          className="opacity-70"
         />
-        <p className="text-sm text-gray-600 dark:text-gray-300">
-          <span className="font-medium">Education:</span>{' '}
+        <p className="text-sm text-blue-700">
+          <span className="font-medium text-blue-900">Education:</span>{' '}
           {education === 'highschool'
             ? 'High School'
             : education === 'diploma'
@@ -112,24 +112,24 @@ const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, c
           alt="Experience"
           width={16}
           height={16}
-          className="dark:invert"
+          className="opacity-70"
         />
-        <p className="text-sm text-gray-600 dark:text-gray-300">
-          <span className="font-medium">Experience:</span> {experience} years
+        <p className="text-sm text-blue-700">
+          <span className="font-medium text-blue-900">Experience:</span> {experience} years
         </p>
       </div>
 
       {/* CV Availability */}
       {cv_url && (
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-green-100 rounded-full flex items-center justify-center">
-            <span className="text-green-600 text-xs">📄</span>
+          <div className="w-4 h-4 bg-blue-100 rounded-full flex items-center justify-center">
+            <span className="text-blue-600 text-xs">📄</span>
           </div>
-          <p className="text-sm text-green-600 dark:text-green-400 font-medium">
+          <p className="text-sm text-blue-600 font-medium">
             CV Available
           </p>
           {cv_file_size && (
-            <span className="text-xs text-gray-500 dark:text-gray-400">
+            <span className="text-xs text-blue-500">
               ({(cv_file_size / 1024 / 1024).toFixed(1)} MB)
             </span>
           )}
@@ -149,21 +149,21 @@ const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, c
               alt="Arrow"
               width={24}
               height={24}
-              className="dark:invert"
+              className="invert"
             />
           </button>
         </Link>
       ) : (
         // Job seekers see limited access message
         <div className="w-full mt-auto">
-          <div className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-center text-sm">
+          <div className="px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-center text-sm border border-blue-200">
             <div className="flex items-center justify-center gap-2 mb-1">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
-              <span className="font-medium">Premium Access</span>
+              <span className="font-medium text-blue-900">Premium Access</span>
             </div>
-            <p className="text-xs">
+            <p className="text-xs text-blue-600">
               Login as employer to view full profile
             </p>
           </div>
@@ -177,7 +177,7 @@ const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, c
                 alt="Arrow"
                 width={24}
                 height={24}
-                className="dark:invert"
+                className="invert"
               />
             </button>
           </Link>
