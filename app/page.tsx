@@ -7,8 +7,29 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {  Briefcase, ArrowRight, MapPin } from 'lucide-react';
 import { mockJobs } from '@/constants/jobsData';
+import { useMemo } from 'react';
 
 export default function HomePage() {
+  // Sort jobs by date (newest first) and get the latest 3
+  const latestJobs = useMemo(() => {
+    const sortedJobs = [...mockJobs].sort((a, b) => {
+      if (!a.posted || !b.posted) return 0;
+      
+      // Parse date from YYYY/MM/DD format
+      const parseDate = (dateStr: string) => {
+        const [year, month, day] = dateStr.split('/').map(Number);
+        return new Date(year, month - 1, day);
+      };
+
+      const dateA = parseDate(a.posted);
+      const dateB = parseDate(b.posted);
+      
+      // Newest first
+      return dateB.getTime() - dateA.getTime();
+    });
+    
+    return sortedJobs.slice(0, 3);
+  }, []);
   return (
     <div className="min-h-screen bg-blue-50">
       {/* Hero Section with Background Image */}
@@ -72,7 +93,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Popular Search Section */}
+      {/* Latest Jobs Section */}
       <section className="py-8 md:py-10 lg:py-12 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-7xl mx-auto px-4 lg:px-10">
           {/* Section Title */}
@@ -83,13 +104,13 @@ export default function HomePage() {
             className="text-center mb-6 md:mb-8"
           >
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-blue-900 uppercase tracking-wider">
-              Popular Search
+              Latest Jobs
             </h2>
           </motion.div>
 
           {/* Job Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            {mockJobs.slice(0, 3).map((job, index) => {
+            {latestJobs.map((job, index) => {
               // Use poster field from job data, fallback to logo if poster doesn't exist
               const jobImage = job.poster || job.logo;
               return (
