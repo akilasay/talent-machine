@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback?redirect_url=${encodeURIComponent('/')}`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/auth/callback?redirect_url=${encodeURIComponent('/')}`,
         data: {
           user_type: userType, // Store user type in metadata for later use
         }
@@ -117,10 +117,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signInWithGoogle = async (redirectUrl?: string) => {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?redirect_url=${encodeURIComponent(redirectUrl || '/')}`
+        redirectTo: `${siteUrl}/auth/callback?redirect_url=${encodeURIComponent(redirectUrl || '/')}`
       }
     })
     return { error }
@@ -144,8 +145,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const resetPassword = async (email: string) => {
+    // Use environment variable for production URL, fallback to window.location.origin for development
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/reset-password`,
+      redirectTo: `${siteUrl}/auth/reset-password`,
     })
     return { error }
   }
