@@ -19,10 +19,14 @@ export default function SignInForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
-  const { signIn, signUp, signInWithGoogle, user } = useAuth()
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
+  const [resetEmail, setResetEmail] = useState('')
+  const [resetMessage, setResetMessage] = useState('')
+  const { signIn, signUp, signInWithGoogle, resetPassword, user } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectUrl = searchParams.get('redirect_url') || '/'
+  const passwordReset = searchParams.get('password_reset') === 'true'
   
   // Debug logging
   useEffect(() => {
@@ -88,20 +92,111 @@ export default function SignInForm() {
     // Note: Google OAuth works for both sign-in and sign-up
   }
 
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    setResetMessage('')
+
+    const { error } = await resetPassword(resetEmail)
+    
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+    } else {
+      setResetMessage('Password reset email sent! Please check your inbox and follow the instructions to reset your password.')
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="flex h-screen items-center justify-center bg-gray-200 dark:bg-gray-900">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>{isSignUp ? 'Create Account' : 'Sign In'}</CardTitle>
+          <CardTitle>
+            {showForgotPassword ? 'Reset Password' : isSignUp ? 'Create Account' : 'Sign In'}
+          </CardTitle>
           <CardDescription>
-            {isSignUp 
-              ? 'Enter your email and password to create a new account'
-              : 'Enter your email and password to sign in to your account'
+            {showForgotPassword
+              ? 'Enter your email address and we\'ll send you a link to reset your password'
+              : isSignUp 
+                ? 'Enter your email and password to create a new account'
+                : 'Enter your email and password to sign in to your account'
             }
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          {passwordReset && !showForgotPassword && (
+            <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0">
+                  <svg className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-green-900 mb-1">
+                    Password Reset Successful!
+                  </h3>
+                  <p className="text-sm text-green-800">
+                    Your password has been updated. Please sign in with your new password.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+          {showForgotPassword ? (
+            <form onSubmit={handleResetPassword} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="resetEmail">Email</Label>
+                <Input
+                  id="resetEmail"
+                  type="email"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  required
+                  disabled={loading}
+                  placeholder="Enter your email"
+                />
+              </div>
+              {error && (
+                <div className="text-red-500 text-sm">{error}</div>
+              )}
+              {resetMessage && (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm text-green-800">{resetMessage}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div className="flex gap-2">
+                <Button type="submit" className="flex-1" disabled={loading || !!resetMessage}>
+                  {loading ? 'Sending...' : 'Send Reset Link'}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setShowForgotPassword(false)
+                    setResetEmail('')
+                    setError('')
+                    setResetMessage('')
+                  }}
+                  disabled={loading}
+                >
+                  Back
+                </Button>
+              </div>
+            </form>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -114,7 +209,22 @@ export default function SignInForm() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password</Label>
+                {!isSignUp && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowForgotPassword(true)
+                      setError('')
+                      setResetMessage('')
+                    }}
+                    className="text-sm text-blue-600 hover:text-blue-500 font-medium"
+                  >
+                    Forgot password?
+                  </button>
+                )}
+              </div>
               <Input
                 id="password"
                 type="password"
@@ -183,8 +293,10 @@ export default function SignInForm() {
               }
             </Button>
           </form>
+          )}
           
           {/* Toggle between Sign In and Sign Up */}
+          {!showForgotPassword && (
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-600">
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}
@@ -201,6 +313,7 @@ export default function SignInForm() {
               </button>
             </p>
           </div>
+          )}
           
           {/* Google Sign-In Button - Hidden for now, can be enabled by setting SHOW_GOOGLE_SIGN_IN to true */}
           {SHOW_GOOGLE_SIGN_IN && (
@@ -244,6 +357,7 @@ export default function SignInForm() {
               </Button>
             </div>
           )}
+  
         </CardContent>
       </Card>
     </div>

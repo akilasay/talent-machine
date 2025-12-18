@@ -15,8 +15,16 @@ export async function GET(request: Request) {
       const forwardedHost = request.headers.get('x-forwarded-host') // original origin before load balancer
       const isLocalEnv = process.env.NODE_ENV === 'development'
       
-      // If this is a signup confirmation, redirect to a welcome page or the intended destination
-      const finalRedirectUrl = type === 'signup' ? '/?confirmed=true' : redirectUrl
+      // Handle different types of email confirmations
+      let finalRedirectUrl = redirectUrl
+      if (type === 'signup') {
+        finalRedirectUrl = '/?confirmed=true'
+      } else if (type === 'recovery') {
+        // Password recovery - redirect to reset password page
+        finalRedirectUrl = '/auth/reset-password'
+      } else if (type === 'email_change') {
+        finalRedirectUrl = redirectUrl
+      }
       
       if (isLocalEnv) {
         // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host

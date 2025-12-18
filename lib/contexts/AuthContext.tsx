@@ -13,6 +13,7 @@ interface AuthContextType {
   signOut: () => Promise<void>
   signInWithGoogle: (redirectUrl?: string) => Promise<{ error: Error | null }>
   getUserType: () => Promise<'candidate' | 'employer' | null>
+  resetPassword: (email: string) => Promise<{ error: Error | null }>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -142,6 +143,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return data?.user_type || null
   }
 
+  const resetPassword = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/reset-password`,
+    })
+    return { error }
+  }
+
   const value = {
     user,
     session,
@@ -151,6 +159,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signOut,
     signInWithGoogle,
     getUserType,
+    resetPassword,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
