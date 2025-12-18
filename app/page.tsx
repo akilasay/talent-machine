@@ -33,8 +33,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-blue-50">
       {/* Hero Section with Background Image */}
-      <section className="relative overflow-hidden pt-20 md:pt-24 pb-8 lg:pb-12 min-h-[450px] md:min-h-[500px] lg:min-h-[550px]">
-        {/* Background Image - Full Section */}
+      <section className="relative overflow-hidden pt-20 md:pt-24 pb-8 lg:pb-12 min-h-[450px] md:min-h-[500px] lg:min-h-[550px]">        {/* Background Image - Full Section */}
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/herobg2.jpeg"

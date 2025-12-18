@@ -59,7 +59,7 @@ const Footer = () => {
             <div className="max-md:max-w-full">
               <div className="flex gap-5 max-md:flex-col max-md:gap-0">
                 {/* Company Links */}
-                <div className="flex flex-col ml-5 w-[31%] max-md:ml-0 max-md:w-full">
+                <div className="flex flex-col ml-5 w-[28%] max-md:ml-0 max-md:w-full">
                   <div className="text-lg text-white max-md:mt-10">
                     <span className="text-2xl font-bold text-indigo-50">Company</span>
                     <br />
@@ -78,7 +78,7 @@ const Footer = () => {
                 </div>
 
                 {/* Our Services Links */}
-                <div className="flex flex-col ml-5 w-[31%] max-md:ml-0 max-md:w-full">
+                <div className="flex flex-col ml-5 w-[38%] max-md:ml-0 max-md:w-full">
                   <div className="text-lg text-white max-md:mt-10">
                     <span className="text-2xl font-bold text-indigo-50">Our Services</span>
                     <br />
@@ -93,11 +93,27 @@ const Footer = () => {
                     <Link className="" href="/employers">
                       <span className="text-base leading-5">Employers</span>
                     </Link>
+                    <br />
+                    <Link className="" href="/jobs">
+                      <span className="text-base leading-5">Jobs</span>
+                    </Link>
+                    <br />
+                    <Link className="" href="/carrier-coach">
+                      <span className="text-base leading-5 whitespace-nowrap">Career Coach</span>
+                    </Link>
+                    <br />
+                    <Link className="" href="/cv-preparation-support">
+                      <span className="text-base leading-5 whitespace-nowrap">CV Preparation Support</span>
+                    </Link>
+                    <br />
+                    <Link className="" href="/hr-services">
+                      <span className="text-base leading-5">Outsourced HR Services</span>
+                    </Link>
                   </div>
                 </div>
 
                 {/* Legal Links */}
-                <div className="flex flex-col ml-5 w-[31%] max-md:ml-0 max-md:w-full">
+                <div className="flex flex-col ml-5 w-[28%] max-md:ml-0 max-md:w-full">
                   <div className="text-lg text-white max-md:mt-10">
                     <span className="text-2xl font-bold text-indigo-50">Legal</span>
                     <br />

@@ -23,7 +23,7 @@ const faqData: FAQItem[] = [
   {
     id: 'js-2',
     question: 'How much does it cost to create a profile?',
-    answer: 'Everithing for a fee.',
+    answer: 'No any charge for creating a profile.',
     category: 'job-seeker',
   },
   {

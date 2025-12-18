@@ -29,7 +29,9 @@ export default function RootLayout({
       <body className={`${bricolage.variable} antialiased`}>
         <AuthProvider>
           <Navbar />
-          {children}
+          <main >
+            {children}
+          </main>
           <Footer />
         </AuthProvider>
       </body>

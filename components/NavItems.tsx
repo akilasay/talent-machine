@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import { motion } from 'framer-motion';
-import { Home, Users, Briefcase, UserCheck, Building2 } from 'lucide-react';
+import { Home, Users, Briefcase, UserCheck, Building2, Book } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { createClient } from '@/lib/supabase/client';
 
@@ -40,6 +40,12 @@ const navItems = [
         icon: Building2,
         description: 'Post jobs and find talent',
         showForUserTypes: ['not_logged_in', 'employer'] // Show for not logged in users and employers only
+    },
+    { 
+        label: 'Resources', 
+        href: '/resources', 
+        icon: Book,
+        description: 'resources',
     },
 ]
 
