@@ -66,7 +66,7 @@ export default function ResetPasswordPage() {
         }, 3000)
       }
     } catch (err) {
-      setError('An error occurred. Please try again.')
+      setError('error: ' + err + ' An error occurred. Please try again.')
       setLoading(false)
     }
   }
