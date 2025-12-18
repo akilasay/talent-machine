@@ -32,7 +32,7 @@ function ComingSoonContent() {
           </p>
           
           <p className="text-lg text-gray-600 mb-8 max-w-xl mx-auto">
-            We're working hard to bring you this amazing service. Stay tuned for updates!
+            We&apos;re working hard to bring you this amazing service. Stay tuned for updates!
           </p>
 
           <motion.div

@@ -132,7 +132,7 @@ export default function ResourcesPage() {
               Your Career Coaching Resource Hub
             </h1>
             <p className="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Access expert guidance, tips, and strategies to advance your career. From resume writing to interview preparation, we've got you covered.
+              Access expert guidance, tips, and strategies to advance your career. From resume writing to interview preparation, we&apos;ve got you covered.
             </p>
           </motion.div>
         </div>
