@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home, Users, Briefcase, UserCheck, Building2, Book, ChevronDown, Info, Mail, HelpCircle, Instagram, FacebookIcon, Linkedin } from 'lucide-react';
+import { Home, Users, Briefcase, UserCheck, Building2, Book, ChevronDown, Info, Mail, HelpCircle, FacebookIcon, Linkedin } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { createClient } from '@/lib/supabase/client';
 
@@ -96,7 +96,7 @@ const navItems = [
 ]
 
 const NavItems = (props: { onItemClick?: () => void; isHomePage?: boolean } = {}) => {
-    const { onItemClick, isHomePage = false } = props;
+    const { onItemClick } = props;
     const pathname = usePathname();
     const { user } = useAuth();
     const [userType, setUserType] = useState<'candidate' | 'employer' | null>(null);
