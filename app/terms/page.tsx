@@ -622,7 +622,7 @@ const TermsAndConditionsPage = () => {
                   </div>
                   <div className="flex items-center gap-3">
                     <MapPin className="h-5 w-5 flex-shrink-0" />
-                    <span>High Level Rd, Nugegoda 10250</span>
+                    <span>No.441/28 J, Highlevel Road, Gangodawila, Nugegoda, Colombo, SRI LANKA</span>
                   </div>
                 </div>
               </div>

@@ -11,8 +11,8 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "NextGen Talent machine",
-  description: "NextGen Talent machine",
+  title: "NextGen Talent Machine",
+  description: "NextGen Talent Machine",
   icons: {
     icon: "/favicon.png",   // for browsers
     // shortcut: "/favicon.png", // optional

@@ -61,7 +61,7 @@ export default function AboutUsPage() {
             >
               <div className="relative w-full h-96 lg:h-[500px] rounded-lg overflow-hidden">
                 <Image
-                  src="/images/team-office.jpg"
+                  src="/images/team-office.png"
                   alt="Diverse team in office"
                   fill
                   className="object-cover"
@@ -156,7 +156,7 @@ export default function AboutUsPage() {
             >
               <div className="relative w-full h-96 lg:h-[500px] rounded-lg overflow-hidden">
                 <Image
-                  src="/images/team-collage.jpg"
+                  src="/images/team-collage.png"
                   alt="Diverse team members"
                   fill
                   className="object-cover"

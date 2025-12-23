@@ -251,7 +251,7 @@ export default function ContactUsPage() {
                     <div>
                       <h3 className="font-semibold mb-1">Address</h3>
                       <p className="text-blue-100">
-                        High Level Rd, Nugegoda 10250
+                        No.441/28 J, Highlevel Road, Gangodawila, Nugegoda, Colombo, SRI LANKA
                       </p>
                     </div>
                   </div>
