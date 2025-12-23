@@ -38,7 +38,7 @@ export const mockJobs = [
   {
     id: 4,
     title: 'Assistant Accountant',
-    company: '',
+    company: 'Company Name Withheld',
     location: 'Colombo',
     posted: '2025/12/07',
     logo: '/images/poster/secondJobPost.jpeg',
@@ -49,7 +49,7 @@ export const mockJobs = [
   {
     id: 5,
     title: 'Accounts Executives',
-    company: '',
+    company: 'Company Name Withheld',
     location: 'Colombo',
     posted: '2025/12/07',
     logo: '/images/poster/secondJobPost.jpeg',
@@ -60,8 +60,8 @@ export const mockJobs = [
   {
     id: 6,
     title: 'Senior Tax Accountant',
-    company: 'bpo sl',
-    location: 'Colombo',
+    company: 'Company Name Withheld',
+    location: 'WFH',
     posted: '2025/12/10',
     logo: '/images/poster/post3.jpeg',
     poster: '/images/poster/post3.jpeg',

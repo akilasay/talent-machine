@@ -194,8 +194,8 @@ export default function Navbar() {
     <motion.nav
       className={`fixed top-0 left-0 w-full z-50 ${
         isHomePage 
-          ? 'bg-transparent backdrop-blur-md border-b border-white/20 shadow-none' 
-          : 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-gray-100/60 dark:shadow-gray-900/60'
+          ? 'bg-blue-950/80 backdrop-blur-md border-b border-blue-800/30 shadow-lg shadow-blue-950/20' 
+          : 'bg-blue-950 backdrop-blur-xl border-b border-blue-800/50 shadow-xl shadow-blue-950/30'
       }`}
       initial="initial"
       animate="animate"
@@ -209,34 +209,22 @@ export default function Navbar() {
           className="flex-shrink-0"
         >
           <Link href="/">
-            <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group">
+            <div className="flex items-center gap-2 sm:gap-3 cursor-pointer">
               <div className="relative">
-                {/* Dark background container for logo visibility */}
-                <div className="bg-blue-950 dark:bg-gray-100 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 border border-blue-900 dark:border-gray-300 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center">
-                  <Image
-                    src="/images/logo2.png"
-                    alt="logo"
-                    width={48}
-                    height={48}
-                    className="w-10 h-10 sm:w-12 sm:h-12"
-                    priority
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <Image
+                  src="/images/logo2.png"
+                  alt="logo"
+                  width={64}
+                  height={64}
+                  className="w-14 h-14 sm:w-16 sm:h-16"
+                  priority
+                />
               </div>
               <div className="hidden xs:block">
-                <h1 className={`text-base sm:text-xl font-bold leading-tight ${
-                  isHomePage 
-                    ? 'text-white' 
-                    : 'bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
-                }`}>
+                <h1 className="text-base sm:text-xl font-bold leading-tight text-white">
                   TalentHub
                 </h1>
-                <p className={`text-xs -mt-1 hidden sm:block ${
-                  isHomePage 
-                    ? 'text-white/90' 
-                    : 'text-gray-500 dark:text-gray-400'
-                }`}>
+                <p className="text-xs -mt-1 hidden sm:block text-white/90">
                   Find Your Dream Job
                 </p>
               </div>
@@ -258,11 +246,7 @@ export default function Navbar() {
             >
               <Link href="/sign-in">
               <Button
-                  className={`${
-                    isHomePage
-                      ? 'bg-white/95 hover:bg-white text-blue-700 border-0 backdrop-blur-sm'
-                      : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white'
-                  } rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-blue-500/25`}
+                  className="bg-white hover:bg-blue-50 text-blue-950 border-0 rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-white/20"
               >
                 Sign In
               </Button>
@@ -276,11 +260,7 @@ export default function Navbar() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className={`flex items-center gap-3 p-2 rounded-xl transition-all duration-300 group ${
-                    isHomePage
-                      ? 'hover:bg-white/10'
-                      : 'hover:bg-gray-50 dark:hover:bg-gray-800'
-                  }`}
+                  className="flex items-center gap-3 p-2 rounded-xl transition-all duration-300 group hover:bg-blue-900/50"
                 >
                   <div className="relative">
                     <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
@@ -291,18 +271,10 @@ export default function Navbar() {
                     <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
                   </div>
                   <div className="text-left">
-                    <p className={`text-sm font-semibold ${
-                      isHomePage 
-                        ? 'text-white' 
-                        : 'text-gray-900 dark:text-gray-100'
-                    }`}>
+                    <p className="text-sm font-semibold text-white">
                       {user.email?.split('@')[0]}
                     </p>
-                    <p className={`text-xs ${
-                      isHomePage 
-                        ? 'text-white/80' 
-                        : 'text-gray-500 dark:text-gray-400'
-                    }`}>
+                    <p className="text-xs text-white/80">
                       Online
                     </p>
                   </div>
@@ -316,7 +288,7 @@ export default function Navbar() {
                       initial="closed"
                       animate="open"
                       exit="closed"
-                      className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden"
+                      className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-blue-200 dark:border-blue-800 overflow-hidden"
                     >
                       <div className="p-4 border-b border-gray-100 dark:border-gray-700">
                         <div className="flex items-center gap-3">
@@ -376,11 +348,7 @@ export default function Navbar() {
               variant="ghost"
               size="icon"
               onClick={toggleMobileMenu}
-              className={`rounded-full p-2 ${
-                isHomePage
-                  ? 'text-white hover:text-white/90 hover:bg-white/10'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30'
-              }`}
+              className="rounded-full p-2 text-white hover:text-white/90 hover:bg-white/10"
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
               <motion.div
@@ -399,11 +367,7 @@ export default function Navbar() {
         {isMobileMenuOpen && (
           <motion.div
             ref={mobileMenuRef}
-            className={`md:hidden backdrop-blur-xl ${
-              isHomePage
-                ? 'bg-lime-300/90 border-t border-white/20'
-                : 'bg-white/95 dark:bg-gray-900/95 border-t border-gray-200/50 dark:border-gray-700/50'
-            }`}
+            className="md:hidden backdrop-blur-xl bg-blue-950 border-t border-blue-800/50"
             initial="closed"
             animate="open"
             exit="closed"
@@ -416,11 +380,7 @@ export default function Navbar() {
           </div>
           
           {/* Mobile Auth Section */}
-          <div className={`border-t pt-4 ${
-            isHomePage 
-              ? 'border-white/20' 
-              : 'border-gray-200 dark:border-gray-700'
-          }`}>
+          <div className="border-t border-blue-800/50 pt-4">
             {!user ? (
               <motion.div
                 whileHover={{ scale: 1.02 }}
@@ -429,11 +389,7 @@ export default function Navbar() {
               >
                 <Link href="/sign-in" className="w-full">
                   <Button
-                    className={`${
-                      isHomePage
-                        ? 'bg-white/95 hover:bg-white text-blue-700 border-0 backdrop-blur-sm'
-                        : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white'
-                    } rounded-xl px-6 py-3 text-sm font-semibold w-full transition-all duration-300 shadow-lg hover:shadow-xl`}
+                    className="bg-white hover:bg-blue-50 text-blue-950 border-0 rounded-xl px-6 py-3 text-sm font-semibold w-full transition-all duration-300 shadow-lg hover:shadow-xl"
                   >
                     Sign In
                   </Button>
@@ -442,17 +398,17 @@ export default function Navbar() {
             ) : (
               <div className="flex flex-col gap-4 w-full">
                 {/* User Profile Card */}
-                <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl w-full">
+                <div className="flex items-center gap-3 p-4 bg-blue-900/50 rounded-xl w-full">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-white text-lg font-bold">
                       {user.email?.split('@')[0]?.charAt(0).toUpperCase()}
                     </span>
                   </div>
                   <div className="text-left min-w-0 flex-1">
-                    <p className="font-semibold text-gray-900 dark:text-gray-100 truncate">
+                    <p className="font-semibold text-white truncate">
                       {user.email?.split('@')[0]}
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                    <p className="text-sm text-white/80 truncate">
                       {user.email}
                     </p>
                   </div>
@@ -468,7 +424,7 @@ export default function Navbar() {
                     <button
                       onClick={handleProfileClick}
                       disabled={isLoadingProfile}
-                      className="flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-950/50 transition-all duration-200 w-full text-center disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-blue-900/50 text-white hover:bg-blue-800/50 transition-all duration-200 w-full text-center disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <User className="w-4 h-4" />
                       <span className="text-sm font-medium">
@@ -486,7 +442,7 @@ export default function Navbar() {
                     <Button
                       variant="outline"
                       onClick={handleSignOut}
-                      className="border-red-200 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl px-4 py-3 text-sm font-semibold w-full transition-all duration-300"
+                      className="border-red-500/50 text-red-300 hover:bg-red-900/30 hover:border-red-400 rounded-xl px-4 py-3 text-sm font-semibold w-full transition-all duration-300"
                     >
                       <LogOut className="w-4 h-4 mr-2" />
                       Sign Out
