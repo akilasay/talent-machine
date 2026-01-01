@@ -32,7 +32,7 @@ export const featuredArticles: Article[] = [
         title: 'The Complete Job Seeker\'s Guide 2026',
         description: 'How to stay employable, relevant, and competitive in a changing job market.',
         type: 'Guide',
-        readTime: '16 min read',
+        readTime: '6 mins read',
         image: '/images/Complete-Job-Seekers-Guide-2026.png',
         content: {
           subtitle: 'How to Stay Employable, Relevant, and Competitive in a Changing Job Market',
@@ -82,7 +82,7 @@ export const featuredArticles: Article[] = [
     title: 'Career Coaching Tips',
     description: 'Expert guidance to navigate your professional journey with clarity and confidence.',
     type: 'Article',
-    readTime: '10 min read',
+    readTime: '5 mins read',
     image: '/images/Career-Coaching-Tips.png',
     content: {
       subtitle: 'Expert Guidance to Navigate Your Professional Journey with Clarity and Confidence',
@@ -124,7 +124,7 @@ export const featuredArticles: Article[] = [
     title: 'Career Growth',
     description: 'Strategies and insights to advance your career and reach your goals.',
     type: 'Article',
-    readTime: '12 min read',
+    readTime: '4 mins read',
     image: '/images/Career-Growth.png',
     content: {
       subtitle: 'Strategies and Insights to Advance Your Career and Reach Your Goals',
@@ -166,7 +166,7 @@ export const featuredArticles: Article[] = [
     title: 'Interview Preparation',
     description: 'Master the art of interviewing with proven strategies and practical guidance.',
     type: 'Article',
-    readTime: '15 min read',
+    readTime: '5 mins read',
     image: '/images/Interview-Preparation.png',
     content: {
       subtitle: 'Master the Art of Interviewing with Proven Strategies and Practical Guidance',
@@ -250,7 +250,7 @@ export const featuredArticles: Article[] = [
     title: 'Mastering Virtual Interviews',
     description: 'A practical guide to succeeding in remote hiring environments.',
     type: 'Article',
-    readTime: '14 min read',
+    readTime: '6 mins read',
     image: '/images/Mastering-Virtual-Interviews.png',
     content: {
       subtitle: 'A Practical Guide to Succeeding in Remote Hiring Environments',
@@ -300,7 +300,7 @@ export const featuredArticles: Article[] = [
     title: 'Professional Development',
     description: 'Enhancing your skills to stay competitive in a rapidly changing job market.',
     type: 'Article',
-    readTime: '11 min read',
+    readTime: '5 mins read',
     image: '/images/Professional-Development.png',
     content: {
       subtitle: 'Enhancing Your Skills to Stay Competitive in a Rapidly Changing Job Market',
@@ -346,7 +346,7 @@ export const featuredArticles: Article[] = [
     title: 'Resume & CV Tips',
     description: 'How to create a resume that gets noticed by employers.',
     type: 'Article',
-    readTime: '10 min read',
+    readTime: '5 mins read',
     image: '/images/Resume-CV-Tips.png',
     content: {
       subtitle: 'How to Create a Resume That Gets Noticed by Employers',
