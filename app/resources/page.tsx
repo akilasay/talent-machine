@@ -1,120 +1,20 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { BookOpen, FileText, Video, Users, TrendingUp, Target, Lightbulb, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { BookOpen, ArrowRight, X, CheckCircle2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { featuredArticles } from '@/constants/articlesData';
 
 export default function ResourcesPage() {
-  const resourceCategories = [
-    {
-      icon: FileText,
-      title: 'Resume & CV Tips',
-      description: 'Learn how to create a standout resume that gets noticed by employers.',
-      resources: [
-        'How to Write a Winning Resume',
-        'CV Formatting Best Practices',
-        'Tailoring Your Resume for Each Job',
-        'ATS-Friendly Resume Guide',
-      ],
-      color: 'blue',
-    },
-    {
-      icon: Video,
-      title: 'Interview Preparation',
-      description: 'Master the art of interviewing with our comprehensive guides and tips.',
-      resources: [
-        'Common Interview Questions & Answers',
-        'Virtual Interview Best Practices',
-        'Behavioral Interview Techniques',
-        'Salary Negotiation Strategies',
-      ],
-      color: 'green',
-    },
-    {
-      icon: TrendingUp,
-      title: 'Career Growth',
-      description: 'Strategies and insights to advance your career and reach your goals.',
-      resources: [
-        'Building Your Professional Network',
-        'Career Transition Guide',
-        'Skills Development Roadmap',
-        'Leadership Development Tips',
-      ],
-      color: 'purple',
-    },
-    {
-      icon: Target,
-      title: 'Job Search Strategies',
-      description: 'Effective methods to find and secure your dream job.',
-      resources: [
-        'Where to Find Hidden Job Opportunities',
-        'LinkedIn Profile Optimization',
-        'Job Search Action Plan',
-        'Following Up After Applications',
-      ],
-      color: 'orange',
-    },
-    {
-      icon: Lightbulb,
-      title: 'Career Coaching Tips',
-      description: 'Expert advice from career coaches to guide your professional journey.',
-      resources: [
-        'Identifying Your Career Strengths',
-        'Setting Career Goals',
-        'Work-Life Balance Strategies',
-        'Overcoming Career Obstacles',
-      ],
-      color: 'pink',
-    },
-    {
-      icon: Users,
-      title: 'Professional Development',
-      description: 'Resources to enhance your skills and stay competitive in the job market.',
-      resources: [
-        'Online Learning Platforms',
-        'Industry Certifications Guide',
-        'Soft Skills Development',
-        'Staying Current in Your Field',
-      ],
-      color: 'indigo',
-    },
-  ];
-
-  const colorClasses = {
-    blue: 'bg-blue-100 text-blue-600',
-    green: 'bg-green-100 text-green-600',
-    purple: 'bg-purple-100 text-purple-600',
-    orange: 'bg-orange-100 text-orange-600',
-    pink: 'bg-pink-100 text-pink-600',
-    indigo: 'bg-indigo-100 text-indigo-600',
-  };
-
-  const featuredResources = [
-    {
-      title: 'The Complete Job Seeker\'s Guide 2024',
-      description: 'A comprehensive guide covering everything from resume writing to salary negotiation.',
-      type: 'Guide',
-      readTime: '15 min read',
-    },
-    {
-      title: 'Mastering Virtual Interviews',
-      description: 'Essential tips and techniques for succeeding in remote job interviews.',
-      type: 'Article',
-      readTime: '8 min read',
-    },
-    {
-      title: 'Career Change Success Stories',
-      description: 'Inspiring stories from professionals who successfully transitioned careers.',
-      type: 'Case Study',
-      readTime: '12 min read',
-    },
-  ];
+  const [selectedArticle, setSelectedArticle] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-white via-blue-50 to-blue-100 py-20 lg:py-32">
+      <section className="relative overflow-hidden bg-gradient-to-b from-white via-blue-50 to-blue-100 pt-28 pb-8 lg:pb-16">
         <div className="max-w-7xl mx-auto px-4 lg:px-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -131,7 +31,7 @@ export default function ResourcesPage() {
             <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               Your Career Coaching Resource Hub
             </h1>
-            <p className="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-0">
               Access expert guidance, tips, and strategies to advance your career. From resume writing to interview preparation, we&apos;ve got you covered.
             </p>
           </motion.div>
@@ -139,7 +39,7 @@ export default function ResourcesPage() {
       </section>
 
       {/* Featured Resources Section */}
-      <section className="py-16 lg:py-24 bg-white">
+      <section className="py-4 lg:py-8 bg-white">
         <div className="max-w-7xl mx-auto px-4 lg:px-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -148,27 +48,37 @@ export default function ResourcesPage() {
             transition={{ duration: 0.6 }}
             className="mb-12"
           >
-            <p className="text-sm uppercase tracking-wider text-gray-600 mb-4 font-semibold text-center">
-              FEATURED RESOURCES
-            </p>
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 text-center mb-4">
-              Start Here
+              EXPLORE RESOURCES
             </h2>
             <p className="text-lg text-gray-600 text-center max-w-2xl mx-auto">
-              Our most popular resources to help you get started on your career journey.
+              Browse our comprehensive collection of career resources.
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            {featuredResources.map((resource, index) => (
+            {featuredArticles.map((resource, index) => (
               <motion.div
-                key={resource.title}
+                key={resource.id || resource.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-blue-50 to-indigo-50">
+                <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-blue-50 to-indigo-50 overflow-hidden group">
+                  {/* Image Section */}
+                  {'image' in resource && resource.image && (
+                    <div className="relative w-full h-48 overflow-hidden">
+                      <Image
+                        src={resource.image}
+                        alt={resource.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-50/80 to-transparent" />
+                    </div>
+                  )}
                   <CardHeader>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">
@@ -186,6 +96,11 @@ export default function ResourcesPage() {
                   <CardContent>
                     <Button
                       variant="ghost"
+                      onClick={() => {
+                        if ('content' in resource && resource.content) {
+                          setSelectedArticle(resource.id);
+                        }
+                      }}
                       className="w-full justify-between group hover:bg-blue-100"
                     >
                       Read More
@@ -196,80 +111,93 @@ export default function ResourcesPage() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Resource Categories Section */}
-      <section className="py-16 lg:py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 lg:px-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <p className="text-sm uppercase tracking-wider text-gray-600 mb-4 font-semibold">
-              EXPLORE RESOURCES
-            </p>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Resources by Category
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Browse our comprehensive collection of career resources organized by topic.
-            </p>
-          </motion.div>
+          {/* Article Modal/Overlay */}
+          <AnimatePresence>
+            {selectedArticle && (() => {
+              const article = featuredArticles.find(r => r.id === selectedArticle && r.content);
+              if (!article || !article.content) return null;
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {resourceCategories.map((category, index) => {
-              const Icon = category.icon;
-              const colorClass = colorClasses[category.color as keyof typeof colorClasses];
-              
               return (
                 <motion.div
-                  key={category.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+                  onClick={() => setSelectedArticle(null)}
                 >
-                  <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white">
-                    <CardHeader>
-                      <div className={`w-14 h-14 ${colorClass} rounded-xl flex items-center justify-center mb-4`}>
-                        <Icon className="h-7 w-7" />
+                  <motion.div
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.95, opacity: 0 }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+                  >
+                    {/* Header */}
+                    <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                      <div>
+                        <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">
+                          {article.type}
+                        </span>
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                          {article.title}
+                        </h2>
                       </div>
-                      <CardTitle className="text-xl font-bold text-gray-900 mb-2">
-                        {category.title}
-                      </CardTitle>
-                      <CardDescription className="text-gray-600">
-                        {category.description}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-3">
-                        {category.resources.map((resource, resourceIndex) => (
-                          <li
-                            key={resourceIndex}
-                            className="flex items-start gap-3 text-sm text-gray-700 hover:text-blue-600 transition-colors cursor-pointer group"
-                          >
-                            <ArrowRight className="h-4 w-4 mt-0.5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex-shrink-0" />
-                            <span>{resource}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <Button
-                        variant="ghost"
-                        className="w-full mt-6 justify-center group hover:bg-gray-100"
+                      <button
+                        onClick={() => setSelectedArticle(null)}
+                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                        aria-label="Close article"
                       >
-                        View All
-                        <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                        <X className="h-5 w-5 text-gray-500" />
+                      </button>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 overflow-y-auto p-6 md:p-8">
+                      <div className="prose prose-lg max-w-none dark:prose-invert">
+                        <p className="text-xl text-gray-600 dark:text-gray-300 mb-6 font-medium">
+                          {article.content.subtitle}
+                        </p>
+                        
+                        <div className="text-gray-700 dark:text-gray-300 whitespace-pre-line mb-8 leading-relaxed">
+                          {article.content.introduction}
+                        </div>
+
+                        {article.content.sections.map((section, index) => (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="mb-8"
+                          >
+                            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                              <CheckCircle2 className="h-6 w-6 text-blue-600 flex-shrink-0" />
+                              {section.title}
+                            </h3>
+                            <div className="text-gray-700 dark:text-gray-300 whitespace-pre-line leading-relaxed">
+                              {section.content}
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                      <span className="text-sm text-gray-500">{article.readTime}</span>
+                      <Button
+                        onClick={() => setSelectedArticle(null)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white"
+                      >
+                        Close
                       </Button>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </motion.div>
                 </motion.div>
               );
-            })}
-          </div>
+            })()}
+          </AnimatePresence>
         </div>
       </section>
 
@@ -302,4 +230,7 @@ export default function ResourcesPage() {
     </div>
   );
 }
+
+
+
 
