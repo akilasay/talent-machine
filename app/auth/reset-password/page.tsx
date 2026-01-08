@@ -31,7 +31,7 @@ export default function ResetPasswordPage() {
 
       try {
         // Check for session
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+        const { data: { session } } = await supabase.auth.getSession()
         
         if (session) {
           // Verify the session is actually valid by checking user

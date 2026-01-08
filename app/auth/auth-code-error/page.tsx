@@ -46,7 +46,7 @@ export default function AuthCodeErrorPage() {
     }
   }, [])
 
-  const { error, errorCode, errorDescription, type } = errorParams
+  const { error, errorCode, errorDescription } = errorParams
   
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -111,7 +111,7 @@ export default function AuthCodeErrorPage() {
             <div>
               <h3 className="text-lg font-semibold mb-2">Get a New Verification Email</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                Enter your email address below and we'll send you a new verification link.
+                Enter your email address below and we`&apos;`ll send you a new verification link.
               </p>
             </div>
 
