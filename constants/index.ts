@@ -1,10 +1,73 @@
 export const jobs = [
+  // Accounting & Finance
   "Accountant",
-  "Book Keeper",
-  "Tax Advisor",
-  "Business Analyst",
-  // "coding",
-  // "economics",
+  "Tax Adviser",
+  "Financial Analyst",
+  "Bookkeeper",
+  "Auditor",
+  "Tax Consultant",
+  "Finance Manager",
+  "Cost Accountant",
+  "Payroll Specialist",
+  "Credit Analyst",
+  
+  // Marketing & Sales
+  "Marketing Manager",
+  "Digital Marketing Specialist",
+  "Social Media Manager",
+  "Content Marketer",
+  "Marketing Coordinator",
+  "Brand Manager",
+  "Sales Manager",
+  "Sales Representative",
+  "Business Development",
+  "Marketing Analyst",
+  
+  // Technology
+  "Software Developer",
+  "Web Developer",
+  "Frontend Developer",
+  "Backend Developer",
+  "Full Stack Developer",
+  "Data Scientist",
+  "Data Analyst",
+  "UI/UX Designer",
+  "Product Manager",
+  "Project Manager",
+  
+  // Human Resources
+  "HR Manager",
+  "HR Specialist",
+  "Recruiter",
+  "Talent Acquisition",
+  "HR Coordinator",
+  
+  // Operations & Administration
+  "Operations Manager",
+  "Administrative Assistant",
+  "Executive Assistant",
+  "Office Manager",
+  "Customer Service",
+  
+  // Healthcare
+  "Nurse",
+  "Doctor",
+  "Pharmacist",
+  "Medical Assistant",
+  "Healthcare Administrator",
+  
+  // Education
+  "Teacher",
+  "Professor",
+  "Education Coordinator",
+  "Curriculum Developer",
+  
+  // Other
+  "Consultant",
+  "Analyst",
+  "Coordinator",
+  "Specialist",
+  "Assistant",
 ];
 
 export const subjectsColors = {
