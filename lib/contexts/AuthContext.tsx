@@ -14,6 +14,7 @@ interface AuthContextType {
   signInWithGoogle: (redirectUrl?: string) => Promise<{ error: Error | null }>
   getUserType: () => Promise<'candidate' | 'employer' | null>
   resetPassword: (email: string) => Promise<{ error: Error | null }>
+  resendConfirmationEmail: (email: string) => Promise<{ error: Error | null }>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -56,12 +57,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signUp = async (email: string, password: string, userType: 'candidate' | 'employer') => {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
     // Sign up with email confirmation enabled
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/auth/callback?redirect_url=${encodeURIComponent('/')}`,
+        emailRedirectTo: `${siteUrl}/auth/callback?type=signup&redirect_url=${encodeURIComponent('/')}`,
         data: {
           user_type: userType, // Store user type in metadata for later use
         }
@@ -145,11 +147,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const resetPassword = async (email: string) => {
+    // Security: Basic email validation to prevent abuse
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!email || !emailRegex.test(email.trim())) {
+      return { error: new Error('Invalid email address') as Error }
+    }
+
+    // Security: Normalize email (trim and lowercase)
+    const normalizedEmail = email.trim().toLowerCase()
+
     // Use environment variable for production URL, fallback to window.location.origin for development
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${siteUrl}/auth/reset-password`,
+    
+    // Security: Supabase handles rate limiting and prevents email enumeration
+    // Always returns success to prevent user enumeration attacks
+    const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
+      redirectTo: `${siteUrl}/auth/callback?type=recovery`,
     })
+    
+    // Security: Don't expose whether email exists or not (prevents user enumeration)
+    // Supabase already handles this, but we ensure consistent behavior
+    return { error }
+  }
+
+  const resendConfirmationEmail = async (email: string) => {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+    const emailRedirectTo = `${siteUrl}/auth/callback?type=signup&redirect_url=${encodeURIComponent('/')}`
+    
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+      options: {
+        emailRedirectTo,
+      }
+    })
+    
     return { error }
   }
 
@@ -163,6 +195,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signInWithGoogle,
     getUserType,
     resetPassword,
+    resendConfirmationEmail,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

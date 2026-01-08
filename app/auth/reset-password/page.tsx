@@ -16,20 +16,140 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
   const [isValidSession, setIsValidSession] = useState(false)
+  const [checkingSession, setCheckingSession] = useState(true)
   const router = useRouter()
   const supabase = createClient()
+  const maxRetries = 5 // Maximum number of retry attempts
 
   useEffect(() => {
-    // Check if user has a valid session (from password reset link)
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        setIsValidSession(true)
-      } else {
-        setError('Invalid or expired reset link. Please request a new password reset.')
+    let mounted = true
+    let authSubscription: { unsubscribe: () => void } | null = null
+    let retryTimeout: NodeJS.Timeout | null = null
+
+    const checkSession = async (attempt: number = 0) => {
+      if (!mounted) return
+
+      try {
+        // Check for session
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+        
+        if (session) {
+          // Verify the session is actually valid by checking user
+          const { data: { user }, error: userError } = await supabase.auth.getUser()
+          
+          if (user && !userError) {
+            if (mounted) {
+              setIsValidSession(true)
+              setError('')
+              setCheckingSession(false)
+            }
+            return
+          }
+        }
+
+        // If no session and we haven't exceeded max retries, retry
+        if (attempt < maxRetries) {
+          // Exponential backoff: 200ms, 400ms, 800ms, 1600ms, 3200ms
+          const delay = Math.min(200 * Math.pow(2, attempt), 3200)
+          
+          retryTimeout = setTimeout(() => {
+            if (mounted) {
+              checkSession(attempt + 1)
+            }
+          }, delay)
+        } else {
+          // Max retries reached, set up auth state listener as last resort
+          if (mounted && !authSubscription) {
+            const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+              if (mounted) {
+                if (session) {
+                  // Verify user exists
+                  supabase.auth.getUser().then(({ data: { user }, error: userError }) => {
+                    if (mounted) {
+                      if (user && !userError) {
+                        setIsValidSession(true)
+                        setError('')
+                        setCheckingSession(false)
+                      }
+                    }
+                  })
+                } else if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {
+                  // Give it one more moment after these events
+                  setTimeout(() => {
+                    if (mounted) {
+                      supabase.auth.getSession().then(({ data: { session } }) => {
+                        if (mounted) {
+                          if (session) {
+                            supabase.auth.getUser().then(({ data: { user }, error: userError }) => {
+                              if (mounted) {
+                                if (user && !userError) {
+                                  setIsValidSession(true)
+                                  setError('')
+                                } else {
+                                  setError('Invalid or expired reset link. Please request a new password reset.')
+                                }
+                                setCheckingSession(false)
+                              }
+                            })
+                          } else {
+                            setError('Invalid or expired reset link. Please request a new password reset.')
+                            setCheckingSession(false)
+                          }
+                        }
+                      })
+                    }
+                  }, 500)
+                }
+              }
+            })
+            authSubscription = subscription
+          }
+          
+          // Wait a bit more with the listener active before giving up
+          setTimeout(() => {
+            if (mounted) {
+              supabase.auth.getSession().then(({ data: { session } }) => {
+                if (mounted) {
+                  if (session) {
+                    supabase.auth.getUser().then(({ data: { user }, error: userError }) => {
+                      if (mounted) {
+                        if (!user || userError) {
+                          setError('Invalid or expired reset link. Please request a new password reset.')
+                        }
+                        setCheckingSession(false)
+                      }
+                    })
+                  } else {
+                    setError('Invalid or expired reset link. Please request a new password reset.')
+                    setCheckingSession(false)
+                  }
+                }
+              })
+            }
+          }, 2000)
+        }
+      } catch (err) {
+        console.error('Error checking session:', err)
+        if (mounted && attempt >= maxRetries) {
+          setError('Invalid or expired reset link. Please request a new password reset.')
+          setCheckingSession(false)
+        }
       }
     }
+
+    // Start checking
     checkSession()
+
+    // Cleanup function
+    return () => {
+      mounted = false
+      if (retryTimeout) {
+        clearTimeout(retryTimeout)
+      }
+      if (authSubscription) {
+        authSubscription.unsubscribe()
+      }
+    }
   }, [supabase.auth])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,28 +157,63 @@ export default function ResetPasswordPage() {
     setLoading(true)
     setError('')
 
+    // Security: Validate passwords match
     if (password !== confirmPassword) {
       setError('Passwords do not match')
       setLoading(false)
       return
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters')
+    // Security: Enhanced password validation
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long')
       setLoading(false)
       return
     }
 
+    // Security: Check for common weak passwords
+    const commonPasswords = ['password', '12345678', 'qwerty', 'abc123', 'password123']
+    if (commonPasswords.some(common => password.toLowerCase().includes(common))) {
+      setError('Password is too common. Please choose a stronger password.')
+      setLoading(false)
+      return
+    }
+
+    // Security: Verify session is still valid before allowing password change
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+    if (!session || sessionError) {
+      setError('Your session has expired. Please request a new password reset link.')
+      setLoading(false)
+      setIsValidSession(false)
+      return
+    }
+
+    // Security: Verify user exists and is authenticated
+    const { data: { user }, error: userError } = await supabase.auth.getUser()
+    if (!user || userError) {
+      setError('Authentication failed. Please request a new password reset link.')
+      setLoading(false)
+      setIsValidSession(false)
+      return
+    }
+
     try {
+      // Security: Update password - Supabase handles token invalidation automatically
       const { error } = await supabase.auth.updateUser({
         password: password
       })
 
       if (error) {
-        setError(error.message)
+        // Security: Don't expose detailed error messages that could help attackers
+        if (error.message.includes('expired') || error.message.includes('invalid')) {
+          setError('This reset link has expired or is invalid. Please request a new password reset.')
+        } else {
+          setError('Failed to update password. Please try again or request a new reset link.')
+        }
         setLoading(false)
       } else {
-        // Sign out the user immediately after password reset for security
+        // Security: Sign out the user immediately after password reset
+        // This ensures the reset token cannot be reused
         await supabase.auth.signOut()
         setSuccess(true)
         setTimeout(() => {
@@ -66,7 +221,9 @@ export default function ResetPasswordPage() {
         }, 3000)
       }
     } catch (err) {
-      setError('error: ' + err + ' An error occurred. Please try again.')
+      // Security: Generic error message to prevent information leakage
+      console.error('Password reset error:', err)
+      setError('An error occurred while resetting your password. Please try again or request a new reset link.')
       setLoading(false)
     }
   }
@@ -88,6 +245,23 @@ export default function ResetPasswordPage() {
                 Please sign in again with your new password.
               </p>
               <p className="text-sm text-gray-500">Redirecting to sign in page...</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  if (checkingSession) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-gray-200 dark:bg-gray-900 pt-16 sm:pt-20">
+        <Card className="w-full max-w-md">
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              </div>
+              <p className="text-gray-600">Verifying reset link...</p>
             </div>
           </CardContent>
         </Card>
@@ -139,10 +313,14 @@ export default function ResetPasswordPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                disabled={loading}
-                minLength={6}
-                placeholder="Enter new password (min. 6 characters)"
+                disabled={loading || !isValidSession}
+                minLength={8}
+                placeholder="Enter new password (min. 8 characters)"
+                autoComplete="new-password"
               />
+              <p className="text-xs text-gray-500">
+                Password must be at least 8 characters long
+              </p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
@@ -152,9 +330,10 @@ export default function ResetPasswordPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                disabled={loading}
-                minLength={6}
+                disabled={loading || !isValidSession}
+                minLength={8}
                 placeholder="Confirm new password"
+                autoComplete="new-password"
               />
             </div>
             {error && (
