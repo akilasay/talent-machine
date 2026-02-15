@@ -30,6 +30,8 @@ export interface EmployerProfile {
   description?: string
   company_bio?: string
   is_verified: boolean
+  /** When false, employer cannot view candidate profiles until admin approves. */
+  approval_enabled: boolean
   created_at: string
   updated_at: string
 }
@@ -88,7 +90,7 @@ export async function saveEmployerProfile(data: EmployerProfileData) {
 
   try {
     if (existingProfile) {
-      // Update existing profile
+      // Update existing profile (do not allow employer to change approval_enabled)
       const { error: updateError } = await supabase
         .from('employers')
         .update(profileData)
@@ -98,10 +100,10 @@ export async function saveEmployerProfile(data: EmployerProfileData) {
         throw new Error(`Failed to update profile: ${updateError.message}`)
       }
     } else {
-      // Create new profile
+      // Create new profile: approval_enabled false until admin approves
       const { error: insertError } = await supabase
         .from('employers')
-        .insert(profileData)
+        .insert({ ...profileData, approval_enabled: false })
 
       if (insertError) {
         throw new Error(`Failed to create profile: ${insertError.message}`)
@@ -198,6 +200,68 @@ export async function isEmployer(): Promise<boolean> {
     .single()
 
   return userProfile?.user_type === 'employer'
+}
+
+/**
+ * Check if the current user is an approved employer (can view candidate profiles).
+ * Returns false if not logged in, not an employer, or employer not yet approved.
+ */
+export async function getEmployerApprovalStatus(): Promise<boolean> {
+  const supabase = await createClient()
+  const { data: { user }, error: userError } = await supabase.auth.getUser()
+  if (userError || !user) return false
+
+  const { data: profile } = await supabase
+    .from('employers')
+    .select('approval_enabled')
+    .eq('user_id', user.id)
+    .single()
+
+  return profile?.approval_enabled === true
+}
+
+/**
+ * Get approval status for a given user id (for server-side checks).
+ * Returns null if not an employer or no profile.
+ */
+export async function getEmployerApprovalStatusByUserId(userId: string): Promise<boolean | null> {
+  const supabase = await createClient()
+  const { data: profile, error } = await supabase
+    .from('employers')
+    .select('approval_enabled')
+    .eq('user_id', userId)
+    .single()
+  if (error || !profile) return null
+  return profile.approval_enabled === true
+}
+
+/**
+ * Admin only: set employer approval. Requires ADMIN_USER_IDS env (comma-separated user UUIDs).
+ */
+export async function updateEmployerApproval(employerId: string, approvalEnabled: boolean): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient()
+  const { data: { user }, error: userError } = await supabase.auth.getUser()
+  if (userError || !user) {
+    return { success: false, error: 'Authentication required' }
+  }
+
+  const adminIds = (process.env.ADMIN_USER_IDS || '').split(',').map((id) => id.trim()).filter(Boolean)
+  if (!adminIds.length || !adminIds.includes(user.id)) {
+    return { success: false, error: 'Only admins can approve employers' }
+  }
+
+  const { error } = await supabase
+    .from('employers')
+    .update({ approval_enabled: approvalEnabled, updated_at: new Date().toISOString() })
+    .eq('id', employerId)
+
+  if (error) {
+    return { success: false, error: error.message }
+  }
+
+  revalidatePath('/admin/employers')
+  revalidatePath('/candidates')
+  return { success: true }
 }
 
 /**
@@ -396,21 +460,20 @@ export async function getEmployerProfileById(id: string): Promise<EmployerProfil
 }
 
 /**
- * Get all employers (for admin purposes)
+ * Get all employers (admin only). Requires ADMIN_USER_IDS env (comma-separated user UUIDs).
  */
 export async function getAllEmployers(): Promise<EmployerProfile[]> {
   const supabase = await createClient()
-  
   const { data: { user }, error: userError } = await supabase.auth.getUser()
-  
   if (userError || !user) {
     throw new Error('Authentication required')
   }
 
-  // Check if user is admin (you can implement admin role checking here)
-  // For now, we'll just return empty array for security
-  // In production, implement proper admin role checking
-  
+  const adminIds = (process.env.ADMIN_USER_IDS || '').split(',').map((id) => id.trim()).filter(Boolean)
+  if (!adminIds.length || !adminIds.includes(user.id)) {
+    throw new Error('Only admins can list employers')
+  }
+
   const { data: employers, error } = await supabase
     .from('employers')
     .select('*')

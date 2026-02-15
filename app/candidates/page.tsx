@@ -43,9 +43,11 @@
 // export default CandidatesLibrary
 
 import { getCandidatesFromDB } from '@/lib/actions/companion.actions';
+import { getEmployerApprovalStatus } from '@/lib/actions/employer.actions';
 import CandidateCard from '@/components/CandidateCard';
 import { getSubjectColor } from '@/lib/utils';
 import CandidateSearchFilters from '@/components/CandidateSearchFilters';
+import { createClient } from '@/lib/supabase/server';
 
 interface SearchParams {
   searchParams: Promise<{
@@ -66,6 +68,13 @@ const CandidatesLibrary = async ({ searchParams }: SearchParams) => {
   const experience = filters.experience || '';
   const limit = parseInt(filters.limit || '12');
   const page = parseInt(filters.page || '1');
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  let employerApproved = false;
+  if (user) {
+    employerApproved = await getEmployerApprovalStatus();
+  }
 
   // Only fetch candidates if any filter is provided
   let candidates = [];
@@ -109,6 +118,7 @@ const CandidatesLibrary = async ({ searchParams }: SearchParams) => {
                   key={candidate.id}
                   {...candidate}
                   color={getSubjectColor(candidate.job)}
+                  employerApproved={employerApproved}
                 />
               ))}
             </section>

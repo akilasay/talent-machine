@@ -42,12 +42,49 @@ export default async function CandidateProfilePage({ params, searchParams }: Can
 
   const userType = userProfile?.user_type;
 
+  // If viewer is employer, check approval (must be approved to view candidate profiles)
+  let employerApproved = false;
+  if (userType === 'employer') {
+    const { data: employerRow } = await supabase
+      .from('employers')
+      .select('approval_enabled')
+      .eq('user_id', user.id)
+      .single();
+    employerApproved = employerRow?.approval_enabled === true;
+  }
+
   // Check if we should start in edit mode
   const shouldStartEditing = edit === 'true' && isOwner;
 
   // Access control logic
   if (!isOwner) {
     // If user is not the owner, check if they have permission to view
+    if (userType === 'employer' && !employerApproved) {
+      // Employer not yet approved by admin
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+          <div className="w-full max-w-md">
+            <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Account Pending Approval</h2>
+              <p className="text-gray-600 mb-6">
+                Your employer account is under review. You will be able to view candidate profiles once an administrator approves your account. This usually takes a short time.
+              </p>
+              <Link
+                href="/employers"
+                className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200"
+              >
+                Back to Employer Dashboard
+              </Link>
+            </div>
+          </div>
+        </div>
+      );
+    }
     if (userType === 'candidate') {
       // Job seekers cannot view other job seekers' full profiles
       return (

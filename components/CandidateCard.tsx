@@ -19,9 +19,11 @@ interface CandidateCardProps {
   cv_filename?: string;
   cv_file_size?: number;
   cv_uploaded_at?: string;
+  /** When true, current user is an approved employer and can view full profile. Passed from server. */
+  employerApproved?: boolean;
 }
 
-const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, cv_file_size }: CandidateCardProps) => {
+const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, cv_file_size, employerApproved }: CandidateCardProps) => {
   const { user } = useAuth();
   const [userType, setUserType] = useState<'candidate' | 'employer' | null>(null);
 
@@ -51,8 +53,8 @@ const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, c
     checkUserType();
   }, [user]);
 
-  // Determine if user can view full profile
-  const canViewFullProfile = userType === 'employer' || !user;
+  // Employers need approval to view full profile; guests see the button to prompt sign-up
+  const canViewFullProfile = !user || (userType === 'employer' && employerApproved === true);
 
   return (
     <article
@@ -153,6 +155,21 @@ const CandidateCard = ({ id, job, topic, education, experience, color, cv_url, c
             />
           </button>
         </Link>
+      ) : userType === 'employer' && employerApproved === false ? (
+        // Approved employer required to view full profile
+        <div className="w-full mt-auto">
+          <div className="px-4 py-2 bg-amber-50 text-amber-800 rounded-lg text-center text-sm border border-amber-200">
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="font-medium text-amber-900">Pending Approval</span>
+            </div>
+            <p className="text-xs text-amber-700">
+              Your employer account is under review. Full profiles are available after admin approval.
+            </p>
+          </div>
+        </div>
       ) : (
         // Job seekers see limited access message
         <div className="w-full mt-auto">
