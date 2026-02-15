@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import { AuthProvider } from "@/lib/contexts/AuthContext";
 import Footer from "@/components/home/Footer";
 
+import Script from "next/script";
+
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
   subsets: ["latin"],
@@ -33,6 +35,9 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          {process.env.NEXT_PUBLIC_TIDIO_SRC && (
+     <Script src={process.env.NEXT_PUBLIC_TIDIO_SRC} strategy="lazyOnload" />
+   )}
         </AuthProvider>
       </body>
     </html>
